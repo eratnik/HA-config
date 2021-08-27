@@ -1,0 +1,6 @@
+zigbee_permit_join:
+  name: Time remaining
+  duration: 600 # Updated this to the number of seconds you wish
+
+timer_5m:
+  duration: 00:05:00

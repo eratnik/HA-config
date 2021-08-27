@@ -1,0 +1,126 @@
+config:
+  title: System
+  views:
+  - cards:
+    - entities:
+      - sensor.0x158d00068bb6c3_temperature
+      - sensor.0x158d00068bb6c3_humidity
+      - sensor.0x158d00068bb6c3_pressure
+      - sensor.28d1272d14e8_idle_time
+      - binary_sensor.28d1272d14e8_motion
+      - binary_sensor.28d1272d14e8_light
+      - sensor.0x158d00068bb6c3_zigbee
+      - sensor.28d1272d14e8_ble
+      title: "\u0411\u0430\u043B\u043A\u043E\u043D"
+      type: entities
+    - entities:
+      - sensor.a4c13800b195_ble
+      - sensor.a4c13800b195_humidity
+      - sensor.a4c13800b195_temperature
+      title: "\u0412\u0430\u043D\u043D\u0430\u044F"
+      type: entities
+    - entities:
+      - entity: binary_sensor.yeelight_ceiling1_0x0000000003b65236_nightlight
+      - entity: light.yeelight_ceiling1_0x0000000003b65236
+      - entity: light.yeelight_ceiling1_0x0000000003b65236_nightlight
+      - entity: sensor.a4c138ebf2e9_humidity
+      - entity: sensor.a4c138ebf2e9_temperature
+      - entity: sensor.a4c138ebf2e9_ble
+      - entity: binary_sensor.sonoff_basic_button
+      - entity: switch.sonoff_basic_relay
+      title: "\u0414\u0435\u0442\u0441\u043A\u0430\u044F"
+      type: entities
+    - entities:
+      - binary_sensor.0x158d0006b233e6_moisture
+      - sensor.0x158d0006b233e6_zigbee
+      title: "\u041A\u0443\u0445\u043D\u044F"
+      type: entities
+    - entities:
+      - sensor.hacs
+      - binary_sensor.giga_online
+      - switch.domofon_restart
+      - switch.domofon_automatically_open
+      - switch.domofon_automatically_open_once
+      - switch.domofon_automatically_reject
+      - switch.domofon_mute_sound
+      - switch.domofon_mute_sound_once
+      - binary_sensor.domofon_incoming_call
+      - binary_sensor.domofon_button
+      - sensor.domofon_heap_size
+      - sensor.domofon_wifi_signal
+      - sensor.domofon_uptime
+      title: "\u041F\u0440\u0438\u0445\u043E\u0436\u0430\u044F"
+      type: entities
+    - entities:
+      - entity: vacuum.rockrobo_vacuum_v1
+      - entity: remote.0x588e81fffef3f096_pair
+      - entity: switch.0x588e81fffef3f096_firmware_lock
+      - entity: sensor.a4c1388ae7a0_humidity
+      - entity: sensor.a4c1388ae7a0_temperature
+      - entity: sensor.0x588e81fffef3f096_gateway
+      - entity: sensor.a4c1388ae7a0_ble
+      title: "\u0421\u043F\u0430\u043B\u044C\u043D\u044F"
+      type: entities
+    - entity: media_player.alexelec
+      type: media-control
+    - entities:
+      - binary_sensor.0x158d0006b25766_moisture
+      - sensor.0x158d0006b25766_zigbee
+      title: "\u0422\u0443\u0430\u043B\u0435\u0442"
+      type: entities
+    - entities:
+      - entity: binary_sensor.updater
+      - entity: sensor.0x158d0006b25766_zigbee
+      title: "\u0411\u0438\u043D\u0430\u0440\u043D\u044B\u0439 \u0441\u0435\u043D\u0441\
+        \u043E\u0440"
+      type: entities
+    - entity: media_player.lg_tv
+      type: media-control
+    - entities:
+      - entity: person.hass
+      - entity: person.mama_natasha
+      - entity: person.inna
+      - entity: person.alisa
+      title: "\u041B\u044E\u0434\u0438"
+      type: entities
+    - entities:
+      - sensor.date
+      - sensor.disk_free
+      - sensor.disk_use_percent
+      - sensor.disk_use
+      - sensor.hass_db_size
+      - sensor.last_boot
+      - sensor.memory_free
+      - sensor.memory_use
+      - sensor.memory_use_percent
+      - sensor.orange_pi_pc_temp
+      - sensor.processor_use_percent
+      - sensor.time
+      - sensor.0x158d0006b2542f_zigbee
+      - sensor.status_google_backup
+      title: "\u0421\u0435\u043D\u0441\u043E\u0440"
+      type: entities
+    - dark_mode: false
+      entities:
+      - entity: person.inna
+      - entity: person.hass
+      - entity: person.alisa
+      hours_to_show: 8
+      type: map
+    - entities:
+      - sensor.konditsioner_energy_current
+      - sensor.konditsioner_room_temperature
+      type: entities
+    - entity: climate.konditsioner
+      type: thermostat
+    - entities:
+      - switch.portable_switch
+      - sensor.portable_switch_current
+      - sensor.portable_switch_energy
+      - sensor.portable_switch_power
+      - sensor.portable_switch_power_outage_memory
+      - sensor.portable_switch_linkquality
+      - sensor.portable_switch_voltage
+      type: entities
+    path: default_view
+    title: Home

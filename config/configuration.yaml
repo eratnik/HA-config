@@ -1,0 +1,215 @@
+
+# Configure a default setup of Home Assistant (frontend, api, etc)
+default_config:
+homeassistant:
+  packages: !include_dir_merge_named packages
+  
+frontend:
+  themes: !include_dir_merge_named themes
+
+# Text to speech
+# tts:
+#   - platform: google_translate
+tts:
+  - platform: rhvoice
+    host: !secret IP_hass
+    port: 8080 # Не обязательно
+    format: 'mp3' # Не обязательно, wav|mp3|opus|flac
+    pitch: 50 # Не обязательно, 0..100
+    rate: 50 # Не обязательно, 0..100
+    voice: 'anna' # Не обязательно
+    volume: 50 # Не обязательно, 0..100
+    
+lovelace:
+  mode: storage
+
+#вынос во внешние файлы
+group: !include groups.yaml
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml
+sensor: !include sensor.yaml
+binary_sensor: !include binary_sensors.yaml
+input_select: !include input_select.yaml
+
+noolite:
+  port: "/dev/ttyUSB0"
+  
+light:
+  - platform: noolite
+    channel: 0
+    name: "kitchen backlight"
+    scan_interval: 60
+    type: dimmer
+    mode: noolite
+  - platform: noolite
+    channel: 1
+    name: "bathroom fan"
+    scan_interval: 60
+    type: dimmer
+    mode: noolite
+    
+#Настройка базы данных Maria DB
+recorder:
+  db_url: !secret maria_db
+  purge_keep_days: 14 #хранение 14 дней
+  include:
+    domains:
+      - sensor
+      - switch
+      - shell_command
+      - binary_sensor
+      - input_text
+      - light
+      - script
+      - device_tracker
+  exclude:
+    entities:
+      - sensor.time
+      - binary_sensor.28d1272d14e8_motion
+      - binary_sensor.582d346033de_motion
+    event_types:
+      - service_removed
+      - service_executed
+      - platform_discovered
+      - homeassistant_start
+      - homeassistant_stop
+      - feedreader
+      - service_registered
+      - call_service
+      - component_loaded
+      - logbook_entry
+      - system_log_event
+      - automation_triggered
+      - script_started
+      - timer_out_of_sync
+
+# Обозначение комьютера и настройк его вкл/выкл
+switch:
+  - platform: wake_on_lan
+    mac: !secret MAC_PC
+    name: "PC"
+    host: !secret IP_PC
+    turn_off:
+      service: rest_command.turn_off
+
+yeelight:
+  custom_effects:
+    - name: 'Мерцание огня'
+      flow_params:
+        count: 0
+        transitions:
+          - TemperatureTransition: [1900, 1000, 80]
+          - TemperatureTransition: [1900, 2000, 60]
+          - SleepTransition:       [1000]
+
+media_player:
+  - platform: lg_netcast
+    host: !secret IP_TV
+    access_token: !secret token_lg
+    name: LG TV
+
+  - platform: sox
+    name: Vacuum sox
+    host: !secret IP_vacuum
+    port: 7777 # Не обязательно
+    # turn_on_action:
+    #   service: switch.turn_on
+    #   target:
+    #     entity_id: switch.tv_switch
+# Настройка AndroidTV
+  - platform: androidtv
+    name: Android TV
+    host: !secret IP_TVBOX_A1
+    adbkey: '/config/.storage/androidtv_adbkey'
+
+#AIMP
+  - platform: aimp
+    name: 'AIMP'
+    host: !secret aimp_ip
+    port: 3333
+    
+
+telegram_bot:
+  - platform: polling
+    api_key: !secret token_telegram
+    parse_mode: html
+    allowed_chat_ids: #разрешенные пользователи
+      - !secret chatid_vitaly
+
+notify:
+  - name: vitaly
+    platform: telegram
+    chat_id: !secret chatid_vitaly
+    
+# REST команды 
+rest_command:
+
+#Выключение ПК
+  turn_off:
+    url: !secret command_PC_off
+    method: get
+
+# Копирование snapshot в Google Drive
+  google_backup:
+    url: 'http://localhost:8055/gb/doBackup'
+    timeout: '300'
+
+# notify_events:
+#   token: !secret notify_events
+
+history: !include history.yaml
+
+# type: map
+# title: История перемещений
+# entities:
+#   - entity: person.alisa
+#   - entity: person.hass
+#   - entity: person.inna
+# hours_to_show: 12
+# type: map
+# entities:
+#   - device_tracker.inna_mi9t
+#   - device_tracker.mi_note_10_pro
+#   - device_tracker.redmi_4x
+# hours_to_show: 24
+
+# person:
+#   - name: Alisa
+#     id: alisa
+#     user_id: c3c1781eb7af4906b4f8356b44aee333
+#     device_trackers:
+#       - device_tracker.redmi_4x
+#   - name: Vitaly
+#     id: vitaly
+#     user_id: 4ab590b7c1d240048c5e79c93e61cc77
+#     device_trackers:
+#       - device_tracker.mi_note_10_pro
+
+camera:
+  - platform: xiaomi_cloud_map_extractor
+    host: !secret xiaomi_vacuum_host
+    token: !secret token_vacuum
+    username: !secret xiaomi_cloud_username
+    password: !secret xiaomi_cloud_password
+    draw: ['all']
+    attributes:
+      - calibration_points
+    map_transformation:
+      rotate: 270
+
+#--------------------------------------------------------Объекты
+
+input_boolean:
+  zigbee_permit_join:
+    name: Allow devices to join
+    initial: off
+    icon: mdi:cellphone-wireless
+
+timer: !include timer.yaml
+
+panel_iframe:
+  mdi:
+    title: "Material Design Icons"
+    icon: mdi:material-design
+    url: "https://mdi.bessarabov.com"

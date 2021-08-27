@@ -1,0 +1,7 @@
+items:
+- id: lovelace_map
+  mode: storage
+  require_admin: true
+  show_in_sidebar: true
+  title: System
+  url_path: lovelace-map

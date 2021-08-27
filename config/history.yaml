@@ -1,0 +1,10 @@
+# use_include_order: true
+# include:
+#   domains:
+#     - sensor
+#     - light
+#     - binary_sensor
+#     - person
+# # exclude:
+# #   entities:  
+# #     - binary_sensor.door_window_sensor_158d00010f7b59

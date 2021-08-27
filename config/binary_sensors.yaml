@@ -1,0 +1,14 @@
+- platform: noolite
+  channel: 3
+  name: "kitchen backlight remote up"
+  type: remote 
+  
+- platform: noolite
+  channel: 4
+  name: "kitchen backlight remote down"
+  type: remote 
+
+- platform: noolite
+  channel: 5
+  name: "bathroom remote"
+  type: remote 

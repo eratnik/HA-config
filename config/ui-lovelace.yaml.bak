@@ -1,0 +1,378 @@
+#Основное меню Lovelace
+title: Home Assistant
+views:
+
+#Вкладка основного меню
+  -  title: Home
+     icon: mdi:home-assistant
+     cards:
+
+       - type: vertical-stack
+         name: "Общая информация"
+         cards:
+#Люди и их присутствие дома
+           - type: grid
+             title: Люди
+             square: true
+             columns: 3
+             cards:
+               - type: picture-entity
+                 entity: person.hass
+                 image: /local/images/vitaly.jpg
+               - type: picture-entity
+                 entity: person.inna
+                 image: /local/images/inna.jpg
+               - type: picture-entity
+                 entity: person.alisa
+                 image: /local/images/alisa.jpg
+               - type: picture-entity
+                 entity: person.mama_natasha
+                 image: /local/images/alisa.jpg
+#Информация о базе данных
+           - type: entities
+             show_header_toggle: false
+             entities:
+               - entity: sensor.hass_db_size
+                 name: Объем БД
+                 icon: mdi:database
+            #   - entity: sensor.status_google_backup
+            #      name: Бэкапов на yandex
+            #      icon: mdi:backup-restore
+
+#Информация о дате/времени
+           - type: entities
+             show_header_toggle: false
+             entities:
+               - entity: sensor.date
+                 name: Дата
+                 icon: mdi:calendar-check-outline
+               - entity: sensor.time
+                 name: Текущее время
+                 icon: mdi:clock-outline
+               - entity: sensor.last_boot
+                 name: Последняя загрузка
+                 icon: mdi:clock-start
+
+        #Информация о сервере
+           - type: grid
+             title: Информация о сервере
+             columns: 4
+             square: true
+             cards:
+               - type: gauge
+                 name: Загрузка CPU
+                 icon: mdi:cpu-32-bit
+                 unit: '%'
+                 entity: sensor.processor_use_percent
+                 severity:
+                   green: 0
+                   yellow: 60
+                   red: 85
+               - type: gauge
+                 name: Загрузка ОЗУ
+                 icon: mdi:ruler
+                 unit: '%'
+                 entity: sensor.memory_use_percent
+                 severity:
+                   green: 0
+                   yellow: 60
+                   red: 85
+               - type: gauge
+                 name: Диск заполнен
+                 icon: mdi:harddisk
+                 unit: '%'
+                 entity: sensor.disk_use_percent
+                 severity:
+                   green: 0
+                   yellow: 60
+                   red: 85    
+               - type: gauge
+                 name: Свободное место
+                 icon: mdi:harddisk-plus
+                 unit: 'Гб'
+                 entity: sensor.disk_free
+                 severity:
+                   red: 2
+                   yellow: 6
+                   green: 8
+
+###Управление оборудованием
+       - type: vertical-stack
+         name: "Управление оборудованием"
+         cards:
+
+#Управление PC
+           - type: entities
+             show_header_toggle: false
+             entities:
+               - entity: switch.pc
+                 name: Домашний ПК
+                 icon: mdi:desktop-mac-dashboard
+
+#Робот-пылесос
+           - type: custom:vacuum-card
+             entity: vacuum.rockrobo_vacuum_v1
+             style: |
+               ha-card .preview {
+                background-color: var(--secondary-background-color);
+               }
+             stats:
+               default:
+                 - attribute: filter_left
+                   unit: hours
+                   subtitle: Filter
+                 - attribute: side_brush_left
+                   unit: hours
+                   subtitle: Side brush
+                 - attribute: main_brush_left
+                   unit: hours
+                   subtitle: Main brush
+                 - attribute: sensor_dirty_left
+                   unit: hours
+                   subtitle: Sensors
+               cleaning:
+                 - attribute: cleaned_area
+                   unit: m2
+                   subtitle: Убрано в кв.м.
+                 - attribute: cleaning_time
+                   unit: minutes
+                   subtitle: Время уборки
+             actions:
+               - name: Уборка в спальне
+                 service: script.clean_living_room
+                 icon: 'mdi:sofa'
+               - name: Уборка в детской
+                 service: script.clean_kids_room
+                 icon: 'mdi:baby-carriage'
+               - name: Уборка на кухне
+                 service: script.clean_kitchen_room
+                 icon: 'mdi:silverware-fork-knife'
+               - name: Уборка в коридоре
+                 service: script.clean_corridor1_room
+                 icon: 'mdi:door-open'
+               - name: Уборка в коридоре и кухне
+                 service: script.clean_corridor_kitchen
+                 icon: 'mdi:store-outline'
+#Датчики протечки
+           - type: grid
+             title: Датчики протечки
+             columns: 3
+             square: true
+             cards:
+               - type: entity
+                 entity: binary_sensor.0x158d0006b2542f_moisture
+                 name: Ванная
+                 icon: mdi:shower
+               - type: entity
+                 entity: binary_sensor.0x158d0006b25766_moisture
+                 name: Туалет
+                 icon: mdi:toilet
+               - type: entity
+                 entity: binary_sensor.0x158d0006b233e6_moisture
+                 name: Кухня
+                 icon: mdi:food-fork-drink
+
+#Медиаустройства
+           - type: media-control
+             name: LG netcast
+             icon: mdi:television-box
+             entity: media_player.lg_tv
+           - type: entities
+             show_header_toggle: false
+             entities:
+               - entity: switch.lg_la660s
+                 name: ТВ LG
+                 icon: mdi:television-box
+           - type: media-control
+             name: KODI
+             icon: mdi:kodi
+             entity: media_player.alexelec
+
+
+
+
+#Вкладка освещение дома
+  - title: Освещение
+    icon: mdi:home-lightbulb
+    cards:
+       - type: grid
+         title: Информация о сервере
+         columns: 2
+         square: true
+         cards:
+          - type: light
+            name: Алисин светильник
+            entity: light.yeelight_ceiling1_0x0000000003b65236
+          - type: light
+            name: Алисин ночник
+            entity: light.yeelight_ceiling1_0x0000000003b65236_nightlight
+
+#Блог погоды
+  - title: Погода
+    icon: mdi:weather-hazy
+    cards:
+    - type: horizontal-stack
+      cards:
+        - type: vertical-stack
+          cards:
+          - type: entities
+            entities:
+              - sun.sun
+            title: Солнце
+          - type: weather-forecast
+            entity: weather.home_assistant
+            show_forecast: true
+    - type: vertical-stack
+      cards:
+      - type: markdown
+        content: >
+          **Термометр спальня**
+      - type: horizontal-stack
+        cards:
+        - type: custom:mini-graph-card
+          name: 
+          entities:
+            - sensor.a4c1388ae7a0_humidity
+          line_color: blue
+          line_width: 8
+          font_size: 75
+        - type: custom:mini-graph-card
+          entities:
+            - sensor.a4c1388ae7a0_temperature
+          line_color: var(--accent-color)
+          line_width: 8
+          font_size: 75
+
+      - type: markdown
+        content: >
+          **Термометр винный шкаф**
+      - type: horizontal-stack
+        cards:
+        - type: custom:mini-graph-card
+          name: "Влажность"
+          entities:
+            - sensor.a4c138ebf2e9_humidity
+          line_color: blue
+          line_width: 8
+          font_size: 75
+        - type: custom:mini-graph-card
+          name: "Температура"
+          entities:
+            - sensor.a4c138ebf2e9_temperature
+          line_color: var(--accent-color)
+          line_width: 8
+          font_size: 75
+      - type: markdown
+        content: >
+          **Термометр балкон**
+      - type: horizontal-stack
+        cards:
+        - type: custom:mini-graph-card
+          name: "Влажность"
+          entities:
+            - sensor.0x158d00068bb6c3_humidity
+          line_color: blue
+          line_width: 8
+          font_size: 75
+        - type: custom:mini-graph-card
+          name: "Температура"
+          entities:
+            - sensor.0x158d00068bb6c3_temperature
+          line_color: red
+          line_width: 8
+          font_size: 75
+        - type: custom:mini-graph-card
+          name: "Давление"
+          entities:
+            - sensor.0x158d00068bb6c3_pressure
+          line_color: purple
+          line_width: 8
+          font_size: 75
+
+
+#Блок батарей
+  - title: Battery
+    icon: mdi:car-battery
+    cards:
+    - type: horizontal-stack
+      cards:
+        - type: vertical-stack
+          cards:
+
+          - type: entities
+            entities:
+            - type: custom:battery-entity-row
+              entity: vacuum.rockrobo_vacuum_v1
+              name: Пылесос
+              secondary_info: last-changed
+              warning: 50
+              critical: 25
+              charging: true
+            - type: custom:battery-entity-row
+              entity: sensor.a4c1388ae7a0_battery
+              name: Термометр в спальне
+              secondary_info: last-changed
+              warning: 50
+              critical: 25
+              charging: true
+            - type: custom:battery-entity-row
+              entity: sensor.a4c138ebf2e9_battery
+              name: Термометр в винном шкафу
+              secondary_info: last-changed
+              warning: 50
+              critical: 25
+              charging: true
+            - type: custom:battery-entity-row
+              entity: sensor.0x158d00068bb6c3_battery
+              name: Термометр на улице
+              secondary_info: last-changed
+              warning: 50
+              critical: 25
+              charging: true
+            - type: custom:battery-entity-row
+              entity: sensor.28d1272d14e8_battery
+              name: Светильник на балконе
+              secondary_info: last-changed
+              warning: 50
+              critical: 25
+              charging: true
+              
+#Мой телефон
+            - type: custom:battery-entity-row
+              entity: sensor.mi_note_10_pro_uroven_zariada_akkumuliatora
+              name: Mi note 10
+              secondary_info: last-changed
+              warning: 50
+              critical: 25
+              charging: true
+#Телефон Инны
+            - type: custom:battery-entity-row
+              entity: sensor.mi_9t_inna_uroven_zariada_akkumuliatora
+              name: Mi 9T Inna
+              secondary_info: last-changed
+              warning: 50
+              critical: 25
+              charging: true
+            - type: custom:battery-entity-row
+              entity: sensor.0x158d0006b2542f_battery
+              name: Датик протечки ванная
+              secondary_info: last-changed
+              warning: 50
+              critical: 25
+              charging: true
+            - type: custom:battery-entity-row
+              entity: sensor.0x158d0006b25766_battery
+              name: Датик протечки туалет
+              secondary_info: last-changed
+              warning: 50
+              critical: 25
+              charging: true
+            - type: custom:battery-entity-row
+              entity: sensor.0x158d0006b233e6_battery
+              name: Датик протечки кухня
+              secondary_info: last-changed
+              warning: 50
+              critical: 25
+              charging: true
+
+

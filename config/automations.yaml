@@ -1,0 +1,341 @@
+- id: '1618429866949'
+  alias: Nightlight-off
+  description: ''
+  trigger:
+  - platform: sun
+    event: sunrise
+    offset: '1:00:00'
+  condition:
+  - type: is_on
+    condition: device
+    device_id: 1449f59bbf302d7e47ef77d6d28eebd0
+    entity_id: binary_sensor.yeelight_ceiling1_0x0000000003b65236_nightlight
+    domain: binary_sensor
+  action:
+  - type: turn_off
+    device_id: 1449f59bbf302d7e47ef77d6d28eebd0
+    entity_id: light.yeelight_ceiling1_0x0000000003b65236_nightlight
+    domain: light
+  mode: single
+- alias: Notify about HA start
+  trigger:
+  - platform: homeassistant
+    event: start
+  action:
+  - service: notify.vitaly
+    data:
+      message: Home Assistant - start
+  id: bac5fa2f05044d8f922e2b6c6745aaec
+- id: 623e4a2101e840b49afa4650d166f774
+  alias: Notify about HA stop
+  trigger:
+  - platform: homeassistant
+    event: shutdown
+  action:
+  - service: notify.vitaly
+    data:
+      title: Home Assistant stop
+      message: '{{ ''❗️'' }} Сервер остановлен в {{ states(''sensor.time'') }}'
+  initial_state: 'on'
+  mode: single
+- id: '1619595285747'
+  alias: Aquarium sunset
+  description: Включение света в аквариуме на восходе
+  trigger:
+  - platform: sun
+    event: sunrise
+  condition: []
+  action:
+  - service: switch.turn_on
+    target:
+      device_id: e77f19ec9602b41ce41304ad11051043
+  mode: single
+- id: '1619595350875'
+  alias: Aquarium sunrise
+  description: Выключение света в аквариуме после заката
+  trigger:
+  - platform: sun
+    event: sunset
+  condition: []
+  action:
+  - service: switch.turn_off
+    target:
+      device_id: e77f19ec9602b41ce41304ad11051043
+  mode: single
+- id: enable_zigbee_join
+  alias: Enable Zigbee joining
+  trigger:
+  - platform: state
+    entity_id: input_boolean.zigbee_permit_join
+    to: 'on'
+  action:
+  - service: mqtt.publish
+    data:
+      topic: zigbee2mqtt/bridge/config/permit_join
+      payload: 'true'
+  - service: timer.start
+    data:
+      entity_id: timer.zigbee_permit_join
+- id: disable_zigbee_join
+  alias: Disable Zigbee joining
+  trigger:
+  - entity_id: input_boolean.zigbee_permit_join
+    platform: state
+    to: 'off'
+  action:
+  - service: mqtt.publish
+    data:
+      payload: 'false'
+      topic: zigbee2mqtt/bridge/config/permit_join
+  - service: timer.cancel
+    data:
+      entity_id: timer.zigbee_permit_join
+- id: disable_zigbee_join_timer
+  alias: Disable Zigbee joining by timer
+  trigger:
+  - platform: event
+    event_type: timer.finished
+    event_data:
+      entity_id: timer.zigbee_permit_join
+  action:
+  - service: mqtt.publish
+    data:
+      topic: zigbee2mqtt/bridge/config/permit_join
+      payload: 'false'
+  - service: input_boolean.turn_off
+    data:
+      entity_id: input_boolean.zigbee_permit_join
+- id: '1622022330383'
+  alias: coridor light on enter Home
+  description: ''
+  trigger:
+  - type: opened
+    platform: device
+    device_id: d52731340f0e34a06b143d285c1db990
+    entity_id: binary_sensor.0x158d0003c7a375_contact
+    domain: binary_sensor
+  condition:
+  - condition: device
+    type: is_off
+    device_id: 2c6c857a29350a2ed0bff864301bd3b3
+    entity_id: switch.light_switch_coridor
+    domain: switch
+    for:
+      hours: 0
+      minutes: 1
+      seconds: 0
+      milliseconds: 0
+  - condition: sun
+    after: sunset
+    after_offset: -03:00:00
+  - type: is_no_motion
+    condition: device
+    device_id: c955c695d5ecbef78fe281df518f9b04
+    entity_id: binary_sensor.582d346033de_motion
+    domain: binary_sensor
+  action:
+  - service: switch.turn_on
+    target:
+      entity_id:
+      - switch.light_switch_coridor
+  mode: single
+- id: '1622479829192'
+  alias: all light off if outside
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: group.family
+    to: not_home
+    for: 00:02:00
+  condition: []
+  action:
+  - service: light.turn_off
+    target:
+      device_id: 1449f59bbf302d7e47ef77d6d28eebd0
+  - service: switch.turn_off
+    target:
+      device_id: 2c6c857a29350a2ed0bff864301bd3b3
+      entity_id: switch.pc
+  mode: single
+- id: '1622541626201'
+  alias: Vacuum start when all outside
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: group.family
+    to: not_home
+    for: 00:05:00
+  condition:
+  - condition: time
+    after: '10:00'
+  action:
+  - device_id: 9c1bd5af0ba1ceda52757af16002a792
+    domain: vacuum
+    entity_id: vacuum.rockrobo_vacuum_v1
+    type: clean
+  mode: single
+- id: '1623778293726'
+  alias: coridor light off after timer
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: timer.timer_5m
+    to: idle
+  condition: []
+  action:
+  - service: switch.turn_off
+    target:
+      entity_id: switch.light_switch_coridor
+  mode: single
+- id: '1624959859597'
+  alias: TTS-vitaly-leak
+  description: ''
+  trigger:
+  - type: moist
+    platform: device
+    device_id: a17e530d27fabb3a340cb238881da677
+    entity_id: binary_sensor.0x158d0006b233e6_moisture
+    domain: binary_sensor
+  - type: moist
+    platform: device
+    device_id: 596a682a13f88de21e41632cd588d081
+    entity_id: binary_sensor.0x158d0006b25766_moisture
+    domain: binary_sensor
+  - type: moist
+    platform: device
+    device_id: f2c4aabd19e228de5dc64ed9bd2205fd
+    entity_id: binary_sensor.0x00158d0006b2542f_water_leak
+    domain: binary_sensor
+  condition: []
+  action:
+  - service: notify.mobile_app_mi_note_10_pro
+    data:
+      message: TTS
+      title: 'Внимание, обнаружена протечка воды! Внимание, обнаружена протечка воды! '
+      data:
+        channel: alarm_stream
+        priority: high
+        ttl: 0
+  mode: single
+- id: '1625651557485'
+  alias: TTS-test-inna
+  description: ''
+  trigger:
+  - platform: time_pattern
+    hours: '12'
+    minutes: '45'
+  condition: []
+  action:
+  - service: notify.mobile_app_mi_9t_inna
+    data:
+      message: TTS
+      title: Внимание! не забудь вытащить ключ из замка
+      data:
+        channel: alarm_stream
+        priority: high
+        ttl: 0
+  mode: single
+- id: '1626960479062'
+  alias: kitchen backlight double switch
+  description: ''
+  trigger:
+  - platform: state
+    to: single
+    entity_id: sensor.0x158d0006b878d6_action
+  condition: []
+  action:
+  - service: light.toggle
+    target:
+      entity_id: light.kitchen_backlight
+  mode: single
+- id: '1627139676612'
+  alias: coridor light autooff
+  description: ''
+  trigger:
+  - type: not_opened
+    platform: device
+    device_id: d52731340f0e34a06b143d285c1db990
+    entity_id: binary_sensor.0x158d0003c7a375_contact
+    domain: binary_sensor
+  condition:
+  - condition: device
+    type: is_on
+    device_id: 2c6c857a29350a2ed0bff864301bd3b3
+    entity_id: switch.light_switch_coridor
+    domain: switch
+  - type: is_no_motion
+    condition: device
+    device_id: c955c695d5ecbef78fe281df518f9b04
+    entity_id: binary_sensor.582d346033de_motion
+    domain: binary_sensor
+  action:
+  - service: switch.turn_off
+    target:
+      device_id: 2c6c857a29350a2ed0bff864301bd3b3
+  mode: single
+- id: '1627141499056'
+  alias: coridor light off
+  description: ''
+  trigger:
+  - type: no_motion
+    platform: device
+    device_id: c955c695d5ecbef78fe281df518f9b04
+    entity_id: binary_sensor.582d346033de_motion
+    domain: binary_sensor
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 0
+      milliseconds: 0
+  condition:
+  - condition: device
+    type: is_on
+    device_id: 2c6c857a29350a2ed0bff864301bd3b3
+    entity_id: switch.light_switch_coridor
+    domain: switch
+  action:
+  - service: switch.turn_off
+    target:
+      entity_id: switch.light_switch_coridor
+  mode: single
+- id: '1627323213744'
+  alias: kidd light auto on
+  description: ''
+  trigger:
+  - platform: time
+    at: '22:00'
+  condition: []
+  action:
+  - service: switch.turn_on
+    target:
+      entity_id: switch.portable_switch
+  mode: single
+- id: '1627323256774'
+  alias: kidd light auto off
+  description: ''
+  trigger:
+  - platform: sun
+    event: sunrise
+  condition: []
+  action:
+  - service: switch.turn_off
+    target:
+      entity_id: switch.portable_switch
+  mode: single
+- id: '1629398161455'
+  alias: coridor autoon
+  description: ''
+  trigger:
+  - platform: event
+    event_type: xiaomi_aqara.motion
+    event_data:
+      entity_id: binary_sensor.582d346033de_motion
+  condition:
+  - condition: time
+    before: '21:00:00'
+    after: '16:00:00'
+  action:
+  - service: switch.turn_on
+    target:
+      entity_id: switch.light_switch_coridor
+  mode: single

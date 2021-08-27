@@ -1,0 +1,825 @@
+config:
+  title: Home Assistant
+  views:
+  - cards:
+    - cards:
+      - cards:
+        - entity: person.hass
+          image: /local/images/vitaly.jpg
+          name: ' '
+          type: picture-entity
+        - entity: person.inna
+          image: /local/images/inna.jpg
+          name: ' '
+          type: picture-entity
+        - entity: person.alisa
+          image: /local/images/alisa.jpg
+          name: ' '
+          type: picture-entity
+        - entity: person.mama_natasha
+          image: /local/images/mama_natasha.jpg
+          name: ' '
+          type: picture-entity
+        columns: 4
+        square: true
+        title: "\u041B\u044E\u0434\u0438"
+        type: grid
+      - color_thresholds:
+        - color: '#27d0e3'
+          value: 400
+        - color: '#32a836'
+          value: 800
+        - color: '#f29e02'
+          value: 1400
+        - color: '#f51818'
+          value: 2000
+        entities:
+        - sensor.co2_sensor_co2
+        extrema: true
+        hour24: true
+        show:
+          extrema: true
+          icon_adaptive_color: true
+          labels: true
+          name_adaptive_color: true
+        type: custom:mini-graph-card
+      - entity: alarm_control_panel.0x588e81fffef3f096_alarm
+        states:
+        - arm_home
+        - arm_away
+        type: alarm-panel
+      - entities:
+        - entity: switch.pc
+          icon: mdi:desktop-mac-dashboard
+          name: "\u0414\u043E\u043C\u0430\u0448\u043D\u0438\u0439 \u041F\u041A"
+        show_header_toggle: false
+        type: entities
+      name: "\u041E\u0431\u0449\u0430\u044F \u0438\u043D\u0444\u043E\u0440\u043C\u0430\
+        \u0446\u0438\u044F"
+      type: vertical-stack
+    - entity: climate.konditsioner
+      type: thermostat
+    - cards:
+      - cards:
+        - entity: binary_sensor.0x00158d0006b2542f_water_leak
+          icon: mdi:shower
+          name: "\u0412\u0430\u043D\u043D\u0430\u044F"
+          type: entity
+        - entity: binary_sensor.0x158d0006b25766_moisture
+          icon: mdi:toilet
+          name: "\u0422\u0443\u0430\u043B\u0435\u0442"
+          type: entity
+        - entity: binary_sensor.0x158d0006b233e6_moisture
+          icon: mdi:food-fork-drink
+          name: "\u041A\u0443\u0445\u043D\u044F"
+          type: entity
+        columns: 3
+        square: true
+        title: "\u0414\u0430\u0442\u0447\u0438\u043A\u0438 \u043F\u0440\u043E\u0442\
+          \u0435\u0447\u043A\u0438"
+        type: grid
+      - entities:
+        - entity: binary_sensor.0x158d0003c7a375_contact
+          name: "\u0412\u0445\u043E\u0434\u043D\u0430\u044F \u0434\u0432\u0435\u0440\
+            \u044C"
+        type: entities
+      - entities:
+        - entity: sensor.domofon_wifi_signal
+          name: "\u0423\u0440\u043E\u0432\u0435\u043D\u044C \u0441\u0438\u0433\u043D\
+            \u0430\u043B\u0430"
+        - entity: binary_sensor.domofon_button
+        - entity: binary_sensor.domofon_incoming_call
+          name: "\u0414\u0432\u0435\u0440\u044C"
+        - entity: sensor.domofon_uptime
+          name: "\u0412\u0440\u0435\u043C\u044F \u043D\u0435\u043F\u0440\u0438\u0440\
+            \u044B\u0432\u043D\u043E\u0439 \u0440\u0430\u0431\u043E\u0442\u044B"
+        title: "\u041F\u0430\u043D\u0435\u043B\u044C \u0443\u043F\u0440\u0430\u0432\
+          \u043B\u0435\u043D\u0438\u044F \u0434\u043E\u043C\u043E\u0444\u043E\u043D\
+          \u043E\u043C"
+        type: entities
+      - cards:
+        - entity: switch.domofon_automatically_open
+          name: "\u0410\u0432\u0442\u043E\u043E\u043A\u0440\u044B\u0442\u0438\u0435\
+            \ \u043F\u043E\u0441\u0442\u043E\u044F\u043D\u043D\u043E"
+          tap_action:
+            action: toggle
+          type: button
+        - entity: switch.domofon_automatically_open_once
+          name: "\u0410\u0432\u0442\u043E\u043E\u043A\u0440\u044B\u0442\u0438\u0435\
+            \ \u0440\u0430\u0437\u043E\u0432\u043E"
+          tap_action:
+            action: toggle
+          type: button
+        - entity: switch.domofon_automatically_reject
+          name: "\u0410\u0432\u0442\u043E\u0441\u0431\u0440\u043E\u0441"
+          tap_action:
+            action: toggle
+          type: button
+        - entity: switch.domofon_mute_sound
+          name: "\u0411\u0435\u0437\u0437\u0432\u0443\u0447\u043D\u044B\u0439 \u043F\
+            \u043E\u0441\u0442\u043E\u044F\u043D\u043D\u043E"
+          tap_action:
+            action: toggle
+          type: button
+        - entity: switch.domofon_mute_sound_once
+          name: "\u0411\u0435\u0437\u0437\u0432\u0443\u0447\u043D\u044B\u0439 \u0440\
+            \u0430\u0437\u043E\u0432\u043E"
+          tap_action:
+            action: toggle
+          type: button
+        - entity: switch.domofon_restart
+          name: "\u041F\u0435\u0440\u0435\u0437\u0430\u0433\u0440\u0443\u0437\u043A\
+            \u0430"
+          tap_action:
+            action: toggle
+          type: button
+        columns: 3
+        square: true
+        type: grid
+      name: "\u041E\u0431\u0449\u0430\u044F \u0438\u043D\u0444\u043E\u0440\u043C\u0430\
+        \u0446\u0438\u044F 2"
+      type: vertical-stack
+    - cards:
+      - compact_view: false
+        entity: vacuum.rockrobo_vacuum_v1
+        map: camera.rockrobo_map
+        show_name: true
+        stats:
+          cleaning:
+          - attribute: cleaned_area
+            subtitle: "\u0423\u0431\u0440\u0430\u043D\u043E \u0432 \u043A\u0432.\u043C\
+              ."
+            unit: m2
+          - attribute: cleaning_time
+            subtitle: "\u0412\u0440\u0435\u043C\u044F \u0443\u0431\u043E\u0440\u043A\
+              \u0438"
+            unit: minutes
+          default:
+          - attribute: filter_left
+            subtitle: Filter
+            unit: hours
+          - attribute: side_brush_left
+            subtitle: Side brush
+            unit: hours
+          - attribute: main_brush_left
+            subtitle: Main brush
+            unit: hours
+          - attribute: sensor_dirty_left
+            subtitle: Sensors
+            unit: hours
+        style: "ha-card .preview {\n background-color: var(--secondary-background-color);\n\
+          }\n"
+        type: custom:vacuum-card
+      type: vertical-stack
+    icon: mdi:home-assistant
+    title: Home
+  - cards:
+    - cards:
+      - cards:
+        - type: custom:sun-card
+        - entity: weather.home_assistant
+          show_forecast: true
+          type: weather-forecast
+        - content: "**\u0422\u0435\u0440\u043C\u043E\u043C\u0435\u0442\u0440 \u0431\
+            \u0430\u043B\u043A\u043E\u043D**\n"
+          type: markdown
+        - cards:
+          - entities:
+            - sensor.0x158d00068bb6c3_humidity
+            font_size: 75
+            line_color: blue
+            line_width: 8
+            name: "\u0412\u043B\u0430\u0436\u043D\u043E\u0441\u0442\u044C"
+            show:
+              extrema: true
+              labels: true
+            type: custom:mini-graph-card
+          - entities:
+            - sensor.0x158d00068bb6c3_temperature
+            font_size: 75
+            line_color: red
+            line_width: 8
+            name: "\u0422\u0435\u043C\u043F\u0435\u0440\u0430\u0442\u0443\u0440\u0430"
+            show:
+              extrema: true
+              labels: true
+            type: custom:mini-graph-card
+          type: horizontal-stack
+        - cards:
+          - entities:
+            - sensor.0x158d00068bb6c3_pressure
+            font_size: 75
+            line_color: purple
+            line_width: 8
+            name: "\u0414\u0430\u0432\u043B\u0435\u043D\u0438\u0435"
+            show:
+              extrema: true
+              labels: true
+            type: custom:mini-graph-card
+          - entities:
+            - sensor.narodmon_radiation
+            font_size: 75
+            icon: mdi:radioactive
+            line_color: purple
+            line_width: 8
+            name: "\u0420\u0430\u0434\u0438\u0430\u0446\u0438\u044F"
+            show:
+              extrema: true
+              labels: true
+            type: custom:mini-graph-card
+          type: horizontal-stack
+        - aspect_ratio: 100%
+          type: iframe
+          url: https://embed.windy.com/embed2.html?lat=52.385&lon=31.029&detailLat=52.423&detailLon=31.029&width=650&height=450&zoom=11&level=surface&overlay=radar&product=radar&menu=&message=true&marker=&calendar=now&pressure=&type=map&location=coordinates&detail=true&metricWind=default&metricTemp=default&radarRange=-1
+        type: vertical-stack
+      type: horizontal-stack
+    - cards:
+      - content: "**\u0422\u0435\u0440\u043C\u043E\u043C\u0435\u0442\u0440 \u0441\u043F\
+          \u0430\u043B\u044C\u043D\u044F**\n"
+        type: markdown
+      - cards:
+        - color_thresholds:
+          - color: '#f57f18'
+            value: 0
+          - color: '#eb2409'
+            value: 40
+          - color: '#32a836'
+            value: 80
+          entities:
+          - sensor.a4c1388ae7a0_humidity
+          font_size: 75
+          line_color: blue
+          line_width: 8
+          name: "\u0412\u043B\u0430\u0436\u043D\u043E\u0441\u0442\u044C"
+          show:
+            extrema: true
+            labels: true
+          type: custom:mini-graph-card
+        - color_thresholds:
+          - color: '#09b3eb'
+            value: 0
+          - color: '#eb2409'
+            value: 26
+          - color: '#32a836'
+            value: 20
+          entities:
+          - sensor.a4c1388ae7a0_temperature
+          font_size: 75
+          line_color: var(--accent-color)
+          line_width: 8
+          name: "\u0422\u0435\u043C\u043F\u0435\u0440\u0430\u0442\u0443\u0440\u0430"
+          show:
+            extrema: true
+            labels: true
+          type: custom:mini-graph-card
+        type: horizontal-stack
+      - content: "**\u0422\u0435\u0440\u043C\u043E\u043C\u0435\u0442\u0440 \u0432\u0438\
+          \u043D\u043D\u044B\u0439 \u0448\u043A\u0430\u0444**\n"
+        type: markdown
+      - cards:
+        - color_thresholds:
+          - color: '#f57f18'
+            value: 0
+          - color: '#eb2409'
+            value: 40
+          - color: '#32a836'
+            value: 80
+          entities:
+          - sensor.a4c138ebf2e9_humidity
+          font_size: 75
+          line_color: blue
+          line_width: 8
+          name: "\u0412\u043B\u0430\u0436\u043D\u043E\u0441\u0442\u044C"
+          show:
+            extrema: true
+            labels: true
+          type: custom:mini-graph-card
+        - color_thresholds:
+          - color: '#09b3eb'
+            value: 0
+          - color: '#eb2409'
+            value: 26
+          - color: '#32a836'
+            value: 20
+          entities:
+          - sensor.a4c138ebf2e9_temperature
+          font_size: 75
+          line_color: var(--accent-color)
+          line_width: 8
+          name: "\u0422\u0435\u043C\u043F\u0435\u0440\u0430\u0442\u0443\u0440\u0430"
+          show:
+            extrema: true
+            labels: true
+          type: custom:mini-graph-card
+        type: horizontal-stack
+      - content: "**\u0422\u0435\u0440\u043C\u043E\u043C\u0435\u0442\u0440 \u0432\u0430\
+          \u043D\u043D\u0430\u044F**\n"
+        type: markdown
+      - cards:
+        - color_thresholds:
+          - color: '#f57f18'
+            value: 0
+          - color: '#eb2409'
+            value: 40
+          - color: '#32a836'
+            value: 80
+          entities:
+          - sensor.a4c13800b195_humidity
+          font_size: 75
+          line_color: blue
+          line_width: 8
+          name: "\u0412\u043B\u0430\u0436\u043D\u043E\u0441\u0442\u044C"
+          show:
+            extrema: true
+            labels: true
+          type: custom:mini-graph-card
+        - color_thresholds:
+          - color: '#09b3eb'
+            value: 0
+          - color: '#eb2409'
+            value: 26
+          - color: '#32a836'
+            value: 20
+          entities:
+          - sensor.a4c13800b195_temperature
+          font_size: 75
+          line_color: var(--accent-color)
+          line_width: 8
+          name: "\u0422\u0435\u043C\u043F\u0435\u0440\u0430\u0442\u0443\u0440\u0430"
+          show:
+            extrema: true
+            labels: true
+          type: custom:mini-graph-card
+        type: horizontal-stack
+      - content: "**\u0422\u0435\u0440\u043C\u043E\u043C\u0435\u0442\u0440 \u043A\u0443\
+          \u0445\u043D\u044F**\n"
+        type: markdown
+      - cards:
+        - color_thresholds:
+          - color: '#f57f18'
+            value: 0
+          - color: '#eb2409'
+            value: 40
+          - color: '#32a836'
+            value: 80
+          entities:
+          - sensor.a4c13868564d_humidity
+          font_size: 75
+          line_color: blue
+          line_width: 8
+          name: "\u0412\u043B\u0430\u0436\u043D\u043E\u0441\u0442\u044C"
+          show:
+            extrema: true
+            labels: true
+          type: custom:mini-graph-card
+        - color_thresholds:
+          - color: '#09b3eb'
+            value: 0
+          - color: '#eb2409'
+            value: 26
+          - color: '#32a836'
+            value: 20
+          entities:
+          - sensor.a4c13868564d_temperature
+          font_size: 75
+          line_color: var(--accent-color)
+          line_width: 8
+          name: "\u0422\u0435\u043C\u043F\u0435\u0440\u0430\u0442\u0443\u0440\u0430"
+          show:
+            extrema: true
+            labels: true
+          type: custom:mini-graph-card
+        type: horizontal-stack
+      type: vertical-stack
+    icon: mdi:weather-hazy
+    title: "\u041F\u043E\u0433\u043E\u0434\u0430"
+  - cards:
+    - cards:
+      - cards:
+        - entities:
+          - charging: true
+            critical: 25
+            entity: vacuum.rockrobo_vacuum_v1
+            name: "\u041F\u044B\u043B\u0435\u0441\u043E\u0441"
+            secondary_info: last-changed
+            type: custom:battery-entity-row
+            warning: 50
+          - charging: true
+            critical: 25
+            entity: sensor.a4c1388ae7a0_battery
+            name: "\u0422\u0435\u0440\u043C\u043E\u043C\u0435\u0442\u0440 \u0432 \u0441\
+              \u043F\u0430\u043B\u044C\u043D\u0435"
+            secondary_info: last-changed
+            type: custom:battery-entity-row
+            warning: 50
+          - charging: true
+            critical: 25
+            entity: sensor.a4c138ebf2e9_battery
+            name: "\u0422\u0435\u0440\u043C\u043E\u043C\u0435\u0442\u0440 \u0432 \u0432\
+              \u0438\u043D\u043D\u043E\u043C \u0448\u043A\u0430\u0444\u0443"
+            secondary_info: last-changed
+            type: custom:battery-entity-row
+            warning: 50
+          - charging: true
+            critical: 25
+            entity: sensor.a4c13800b195_battery
+            name: "\u0422\u0435\u0440\u043C\u043E\u043C\u0435\u0442\u0440 \u0432\u0430\
+              \u043D\u043D\u0430\u044F"
+            secondary_info: last-changed
+            type: custom:battery-entity-row
+            warning: 50
+          - charging: true
+            critical: 25
+            entity: sensor.a4c13868564d_battery
+            name: "\u0422\u0435\u0440\u043C\u043E\u043C\u0435\u0442\u0440 \u043A\u0443\
+              \u0445\u043D\u044F"
+            secondary_info: last-changed
+            type: custom:battery-entity-row
+            warning: 50
+          - charging: true
+            critical: 25
+            entity: sensor.0x158d00068bb6c3_battery
+            name: "\u0422\u0435\u0440\u043C\u043E\u043C\u0435\u0442\u0440 \u043D\u0430\
+              \ \u0443\u043B\u0438\u0446\u0435"
+            secondary_info: last-changed
+            type: custom:battery-entity-row
+            warning: 50
+          - charging: true
+            critical: 25
+            entity: sensor.mi_note_10_pro_uroven_zariada_akkumuliatora
+            name: Mi note 10
+            secondary_info: last-changed
+            type: custom:battery-entity-row
+            warning: 50
+          - charging: true
+            critical: 25
+            entity: sensor.mi_9t_inna_uroven_zariada_akkumuliatora
+            name: Mi 9T Inna
+            secondary_info: last-changed
+            type: custom:battery-entity-row
+            warning: 50
+          - charging: true
+            critical: 25
+            entity: sensor.0x00158d0006b2542f_battery
+            name: "\u0414\u0430\u0442\u0438\u043A \u043F\u0440\u043E\u0442\u0435\u0447\
+              \u043A\u0438 \u0432\u0430\u043D\u043D\u0430\u044F"
+            secondary_info: last-changed
+            type: custom:battery-entity-row
+            warning: 50
+          - charging: true
+            critical: 25
+            entity: sensor.0x158d0006b25766_battery
+            name: "\u0414\u0430\u0442\u0438\u043A \u043F\u0440\u043E\u0442\u0435\u0447\
+              \u043A\u0438 \u0442\u0443\u0430\u043B\u0435\u0442"
+            secondary_info: last-changed
+            type: custom:battery-entity-row
+            warning: 50
+          - charging: true
+            critical: 25
+            entity: sensor.0x158d0006b233e6_battery
+            name: "\u0414\u0430\u0442\u0438\u043A \u043F\u0440\u043E\u0442\u0435\u0447\
+              \u043A\u0438 \u043A\u0443\u0445\u043D\u044F"
+            secondary_info: last-changed
+            type: custom:battery-entity-row
+            warning: 50
+          - charging: true
+            critical: 25
+            entity: sensor.28d1272d14e8_battery
+            name: "\u0421\u0432\u0435\u0442\u0438\u043B\u044C\u043D\u0438\u043A \u043D\
+              \u0430 \u0431\u0430\u043B\u043A\u043E\u043D\u0435"
+            secondary_info: last-changed
+            type: custom:battery-entity-row
+            warning: 50
+          - charging: true
+            critical: 25
+            entity: sensor.0x158d0003c7a375_battery
+            name: "\u0414\u0430\u0442\u0447\u0438\u043A \u0432\u0445\u043E\u0434\u043D\
+              \u043E\u0439 \u0434\u0432\u0435\u0440\u0438"
+            secondary_info: last-changed
+            type: custom:battery-entity-row
+            warning: 50
+          - charging: true
+            critical: 25
+            entity: sensor.0x158d0006b878d6_battery
+            name: "\u0414\u0443\u0431\u043B\u0438\u0440\u0443\u044E\u0449\u0430\u044F\
+              \ \u043A\u043D\u043E\u043F\u043A\u0430 \u0434\u043B\u044F \u043A\u0443\
+              \u0445\u043D\u0438"
+            secondary_info: last-changed
+            type: custom:battery-entity-row
+            warning: 50
+          - charging: true
+            critical: 25
+            entity: sensor.582d346033de_battery
+            name: "\u0414\u0430\u0442\u0447\u0438\u043A \u0434\u0432\u0438\u0436\u0435\
+              \u043D\u0438\u044F \u043A\u043E\u0440\u0438\u0434\u043E\u0440"
+            secondary_info: last-changed
+            type: custom:battery-entity-row
+            warning: 50
+          type: entities
+        type: vertical-stack
+      type: horizontal-stack
+    icon: mdi:car-battery
+    title: Battery
+  - cards:
+    - cards:
+      - entity: light.yeelight_ceiling1_0x0000000003b65236
+        name: "\u0410\u043B\u0438\u0441\u0438\u043D \u0441\u0432\u0435\u0442\u0438\
+          \u043B\u044C\u043D\u0438\u043A"
+        type: light
+      - entity: light.yeelight_ceiling1_0x0000000003b65236_nightlight
+        name: "\u0410\u043B\u0438\u0441\u0438\u043D \u043D\u043E\u0447\u043D\u0438\
+          \u043A"
+        type: light
+      - entity: switch.sonoff_basic_relay
+        icon: mdi:fishbowl-outline
+        name: "\u0421\u0432\u0435\u0442 \u0432 \u0430\u043A\u0432\u0430\u0440\u0438\
+          \u0443\u043C\u0435"
+        show_state: false
+        tap_action:
+          action: toggle
+        type: button
+      - entity: switch.light_switch_coridor
+        icon: hass:track-light
+        name: "\u0421\u0432\u0435\u0442 \u0432 \u043A\u043E\u0440\u0438\u0434\u043E\
+          \u0440\u0435"
+        show_state: false
+        tap_action:
+          action: toggle
+        type: button
+      - entity: light.kitchen_backlight
+        icon: phu:rooms-kitchen
+        name: "\u041F\u043E\u0434\u0441\u0432\u0435\u0442\u043A\u0430 \u043D\u0430\
+          \ \u043A\u0443\u0445\u043D\u0435"
+        type: light
+      - entity: switch.portable_switch
+        icon: phu:rooms-kids-bedroom
+        name: "\u0414\u0435\u0442\u0441\u043A\u0438\u0439 \u043D\u043E\u0447\u043D\
+          \u0438\u043A"
+        type: button
+      - entity: switch.switch_alisa
+        icon: mdi:desktop-classic
+        name: "\u0420\u043E\u0437\u0435\u0442\u043A\u0430 \u043A\u043E\u043C\u043F\
+          \u044C\u044E\u0442\u0435\u0440\u0430"
+        type: button
+      columns: 3
+      square: true
+      title: "\u0418\u043D\u0444\u043E\u0440\u043C\u0430\u0446\u0438\u044F \u043E\
+        \ \u0441\u0435\u0440\u0432\u0435\u0440\u0435"
+      type: grid
+    icon: mdi:home-lightbulb
+    title: "\u041E\u0441\u0432\u0435\u0449\u0435\u043D\u0438\u0435"
+  - badges: []
+    cards:
+    - cards:
+      - artwork: full-cover
+        entity: media_player.alexelec
+        icon: mdi:kodi
+        info: short
+        name: Kodi
+        sound_mode: full
+        source: full
+        type: custom:mini-media-player
+        volume_stateless: true
+      - artwork: full-cover
+        entity: media_player.lg_tv
+        icon: mdi:television-box
+        info: short
+        name: LG LA660S
+        sound_mode: full
+        source: full
+        type: custom:mini-media-player
+        volume_stateless: true
+      - artwork: full-cover
+        entity: media_player.android_tv
+        icon: mdi:android
+        info: scroll
+        name: "TV \u043F\u0440\u0438\u0441\u0442\u0430\u0432\u043A\u0430 A1"
+        sound_mode: full
+        source: full
+        type: custom:mini-media-player
+        volume_stateless: true
+      - cards:
+        - entity: script.box_power
+          icon: mdi:power
+          name: ' '
+          tap_action:
+            action: toggle
+          type: button
+        - type: button
+        - entity: script.box_sleep
+          icon: mdi:sleep
+          name: ' '
+          tap_action:
+            action: toggle
+          type: button
+        - entity: script.box_menu
+          icon: mdi:menu
+          name: ' '
+          tap_action:
+            action: toggle
+          type: button
+        - entity: script.box_home
+          icon: mdi:home
+          name: ' '
+          tap_action:
+            action: toggle
+          type: button
+        type: horizontal-stack
+      - cards:
+        - type: button
+        - type: button
+        - entity: script.box_up
+          icon: mdi:arrow-up
+          name: ' '
+          tap_action:
+            action: toggle
+          type: button
+        - type: button
+        - type: button
+        type: horizontal-stack
+      - cards:
+        - entity: script.box_mute
+          icon: mdi:volume-off
+          name: ' '
+          tap_action:
+            action: toggle
+          type: button
+        - entity: script.box_left
+          icon: mdi:arrow-left
+          name: ' '
+          tap_action:
+            action: toggle
+          type: button
+        - entity: script.box_center
+          icon: mdi:pokeball
+          name: ' '
+          tap_action:
+            action: toggle
+          type: button
+        - entity: script.box_right
+          icon: mdi:arrow-right
+          name: ' '
+          tap_action:
+            action: toggle
+          type: button
+        - entity: script.kinopoisk
+          icon: mdi:video-minus
+          name: "\u041A\u0438\u043D\u043E\u043F\u043E\u0438\u0441\u043A"
+          tap_action:
+            action: toggle
+          type: button
+        type: horizontal-stack
+      - cards:
+        - type: button
+        - type: button
+        - entity: script.box_down
+          icon: mdi:arrow-down
+          name: ' '
+          tap_action:
+            action: toggle
+          type: button
+        - type: button
+        - entity: script.box_back
+          icon: mdi:backspace
+          name: ' '
+          tap_action:
+            action: toggle
+          type: button
+        type: horizontal-stack
+      type: vertical-stack
+    - entity: switch.lg_la660s_2
+      tap_action:
+        action: toggle
+      type: button
+    - entity: media_player.android_tv
+      type: media-control
+    - entity: media_player.vacuum_sox
+      type: media-control
+    - artwork: full-cover
+      entity: media_player.aimp
+      group: false
+      info: short
+      source: full
+      type: custom:mini-media-player
+      volume_stateless: false
+    icon: mdi:movie-roll
+    panel: false
+    path: media
+    title: Media
+  - badges: []
+    cards:
+    - cards:
+      - entities:
+        - entity: sensor.date
+          icon: mdi:calendar-check-outline
+          name: "\u0414\u0430\u0442\u0430"
+        - entity: sensor.time
+          icon: mdi:clock-outline
+          name: "\u0422\u0435\u043A\u0443\u0449\u0435\u0435 \u0432\u0440\u0435\u043C\
+            \u044F"
+        - entity: sensor.last_boot
+          icon: mdi:clock-start
+          name: "\u041F\u043E\u0441\u043B\u0435\u0434\u043D\u044F\u044F \u0437\u0430\
+            \u0433\u0440\u0443\u0437\u043A\u0430"
+        - entity: sensor.hass_db_size
+          icon: mdi:database
+          name: "\u041E\u0431\u044A\u0435\u043C \u0411\u0414"
+        - entity: binary_sensor.snapshots_stale
+          name: snapshots state
+        - entity: sensor.snapshot_backup
+          secondary_info: last-updated
+        show_header_toggle: false
+        type: entities
+      - card:
+          content: "\u0411\u044D\u043A\u0430\u043F\u044B \u0443\u0441\u0442\u0430\u0440\
+            \u0435\u043B\u0438! \u041F\u043E\u0441\u0435\u0442\u0438\u0442\u0435 \
+            \ \u0441\u0442\u0440\u0430\u043D\u0438\u0446\u0443 \u0441\u0442\u0430\u0442\
+            \u0443\u0441\u0430 \u043D\u0430\u0434\u0441\u0442\u0440\u043E\u0439\u043A\
+            \u0438 Home Assistant Google Drive Backup, \u0447\u0442\u043E\u0431\u044B\
+            \ \u043F\u043E\u043B\u0443\u0447\u0438\u0442\u044C \u043F\u043E\u0434\u0440\
+            \u043E\u0431\u043D\u0443\u044E \u0438\u043D\u0444\u043E\u0440\u043C\u0430\
+            \u0446\u0438\u044E."
+          title: "\u0411\u044D\u043A\u0430\u043F\u044B \u0443\u0441\u0442\u0430\u0440\
+            \u0435\u043B\u0438!`"
+          type: markdown
+        conditions:
+        - entity: binary_sensor.snapshots_stale
+          state_not: 'off'
+        type: conditional
+      - cards:
+        - entity: sensor.processor_use_percent
+          icon: mdi:cpu-32-bit
+          name: "\u0417\u0430\u0433\u0440\u0443\u0437\u043A\u0430 CPU"
+          severity:
+            green: 0
+            red: 85
+            yellow: 60
+          type: gauge
+          unit: '%'
+        - entity: sensor.memory_use_percent
+          icon: mdi:ruler
+          name: "\u0417\u0430\u0433\u0440\u0443\u0437\u043A\u0430 \u041E\u0417\u0423"
+          severity:
+            green: 0
+            red: 85
+            yellow: 60
+          type: gauge
+          unit: '%'
+        - entity: sensor.disk_use_percent
+          icon: mdi:harddisk
+          name: "\u0414\u0438\u0441\u043A \u0437\u0430\u043F\u043E\u043B\u043D\u0435\
+            \u043D"
+          severity:
+            green: 0
+            red: 85
+            yellow: 60
+          type: gauge
+          unit: '%'
+        - entity: sensor.disk_free
+          icon: mdi:harddisk-plus
+          name: "\u0421\u0432\u043E\u0431\u043E\u0434\u043D\u043E\u0435 \u043C\u0435\
+            \u0441\u0442\u043E"
+          severity:
+            green: 8
+            red: 2
+            yellow: 6
+          type: gauge
+          unit: "\u0413\u0431"
+        - entity: sensor.orange_pi_pc_temp
+          icon: mdi:harddisk-plus
+          name: "\u0422\u0435\u043C\u043F\u0435\u0440\u0430\u0442\u0443\u0440\u0430\
+            \ \u0441\u0435\u0440\u0432\u0435\u0440\u0430"
+          severity:
+            green: 0
+            red: 80
+            yellow: 60
+          type: gauge
+          unit: "\xB0C"
+        - entity: binary_sensor.giga_online
+          hold_action:
+            action: none
+          name: Keenetic
+          show_icon: true
+          show_name: true
+          show_state: true
+          tap_action:
+            action: more-info
+          type: button
+        columns: 4
+        square: true
+        title: "\u0418\u043D\u0444\u043E\u0440\u043C\u0430\u0446\u0438\u044F \u043E\
+          \ \u0441\u0435\u0440\u0432\u0435\u0440\u0435"
+        type: grid
+      name: "\u041E\u0431\u0449\u0430\u044F \u0438\u043D\u0444\u043E\u0440\u043C\u0430\
+        \u0446\u0438\u044F"
+      type: vertical-stack
+    - entities:
+      - entity: input_boolean.zigbee_permit_join
+      - entity: timer.zigbee_permit_join
+      - entity: sensor.bridge_state
+      title: Zigbee
+      type: entities
+    icon: mdi:cog-transfer-outline
+    panel: false
+    path: systems
+    title: Systems

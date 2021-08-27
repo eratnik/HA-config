@@ -1,0 +1,84 @@
+#Сенсоры для мониторинга сервера Home assistant
+- platform: systemmonitor
+  resources:
+    - type: disk_free
+      arg: /
+    - type: memory_free
+    - type: processor_use
+    - type: last_boot
+    - type: disk_use_percent
+      arg: /
+    - type: disk_use
+      arg: /
+    - type: memory_use_percent
+    - type: memory_use
+- platform: time_date
+  display_options:
+    - date
+    - time
+
+- platform: mqtt
+  state_topic: "valetudo/rockrobo/state"
+  json_attributes_topic: "valetudo/rockrobo/map_data_parsed"
+  name: rockrobo_map
+  value_template: 'OK'
+  scan_interval: 5
+
+#Температура Orange Pi PC 
+- platform: command_line
+  name: Orange Pi PC Temp
+  command: "cat /sys/class/thermal/thermal_zone0/temp"
+  unit_of_measurement: "°C"
+  value_template: '{{ value | multiply(0.001) | round(2) }}'
+    
+#База данных Mariadb
+- platform: sql
+  db_url: !secret maria_db
+  queries:
+  - name: HASS DB size
+    query: 'SELECT table_schema "database", Round(Sum(data_length + index_length) / 1048576, 2) "value" FROM information_schema.tables WHERE table_schema="homeassistant" GROUP BY table_schema;'
+    column: 'value'
+    unit_of_measurement: MB
+
+# Google Drive Backup статус
+- platform: mqtt
+  name: "Статус Google Backup"
+  state_topic: "googlebackup/result"
+  json_attributes_topic: "googlebackup/result"
+
+#-----------------------------------------------------Датчики
+
+- platform: mqtt
+  name: Bridge state
+  state_topic: "zigbee2mqtt/bridge/state"
+  icon: mdi:router-wireless
+
+- platform: rest
+  resource: !secret narodmon_api
+  name: narodmon
+  json_attributes: 
+    - location
+    - sensors
+  value_template: '{{ value_json.id }}'
+  scan_interval: 180
+  headers:
+    User-Agent: Home Assistant
+
+- platform: template
+  sensors:
+    narodmon_temperature:
+      value_template: '{{ states.sensor.narodmon.attributes.sensors[0].value }}'
+      device_class: temperature
+      friendly_name: 'Narodmon Temperature'
+      unit_of_measurement: '°C'
+
+    narodmon_pressure:
+      value_template: '{{ states.sensor.narodmon.attributes.sensors[1].value }}'
+      friendly_name: 'Narodmon Pressure'
+      device_class: pressure
+      unit_of_measurement: 'mmHg'
+
+    narodmon_radiation:
+      value_template: '{{ states.sensor.narodmon.attributes.sensors[2].value }}'
+      friendly_name: 'Narodmon Radiation'
+      unit_of_measurement: 'µR/h'

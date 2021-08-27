@@ -1,0 +1,26 @@
+check:
+  check_for_ips: true
+  check_for_secrets: true
+  enabled: true
+dry_run: false
+exclude:
+- '*.db'
+- '*.log'
+- __pycache__
+- ._*
+- .DS_Store
+- deps/
+- known_devices.yaml
+- tts/
+- secrets.yaml
+export:
+  addons: true
+  esphome: true
+  lovelace: true
+  node_red: true
+repository:
+  commit_message: Home Assistant Git Exporter
+  password: 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
+  pull_before_push: false
+  url: https://github.com/eratnik/HA-config.git
+  username: Vitali Kamarouski
