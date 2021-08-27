@@ -8,7 +8,7 @@
     },
     "0x00124b0022ffca0d": {
         "pressure": 0,
-        "co2": 3980,
+        "co2": 2926,
         "temperature": 0,
         "humidity": 0,
         "led_feedback": "ON",
@@ -21,7 +21,7 @@
         "state": "OFF",
         "power": 0,
         "current": 0,
-        "voltage": 226,
+        "voltage": 223,
         "power_outage_memory": "restore"
     },
     "0xb4e3f9fffe22a8b6": {
