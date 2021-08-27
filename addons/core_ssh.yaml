@@ -1,5 +1,0 @@
-apks: []
-authorized_keys: []
-password: ''
-server:
-  tcp_forwarding: false

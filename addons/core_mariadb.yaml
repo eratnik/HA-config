@@ -1,8 +1,0 @@
-databases:
-- homeassistant
-logins:
-- password: orangepipc
-  username: hass
-rights:
-- database: homeassistant
-  username: hass
