@@ -8,9 +8,9 @@ frontend:
   themes: !include_dir_merge_named themes
 
 # Text to speech
-# tts:
-#   - platform: google_translate
 tts:
+#   - platform: google_translate
+#     language: 'ru'
   - platform: rhvoice
     host: !secret IP_hass
     port: 8080 # Не обязательно
@@ -29,66 +29,71 @@ automation: !include automations.yaml
 script: !include scripts.yaml
 scene: !include scenes.yaml
 sensor: !include sensor.yaml
-binary_sensor: !include binary_sensors.yaml
 input_select: !include input_select.yaml
+#Настройка базы данных Maria DB
+recorder: !include recorder.yaml
+media_player: !include media_player.yaml
+timer: !include timer.yaml
 
 noolite:
   port: "/dev/ttyUSB0"
+
+binary_sensor: 
+- platform: noolite
+  channel: 3
+  name: "Повысить яркость подсветки на кухне"
+  type: remote 
+- platform: noolite
+  channel: 4
+  name: "Понизить яркость подсветки на кухне"
+  type: remote 
+- platform: noolite
+  channel: 5
+  name: "bathroom remote"
+  type: remote 
+  
+- platform: noolite
+  channel: 3
+  name: "battary kitchen backlight remote up"
+  type: battery 
+- platform: noolite
+  channel: 4
+  name: "battary kitchen backlight remote down"
+  type: battery 
+- platform: noolite
+  channel: 5
+  name: "battary bathroom remote"
+  type: battery
   
 light:
   - platform: noolite
     channel: 0
-    name: "kitchen backlight"
+    name: "Подсветка на кухне"
+    icon: mdi:led-strip
     scan_interval: 60
     type: dimmer
     mode: noolite
+# fans:
+#   - platform: noolite
+#     name: "bathroom fan"
+#     channel: 1
+#     mode: noolite
+#     speed_enabled: true
+#     scan_interval: 60
   - platform: noolite
     channel: 1
-    name: "bathroom fan"
+    name: "Вентилятор в ванной"
+    icon: mdi:fan
     scan_interval: 60
     type: dimmer
     mode: noolite
     
-#Настройка базы данных Maria DB
-recorder:
-  db_url: !secret maria_db
-  purge_keep_days: 14 #хранение 14 дней
-  include:
-    domains:
-      - sensor
-      - switch
-      - shell_command
-      - binary_sensor
-      - input_text
-      - light
-      - script
-      - device_tracker
-  exclude:
-    entities:
-      - sensor.time
-      - binary_sensor.28d1272d14e8_motion
-      - binary_sensor.582d346033de_motion
-    event_types:
-      - service_removed
-      - service_executed
-      - platform_discovered
-      - homeassistant_start
-      - homeassistant_stop
-      - feedreader
-      - service_registered
-      - call_service
-      - component_loaded
-      - logbook_entry
-      - system_log_event
-      - automation_triggered
-      - script_started
-      - timer_out_of_sync
 
 # Обозначение комьютера и настройк его вкл/выкл
 switch:
   - platform: wake_on_lan
     mac: !secret MAC_PC
-    name: "PC"
+    name: "Компьютер"
     host: !secret IP_PC
     turn_off:
       service: rest_command.turn_off
@@ -103,50 +108,24 @@ yeelight:
           - TemperatureTransition: [1900, 2000, 60]
           - SleepTransition:       [1000]
 
-media_player:
-  - platform: lg_netcast
-    host: !secret IP_TV
-    access_token: !secret token_lg
-    name: LG TV
-
-  - platform: sox
-    name: Vacuum sox
-    host: !secret IP_vacuum
-    port: 7777 # Не обязательно
-    # turn_on_action:
-    #   service: switch.turn_on
-    #   target:
-    #     entity_id: switch.tv_switch
-# Настройка AndroidTV
-  - platform: androidtv
-    name: Android TV
-    host: !secret IP_TVBOX_A1
-    adbkey: '/config/.storage/androidtv_adbkey'
-
-#AIMP
-  - platform: aimp
-    name: 'AIMP'
-    host: !secret aimp_ip
-    port: 3333
-    
-
 telegram_bot:
   - platform: polling
     api_key: !secret token_telegram
     parse_mode: html
     allowed_chat_ids: #разрешенные пользователи
       - !secret chatid_vitaly
+      - !secret chatid_inna
 
 notify:
   - name: vitaly
     platform: telegram
     chat_id: !secret chatid_vitaly
-    
-# REST команды 
-rest_command:
+  - name: inna
+    platform: telegram
+    chat_id: !secret chatid_inna
 
-#Выключение ПК
-  turn_off:
+rest_command: # REST команды 
+  turn_off: #Выключение ПК
     url: !secret command_PC_off
     method: get
 
@@ -159,7 +138,6 @@ rest_command:
 #   token: !secret notify_events
 
 history: !include history.yaml
-
 # type: map
 # title: История перемещений
 # entities:
@@ -186,17 +164,17 @@ history: !include history.yaml
 #     device_trackers:
 #       - device_tracker.mi_note_10_pro
 
-camera:
-  - platform: xiaomi_cloud_map_extractor
-    host: !secret xiaomi_vacuum_host
-    token: !secret token_vacuum
-    username: !secret xiaomi_cloud_username
-    password: !secret xiaomi_cloud_password
-    draw: ['all']
-    attributes:
-      - calibration_points
-    map_transformation:
-      rotate: 270
+# camera:
+#   - platform: xiaomi_cloud_map_extractor
+#     host: !secret xiaomi_vacuum_host
+#     token: !secret token_vacuum
+#     username: !secret xiaomi_cloud_username
+#     password: !secret xiaomi_cloud_password
+#     draw: ['all']
+#     attributes:
+#       - calibration_points
+#     map_transformation:
+#       rotate: 270
 
 #--------------------------------------------------------Объекты
 
@@ -206,10 +184,58 @@ input_boolean:
     initial: off
     icon: mdi:cellphone-wireless
 
-timer: !include timer.yaml
+# создание боковой панели с иконками Material disign
+# panel_iframe:
+#   mdi:
+#     title: "Material Design Icons"
+#     icon: mdi:material-design
+#     url: "https://mdi.bessarabov.com"
 
-panel_iframe:
-  mdi:
-    title: "Material Design Icons"
-    icon: mdi:material-design
-    url: "https://mdi.bessarabov.com"
+conversation: #возможность общаться с Яндекс станцией из интерфейса Lovelace
+  intents:
+    # менять нужно entity_id до двоеточия, после двоеточия ничего менять не надо!
+    media_player.yandex_station_xk0000000000000130270002a0593d4f: [.+]  # замените на вашу станцию
+
+yandex_station:
+  recognition_lang: ru-RU
+  tts_service_name: yandex_say
+
+morph_numbers:
+
+yandex_smart_home:
+  notifier:
+    - oauth_token: !secret yandex_token
+      skill_id: !secret yandex_skill_id
+      user_id: !secret yandex_user_id
+
+alert: !include alert.yaml #повторяющаяся каждые 5 минут тревога о протечке
+#   garage_door:
+#     name: "Leaks"
+#     done_message: "Протечка устранена"
+#     entity_id: binary_sensor.0x158d0006b2542f_moisture
+#     state: "on"
+#     title: "Внимание, обнаружена протечка"
+#     message: |
+#       {% if is_state('binary_sensor.0x158d0006b233e6_moisture', 'on') %} 
+#         Влажно на кухне!      
+#       {% else %} 
+#         На кухне сухо.
+#       {% endif %}
+#       {% if is_state('binary_sensor.0x158d0006b2542f_moisture', 'on') %} 
+#         Влажно в ванной!      
+#       {% else %} 
+#         В ванной сухо.
+#       {% endif %}
+#       {% if is_state('binary_sensor.0x158d0006b25766_moisture', 'on') %} 
+#         Влажно в туалете!      
+#       {% else %} 
+#         В туалете сухо.
+#       {% endif %}
+#     data:
+#       inline_keyboard:
+#         - 'Подтверждение:/Протечка_устранена'
+#     repeat: 5
+#     can_acknowledge: true
+#     skip_first: false
+#     notifiers:
+#       - vitaly

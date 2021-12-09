@@ -1,22 +1,3 @@
-- id: '1618429866949'
-  alias: Nightlight-off
-  description: ''
-  trigger:
-  - platform: sun
-    event: sunrise
-    offset: '1:00:00'
-  condition:
-  - type: is_on
-    condition: device
-    device_id: 1449f59bbf302d7e47ef77d6d28eebd0
-    entity_id: binary_sensor.yeelight_ceiling1_0x0000000003b65236_nightlight
-    domain: binary_sensor
-  action:
-  - type: turn_off
-    device_id: 1449f59bbf302d7e47ef77d6d28eebd0
-    entity_id: light.yeelight_ceiling1_0x0000000003b65236_nightlight
-    domain: light
-  mode: single
 - alias: Notify about HA start
   trigger:
   - platform: homeassistant
@@ -48,19 +29,19 @@
   action:
   - service: switch.turn_on
     target:
-      device_id: e77f19ec9602b41ce41304ad11051043
+      entity_id: switch.sonoff_basic_relay
   mode: single
 - id: '1619595350875'
   alias: Aquarium sunrise
   description: Выключение света в аквариуме после заката
   trigger:
-  - platform: sun
-    event: sunset
+  - platform: time
+    at: '20:00'
   condition: []
   action:
   - service: switch.turn_off
     target:
-      device_id: e77f19ec9602b41ce41304ad11051043
+      entity_id: switch.sonoff_basic_relay
   mode: single
 - id: enable_zigbee_join
   alias: Enable Zigbee joining
@@ -106,7 +87,7 @@
     data:
       entity_id: input_boolean.zigbee_permit_join
 - id: '1622022330383'
-  alias: coridor light on enter Home
+  alias: coridor light on if enter Home
   description: ''
   trigger:
   - type: opened
@@ -122,25 +103,19 @@
     domain: switch
     for:
       hours: 0
-      minutes: 1
-      seconds: 0
+      minutes: 0
+      seconds: 10
       milliseconds: 0
-  - condition: sun
-    after: sunset
-    after_offset: -03:00:00
-  - type: is_no_motion
-    condition: device
-    device_id: c955c695d5ecbef78fe281df518f9b04
-    entity_id: binary_sensor.582d346033de_motion
-    domain: binary_sensor
+  - condition: time
+    after: '18:00'
+    before: '23:00'
   action:
   - service: switch.turn_on
     target:
-      entity_id:
-      - switch.light_switch_coridor
+      entity_id: switch.light_switch_coridor
   mode: single
 - id: '1622479829192'
-  alias: all light off if outside
+  alias: all light off if all outside
   description: ''
   trigger:
   - platform: state
@@ -151,11 +126,18 @@
   action:
   - service: light.turn_off
     target:
-      device_id: 1449f59bbf302d7e47ef77d6d28eebd0
+      entity_id:
+      - light.yeelight_ceiling1_0x3b65236
+      - light.podsvetka_na_kukhne
+      - light.wled1
+      - light.wled2_2
   - service: switch.turn_off
     target:
-      device_id: 2c6c857a29350a2ed0bff864301bd3b3
-      entity_id: switch.pc
+      entity_id:
+      - switch.0xb4e3f9fffe22b03b
+      - switch.light_bedroom
+      - switch.light_switch_coridor
+      - switch.portable_switch
   mode: single
 - id: '1622541626201'
   alias: Vacuum start when all outside
@@ -174,21 +156,8 @@
     entity_id: vacuum.rockrobo_vacuum_v1
     type: clean
   mode: single
-- id: '1623778293726'
-  alias: coridor light off after timer
-  description: ''
-  trigger:
-  - platform: state
-    entity_id: timer.timer_5m
-    to: idle
-  condition: []
-  action:
-  - service: switch.turn_off
-    target:
-      entity_id: switch.light_switch_coridor
-  mode: single
 - id: '1624959859597'
-  alias: TTS-vitaly-leak
+  alias: 'Notify Vitali about leaks '
   description: ''
   trigger:
   - type: moist
@@ -203,8 +172,8 @@
     domain: binary_sensor
   - type: moist
     platform: device
-    device_id: f2c4aabd19e228de5dc64ed9bd2205fd
-    entity_id: binary_sensor.0x00158d0006b2542f_water_leak
+    device_id: 8ec92819bb518bcd539f9623a4a6fe2c
+    entity_id: binary_sensor.0x158d0006b2542f_moisture
     domain: binary_sensor
   condition: []
   action:
@@ -216,6 +185,27 @@
         channel: alarm_stream
         priority: high
         ttl: 0
+  - service: notify.vitaly
+    data:
+      message: 'Внимание! Обнаружена утечка воды! Срочно проверь датчики:
+
+        Ванная {{ states(''binary_sensor.water_leak_bathroom_water_leak'') }}
+
+        {{ (as_timestamp(now()) - as_timestamp(states.sensor[''binary_sensor.water_leak_bathroom_water_leak''].last_changed))
+        | timestamp_custom(''%H:%M:%S'', False) }}
+
+        Кухня {{ states(''binary_sensor.0x158d0006b233e6_moisture'') }}
+
+        {{ (as_timestamp(now()) - as_timestamp(states.sensor[''sensor.0x158d0006b233e6_zigbee''].last_changed))
+        | timestamp_custom(''%H:%M:%S'', False) }}
+
+        Туалет {{ state(''binary_sensor.0x158d0006b25766_moisture'') }}
+
+        {{ (as_timestamp(now()) - as_timestamp(states.sensor[''sensor.0x158d0006b25766_zigbee''].last_changed))
+        | timestamp_custom(''%H:%M:%S'', False) }}
+
+        '
+      title: Внимание!
   mode: single
 - id: '1625651557485'
   alias: TTS-test-inna
@@ -229,77 +219,40 @@
   - service: notify.mobile_app_mi_9t_inna
     data:
       message: TTS
-      title: Внимание! не забудь вытащить ключ из замка
+      title: Внимание! внимание внимание не забудь вытащить ключ из замка
       data:
         channel: alarm_stream
         priority: high
         ttl: 0
   mode: single
-- id: '1626960479062'
-  alias: kitchen backlight double switch
+- id: '1627139676612'
+  alias: coridor light autooff no motion
   description: ''
   trigger:
   - platform: state
-    to: single
-    entity_id: sensor.0x158d0006b878d6_action
-  condition: []
-  action:
-  - service: light.toggle
-    target:
-      entity_id: light.kitchen_backlight
-  mode: single
-- id: '1627139676612'
-  alias: coridor light autooff
-  description: ''
-  trigger:
-  - type: not_opened
-    platform: device
-    device_id: d52731340f0e34a06b143d285c1db990
-    entity_id: binary_sensor.0x158d0003c7a375_contact
-    domain: binary_sensor
-  condition:
-  - condition: device
-    type: is_on
-    device_id: 2c6c857a29350a2ed0bff864301bd3b3
-    entity_id: switch.light_switch_coridor
-    domain: switch
-  - type: is_no_motion
-    condition: device
-    device_id: c955c695d5ecbef78fe281df518f9b04
-    entity_id: binary_sensor.582d346033de_motion
-    domain: binary_sensor
-  action:
-  - service: switch.turn_off
-    target:
-      device_id: 2c6c857a29350a2ed0bff864301bd3b3
-  mode: single
-- id: '1627141499056'
-  alias: coridor light off
-  description: ''
-  trigger:
-  - type: no_motion
-    platform: device
-    device_id: c955c695d5ecbef78fe281df518f9b04
-    entity_id: binary_sensor.582d346033de_motion
-    domain: binary_sensor
     for:
       hours: 0
-      minutes: 0
+      minutes: 1
       seconds: 0
       milliseconds: 0
+    entity_id: binary_sensor.582d346033de_motion
+    to: 'off'
   condition:
   - condition: device
     type: is_on
     device_id: 2c6c857a29350a2ed0bff864301bd3b3
     entity_id: switch.light_switch_coridor
     domain: switch
+  - condition: state
+    entity_id: binary_sensor.582d346033de_motion
+    state: 'off'
   action:
   - service: switch.turn_off
     target:
       entity_id: switch.light_switch_coridor
   mode: single
 - id: '1627323213744'
-  alias: kidd light auto on
+  alias: Dasha's light auto on
   description: ''
   trigger:
   - platform: time
@@ -311,12 +264,17 @@
       entity_id: switch.portable_switch
   mode: single
 - id: '1627323256774'
-  alias: kidd light auto off
+  alias: nightlight Dasha auto off
   description: ''
   trigger:
   - platform: sun
     event: sunrise
-  condition: []
+  condition:
+  - condition: device
+    type: is_on
+    device_id: b37f21c7bd39da57327bd5607dee17fc
+    entity_id: switch.portable_switch
+    domain: switch
   action:
   - service: switch.turn_off
     target:
@@ -338,4 +296,463 @@
   - service: switch.turn_on
     target:
       entity_id: switch.light_switch_coridor
+  mode: single
+- id: '1630401972163'
+  alias: Portable button Alisa (single)
+  description: ''
+  trigger:
+  - platform: event
+    event_type: xiaomi_aqara.click
+    event_data:
+      entity_id: sensor.0x158d0006b878d6_action
+      click_type: single
+  action:
+  - service: light.toggle
+    data: {}
+    target:
+      entity_id: light.podsvetka_na_kukhne
+  mode: single
+- id: '1631424396987'
+  alias: Alisa' nightlight off 2
+  description: ''
+  trigger:
+  - platform: sun
+    event: sunrise
+  condition:
+  - condition: state
+    state: 'on'
+    entity_id: light.yeelight_ceiling1_0x3b65236_nightlight
+  action:
+  - service: light.turn_off
+    target:
+      entity_id: light.yeelight_ceiling1_0x3b65236_nightlight
+  mode: single
+- id: '1632216586065'
+  alias: Portable button Alisa (double)
+  description: ''
+  trigger:
+  - platform: event
+    event_type: xiaomi_aqara.click
+    event_data:
+      entity_id: sensor.0x158d0006b878d6_action
+      click_type: double
+  condition: []
+  action:
+  - service: light.toggle
+    data:
+      brightness_pct: 100
+    target:
+      entity_id: light.yeelight_ceiling1_0x3b65236
+  mode: single
+- id: '1632389824183'
+  alias: Portable button Alisa (press)
+  description: ''
+  trigger:
+  - platform: event
+    event_type: xiaomi_aqara.click
+    event_data:
+      entity_id: sensor.0x158d0006b878d6_action
+      click_type: release
+  condition: []
+  action:
+  - service: switch.toggle
+    target:
+      entity_id: switch.0xb4e3f9fffe22b03b
+  mode: single
+- id: '1633940250632'
+  alias: Notify Vitali about leaks  (Дублировать)
+  description: ''
+  trigger:
+  - type: moist
+    platform: device
+    device_id: a17e530d27fabb3a340cb238881da677
+    entity_id: binary_sensor.0x158d0006b233e6_moisture
+    domain: binary_sensor
+  - type: moist
+    platform: device
+    device_id: 596a682a13f88de21e41632cd588d081
+    entity_id: binary_sensor.0x158d0006b25766_moisture
+    domain: binary_sensor
+  - type: moist
+    platform: device
+    device_id: 8ec92819bb518bcd539f9623a4a6fe2c
+    entity_id: binary_sensor.0x158d0006b2542f_moisture
+    domain: binary_sensor
+  condition: []
+  action:
+  - service: notify.vitaly
+    data:
+      title: Внимание!
+      message: "{% if is_state('binary_sensor.0x158d0006b233e6_moisture', 'on') %}\
+        \ \n  Влажно на кухне!      \n{% else %} \n  На кухне сухо.\n{% endif %}\n\
+        {% if is_state('binary_sensor.0x158d0006b2542f_moisture', 'on') %} \n  Влажно\
+        \ в ванной!      \n{% else %} \n  В ванной сухо.\n{% endif %}\n{% if is_state('binary_sensor.0x158d0006b25766_moisture',\
+        \ 'on') %} \n  Влажно в туалете!      \n{% else %} \n  В туалете сухо.\n{%\
+        \ endif %}\n"
+  - service: notify.mobile_app_mi_note_10_pro
+    data:
+      title: 'Внимание, обнаружена протечка воды! Внимание, обнаружена протечка воды! '
+      data:
+        channel: alarm_stream
+        priority: high
+        ttl: 0
+  mode: single
+- id: '1634551310919'
+  alias: Alisa's Sunrise
+  description: Освещение - Эффект рассвета
+  trigger:
+  - platform: time
+    at: 06:30
+  condition:
+  - condition: time
+    weekday:
+    - mon
+    - tue
+    - wed
+    - thu
+    - fri
+  - condition: and
+    conditions:
+    - condition: sun
+      before: sunrise
+  - condition: state
+    entity_id: group.family
+    state: home
+  action:
+  - service: script.sunrise
+  mode: single
+- id: '1636908847355'
+  alias: Change wled effect
+  description: ''
+  trigger:
+  - platform: state
+    to: 'on'
+    entity_id: binary_sensor.582d346033de_motion
+  condition:
+  - condition: device
+    type: is_on
+    device_id: 669ea66e21027de8b223aa4c4400fc35
+    entity_id: light.wled1
+    domain: light
+  action:
+  - service: script.wled_random_effect
+  mode: single
+- id: '1637002056681'
+  alias: Wled1 autooff
+  description: ''
+  trigger:
+  - platform: time
+    at: 00:00
+  condition:
+  - condition: device
+    type: is_on
+    device_id: 669ea66e21027de8b223aa4c4400fc35
+    entity_id: light.wled1
+    domain: light
+  action:
+  - service: light.turn_off
+    target:
+      entity_id: light.wled1
+  mode: single
+- id: '1637745009884'
+  alias: Я.Алиса1
+  description: ''
+  trigger:
+  - platform: event
+    event_type: telegram_text
+  action:
+  - service: media_player.play_media
+    entity_id: media_player.yandex_station_xk0000000000000130270002a0593d4f
+    data_template:
+      media_content_id: '{{ trigger.event.data.text }}'
+      media_content_type: question:{{ trigger.event.data.chat_id }}
+  mode: single
+- id: '1637745053625'
+  alias: Я.Алиса2
+  description: ''
+  trigger:
+    platform: event
+    event_type: yandex_station_response
+  action:
+    service: telegram_bot.send_message
+    data_template:
+      target: '{{ trigger.event.data.request_id }}'
+      message: '{{ trigger.event.data.text }}'
+  mode: single
+- id: '1637918710844'
+  alias: Проигрывание медиа по ссылкам запрос
+  description: ''
+  trigger:
+    platform: event
+    event_type: telegram_text
+  action:
+    service: media_player.play_media
+    entity_id: media_player.yandex_station_xk0000000000000130270002a0593d4f
+    data_template:
+      media_content_id: '{{ trigger.event.data.text }}'
+      media_content_type: question:{{ trigger.event.data.chat_id }}
+  mode: single
+- id: '1637918790837'
+  alias: Проигрывание медиа по ссылкам ответ
+  description: ''
+  trigger:
+    platform: event
+    event_type: yandex_station_response
+  action:
+    service: telegram_bot.send_message
+    data_template:
+      target: '{{ trigger.event.data.request_id }}'
+      message: '{{ trigger.event.data.text }}'
+  mode: single
+- id: '1638100085862'
+  alias: Change wled2 effect
+  description: ''
+  trigger:
+  - platform: state
+    to: 'on'
+    entity_id: binary_sensor.582d346033de_motion
+  condition:
+  - condition: device
+    type: is_on
+    device_id: 567ee15662c1824dc3c2da602599907c
+    entity_id: light.wled2_2
+    domain: light
+  action:
+  - service: script.1638028346743
+  mode: single
+- id: '1638114732979'
+  alias: 'Кнопка 2 (double) '
+  description: Сменить эффект wled1
+  trigger:
+  - platform: event
+    event_type: xiaomi_aqara.click
+    event_data:
+      entity_id: sensor.0x158d0006b8850d_action
+      click_type: double
+  condition:
+  - condition: state
+    entity_id: light.wled1
+    state: 'on'
+  action:
+  - service: script.1638901280075
+  mode: single
+- id: '1638114794736'
+  alias: Кнопка 2 (single)
+  description: ''
+  trigger:
+  - platform: event
+    event_type: xiaomi_aqara.click
+    event_data:
+      entity_id: sensor.0x158d0006b8850d_action
+      click_type: single
+  condition: []
+  action:
+  - service: light.toggle
+    target:
+      device_id: 669ea66e21027de8b223aa4c4400fc35
+  mode: single
+- id: '1638352084586'
+  alias: Укладываем Дашу
+  description: ''
+  trigger:
+  - platform: event
+    event_type: yandex_speaker
+    event_data:
+      value: Сделай громче на 0
+  condition: []
+  action:
+  - service: script.yandex_tts2
+  mode: single
+- id: '1638708743245'
+  alias: Домофон уведомление о звонке
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.domofon_incoming_call
+    to: 'on'
+  action:
+  - choose:
+    - conditions:
+      - condition: or
+        conditions:
+        - condition: state
+          entity_id: switch.domofon_automatically_open
+          state: 'on'
+        - condition: state
+          entity_id: switch.domofon_automatically_open_once
+          state: 'on'
+      sequence:
+      - service: notify.vitaly
+        data:
+          message: '"Звонок в домофон (откроется автоматически)"'
+      - service: notify.inna
+        data:
+          message: '"Звонок в домофон (откроется автоматически)"'
+    - conditions:
+      - condition: state
+        entity_id: switch.domofon_automatically_reject
+        state: 'on'
+      sequence:
+      - service: notify.vitaly
+        data:
+          message: '"Звонок в домофон (отклонится автоматически)"'
+      - service: notify.inna
+        data:
+          message: '"Звонок в домофон (отклонится автоматически)"'
+    default:
+    - service: notify.vitaly
+      data:
+        message: Звонок в домофон
+        data:
+          inline_keyboard:
+          - '{{ ''Открыть:/domofon_open, Отклонить:/domofon_reject'' }}'
+    - service: notify.inna
+      data:
+        message: Звонок в домофон
+        data:
+          inline_keyboard:
+          - '{{ ''Открыть:/domofon_open, Отклонить:/domofon_reject'' }}'
+  initial_state: true
+- id: '1638709112799'
+  alias: 'Домофон взаимодействие с телеграмом (открыть) '
+  trigger:
+  - platform: event
+    event_type: telegram_callback
+    event_data:
+      data: /domofon_open
+  action:
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: binary_sensor.domofon_incoming_call
+        state: 'on'
+      sequence:
+      - service: telegram_bot.answer_callback_query
+        data_template:
+          callback_query_id: '{{ trigger.event.data.id }}'
+          message: Открываю...
+      - service: switch.turn_on
+        entity_id: switch.domofon_accept_call
+    default:
+    - service: telegram_bot.answer_callback_query
+      data_template:
+        callback_query_id: '{{ trigger.event.data.id }}'
+        message: Нет входящего звонка
+  initial_state: true
+- id: '1638709247938'
+  alias: Домофон взаимодействие с телеграмом (отклонить)
+  trigger:
+  - platform: event
+    event_type: telegram_callback
+    event_data:
+      data: /domofon_reject
+  action:
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: binary_sensor.domofon_incoming_call
+        state: 'on'
+      sequence:
+      - service: telegram_bot.answer_callback_query
+        data_template:
+          callback_query_id: '{{ trigger.event.data.id }}'
+          message: Отклоняю...
+      - service: switch.turn_on
+        entity_id: switch.domofon_reject_call
+    default:
+    - service: telegram_bot.answer_callback_query
+      data_template:
+        callback_query_id: '{{ trigger.event.data.id }}'
+        message: Нет входящего звонка
+  initial_state: true
+- id: '1638709362251'
+  alias: Домофон уведомление об открытии кнопкой
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.domofon_button
+    to: 'on'
+  condition:
+  - condition: state
+    entity_id: binary_sensor.domofon_incoming_call
+    state: 'on'
+  action:
+  - service: notify.vitaly
+    data:
+      message: Домофон открыт кнопкой
+  initial_state: true
+- id: '1638709441017'
+  alias: Домофон отключение звука на ночь
+  trigger:
+  - platform: time
+    at: '23:00:00'
+  - platform: time
+    at: 07:00:00
+  action:
+  - service: "{% if trigger.now.hour == 23 -%}\n  switch.turn_on\n{% elif trigger.now.hour\
+      \ == 7 -%}\n  switch.turn_off\n{% endif %}"
+    data:
+      entity_id: switch.domofon_mute_sound
+- id: '1638709518661'
+  alias: Домофон уведомление в телеграм о потере соединения
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.domofon_status
+  action:
+  - service: notify.vitaly
+    data:
+      message: "*Внимание!*\n{% if trigger.to_state.state == 'off' -%}\n  _Домофон_:\
+        \ потеряно подключение к HA.\n{% elif trigger.to_state.state == 'on' -%}\n\
+        \  _Домофон_: восстановлено подключение к HA\n{% endif %}\n"
+- id: '1638709845013'
+  alias: Домофон вход в зону "ДОМ"
+  trigger:
+  - platform: zone
+    entity_id: person.hass,person.inna,person.alisa
+    zone: zone.domofon
+    event: enter
+  action:
+  - service: switch.turn_on
+    data:
+      entity_id: switch.domofon_automatically_open_once
+  - service: switch.turn_on
+    data:
+      entity_id: switch.domofon_mute_sound_once
+  - service: notify.vitaly
+    data:
+      message: включен режим однократного авто-открытия.
+      title: 'Домофон: '
+  - wait_for_trigger:
+    - platform: state
+      entity_id: binary_sensor.0x158d00031c790f_contact
+      to: 'on'
+    timeout: 00:10:00
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ is_state(''switch.domofon_automatically_open_once'', ''on'')
+          }}'
+      sequence:
+      - service: switch.turn_off
+        data:
+          entity_id: switch.domofon_automatically_open_once
+      - service: switch.turn_off
+        data:
+          entity_id: switch.domofon_mute_sound_once
+      - service: notify.vitaly
+        data:
+          message: отключен режим однократного авто-открытия.
+          title: 'Домофон: '
+- id: '1638870203347'
+  alias: Включение гирлянды в спальне
+  description: ''
+  trigger:
+  - platform: time
+    at: '19:00'
+  condition:
+  - condition: state
+    entity_id: group.family
+    state: home
+  action:
+  - service: light.turn_on
+    target:
+      entity_id: light.wled2_2
   mode: single

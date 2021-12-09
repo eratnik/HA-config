@@ -1,0 +1,38 @@
+db_url: !secret maria_db
+purge_keep_days: 14 #хранение 14 дней
+include:
+  domains:
+    - sensor
+    - switch
+    - shell_command
+    - binary_sensor
+    - input_text
+    - light
+    - script
+    - device_tracker
+    - vacuum.rockrobo_vacuum_v1
+exclude:
+  entities:
+    - sensor.time
+  #   - binary_sensor.28d1272d14e8_motion
+  #   - binary_sensor.582d346033de_motion
+    - sensor.domofon_uptime
+  entity_globs:
+      - 'sensor.*_ble'
+      - 'sensor.*_zigbee'
+      - 'sensor.transmission_*'
+  event_types:
+    - service_removed
+    - service_executed
+    - platform_discovered
+    - homeassistant_start
+    - homeassistant_stop
+    - feedreader
+    - service_registered
+    - call_service
+    - component_loaded
+    - logbook_entry
+    - system_log_event
+    - automation_triggered
+    - script_started
+    - timer_out_of_sync

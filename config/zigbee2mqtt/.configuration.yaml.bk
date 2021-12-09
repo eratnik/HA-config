@@ -15,7 +15,7 @@
     "server": "mqtt://core-mosquitto:1883"
   },
   "serial": {
-    "port": "/dev/ttyACM0"
+    "port": "/dev/ttyUSB1"
   },
   "advanced": {
     "log_level": "warn",
@@ -49,5 +49,6 @@
   "frontend": {
     "port": 8099
   },
-  "experimental": {}
+  "experimental": {},
+  "availability": false
 }

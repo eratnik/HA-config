@@ -10,12 +10,12 @@
   "permit_join": false,
   "mqtt": {
     "base_topic": "zigbee2mqtt",
-    "password": "Ait1bok6Aesoh5shiH5Voa2toht5nae7eechei0kohmiwootheLemiasohreinoh",
     "user": "addons",
+    "password": "Ait1bok6Aesoh5shiH5Voa2toht5nae7eechei0kohmiwootheLemiasohreinoh",
     "server": "mqtt://core-mosquitto:1883"
   },
   "serial": {
-    "port": "/dev/ttyACM0"
+    "port": "/dev/ttyUSB1"
   },
   "advanced": {
     "log_level": "warn",
@@ -49,5 +49,6 @@
   "frontend": {
     "port": 8099
   },
-  "experimental": {}
+  "experimental": {},
+  "availability": false
 }

@@ -20,9 +20,9 @@ config:
       title: "\u0412\u0430\u043D\u043D\u0430\u044F"
       type: entities
     - entities:
-      - entity: binary_sensor.yeelight_ceiling1_0x0000000003b65236_nightlight
-      - entity: light.yeelight_ceiling1_0x0000000003b65236
-      - entity: light.yeelight_ceiling1_0x0000000003b65236_nightlight
+      - entity: light.yeelight_ceiling1_0x3b65236_nightlight
+      - entity: light.yeelight_ceiling1_0x3b65236
+      - entity: switch.0xb4e3f9fffe22b03b
       - entity: sensor.a4c138ebf2e9_humidity
       - entity: sensor.a4c138ebf2e9_temperature
       - entity: sensor.a4c138ebf2e9_ble
@@ -36,23 +36,22 @@ config:
       title: "\u041A\u0443\u0445\u043D\u044F"
       type: entities
     - entities:
-      - sensor.hacs
-      - binary_sensor.giga_online
-      - switch.domofon_restart
-      - switch.domofon_automatically_open
-      - switch.domofon_automatically_open_once
-      - switch.domofon_automatically_reject
-      - switch.domofon_mute_sound
-      - switch.domofon_mute_sound_once
-      - binary_sensor.domofon_incoming_call
-      - binary_sensor.domofon_button
-      - sensor.domofon_heap_size
-      - sensor.domofon_wifi_signal
-      - sensor.domofon_uptime
+      - entity: sensor.hacs
+      - entity: binary_sensor.giga_online
+      - entity: switch.domofon_restart
+      - entity: switch.domofon_automatically_open
+      - entity: switch.domofon_automatically_open_once
+      - entity: switch.domofon_automatically_reject
+      - entity: switch.domofon_mute_sound
+      - entity: switch.domofon_mute_sound_once
+      - entity: binary_sensor.domofon_incoming_call
+      - entity: binary_sensor.domofon_button
+      - entity: sensor.domofon_heap_size
+      - entity: sensor.domofon_uptime
       title: "\u041F\u0440\u0438\u0445\u043E\u0436\u0430\u044F"
       type: entities
     - entities:
-      - entity: vacuum.rockrobo_vacuum_v1
+      - entity: vacuum.rockrobo
       - entity: remote.0x588e81fffef3f096_pair
       - entity: switch.0x588e81fffef3f096_firmware_lock
       - entity: sensor.a4c1388ae7a0_humidity
@@ -74,7 +73,7 @@ config:
       title: "\u0411\u0438\u043D\u0430\u0440\u043D\u044B\u0439 \u0441\u0435\u043D\u0441\
         \u043E\u0440"
       type: entities
-    - entity: media_player.lg_tv
+    - entity: media_player.televizor
       type: media-control
     - entities:
       - entity: person.hass
@@ -124,3 +123,143 @@ config:
       type: entities
     path: default_view
     title: Home
+  - badges: []
+    cards:
+    - cards:
+      - content: '### <center> Gateways </center>'
+        type: markdown
+      - clickable: false
+        columns:
+        - data: friendly_name
+          modify: (x+"").replace(/ Gateway$/,"")
+          name: Friendly Name
+        - data: network_pan_id
+          modify: 'x == "" ? "-" : x+""'
+          name: Network PAN ID
+        - data: radio_tx_power
+          modify: 'isNaN(parseInt(x, 10)) ? "-" : parseInt(x, 10)'
+          name: Radio TX Power
+        - data: radio_channel
+          modify: 'isNaN(parseInt(x, 10)) ? "-" : parseInt(x, 10)'
+          name: Radio Channel
+        - data: free_mem
+          modify: 'isNaN(parseInt(x, 10)) ? "" : parseInt(x, 10)'
+          name: Memory Free (KB)
+        - data: load_avg
+          modify: (x+"").split("|").slice(0, 3).join(", ")
+          name: Load Avg (1m, 5m, 15m)
+        - data: rssi
+          modify: 'isNaN(parseInt(x, 10)) ? "" : parseInt(x, 10)'
+          name: RSSI
+        - data: uptime
+          modify: x+''
+          name: Gateway Uptime
+        - data: state
+          modify: 'var dt = new Date(x); var hrs = parseInt((Date.now()-Date.parse(x))
+            / 3600000); var min = parseInt(((Date.now()-Date.parse(x)) / 60000) %
+            60); var sec = parseInt(((Date.now()-Date.parse(x)) / 1000) % 60); hrs
+            = (hrs < 10) ? "0" + hrs : hrs; min = (min < 10) ? "0" + min : min; sec
+            = (sec < 10) ? "0" + sec : sec; isFinite(dt) ? dt.toLocaleString([''ru-RU'',
+            ''en-US'']) + " (Up: " + hrs + ":" + min + ":" + sec + ")" : ""
+
+            '
+          name: Connected Since
+        css:
+          table+: 'padding-top: 15px;'
+          tbody tr:nth-child(even): 'background-color: #a2542f6;'
+          td.left: 'padding: 10px 10px 10px 10px'
+          th.left: 'padding: 0px 0px 10px 10px'
+        entities:
+          include:
+          - sensor.*_gateway
+        sort_by: friendly_name
+        type: custom:flex-table-card
+      - content: '### <center> ZigBee </center>'
+        type: markdown
+      - clickable: false
+        columns:
+        - data: friendly_name
+          modify: x.replace(/ Zigbee$/,"")
+          name: Friendly Name
+        - data: ieee
+          modify: (x+'').toLowerCase()
+          name: IEEE
+        - data: nwk
+          modify: (x+'').replace(/^0x/,"").toLowerCase()
+          name: NWK
+        - data: parent
+          modify: (x+'').replace(/^0x/,"").toLowerCase()
+          name: Parent
+        - data: type
+          modify: (x+'').replace(/^-$/, "child device")
+          name: Type
+        - data: msg_received
+          modify: 'isNaN(parseInt(x, 10)) ? 0 : parseInt(x, 10)'
+          name: Received
+        - data: msg_missed
+          modify: 'isNaN(parseInt(x, 10)) ? 0 : parseInt(x, 10)'
+          name: Missed (Total)
+        - data: last_missed
+          modify: 'isNaN(parseInt(x, 10)) ? 0 : parseInt(x, 10)'
+          name: Missed (Last)
+        - data: unresponsive
+          modify: 'isNaN(parseInt(x, 10)) ? 0 : parseInt(x, 10)'
+          name: Unresponsive
+        - data: link_quality
+          modify: 'isNaN(parseInt(x, 10)) ? "" : parseInt(x, 10)'
+          name: LQI
+        - data: rssi
+          modify: 'isNaN(parseInt(x, 10)) ? "" : parseInt(x, 10)'
+          name: RSSI
+        - data: last_msg
+          modify: x+''
+          name: Last Message
+        - data: state
+          modify: 'var dt = new Date(0,0,0,0,0,0,(Date.now()-Date.parse(x))); isFinite(dt)
+            ? dt.toTimeString().split(" ")[0] : ""
+
+            '
+          name: Last Seen
+        css:
+          table+: 'padding-top: 15px;'
+          tbody tr:nth-child(even): 'background-color: #a2542f6;'
+          td.left: 'padding: 10px 10px 10px 10px'
+          th.left: 'padding: 0px 0px 10px 10px'
+        entities:
+          include:
+          - sensor.*_zigbee
+        sort_by: ieee
+        type: custom:flex-table-card
+      - content: '### <center> Bluetooth </center>'
+        type: markdown
+      - clickable: false
+        columns:
+        - data: friendly_name
+          modify: x.replace(/ Ble$/,"")
+          name: Friendly Name
+        - data: mac
+          modify: (x+'').replace(/(.{2}(?!$))/g,"$1:")
+          name: MAC
+        - data: msg_received
+          modify: 'isNaN(parseInt(x, 10)) ? "" : parseInt(x, 10)'
+          name: Received
+        - data: state
+          modify: 'var dt = new Date(0,0,0,0,0,0,(Date.now()-Date.parse(x))); isFinite(dt)
+            ? dt.toTimeString().split(" ")[0] : ""
+
+            '
+          name: Last Seen
+        css:
+          table+: 'padding-top: 15px;'
+          tbody tr:nth-child(even): 'background-color: #a2542f6;'
+          td.left: 'padding: 10px 10px 10px 10px'
+          th.left: 'padding: 0px 0px 10px 10px'
+        entities:
+          include:
+          - sensor.*_ble
+        sort_by: mac
+        type: custom:flex-table-card
+      type: vertical-stack
+    path: gw3
+    title: gw3
+    type: panel

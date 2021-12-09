@@ -1,0 +1,8 @@
+error 2021-10-08 10:08:54: Failed to call 'Frontend' 'stop' (TypeError: Cannot read property 'clients' of null
+    at Frontend.stop (/app/lib/extension/frontend.ts:59:39)
+    at Controller.callExtensionMethod (/app/lib/controller.js:427:81)
+    at Controller.stop (/app/lib/controller.js:216:9)
+    at stop (/app/index.js:99:5)
+    at process.handleQuit (/app/index.js:105:9))
+error 2021-10-08 10:08:54: Not connected to MQTT server!
+error 2021-10-08 10:08:54: Cannot send message: topic: 'zigbee2mqtt/bridge/state', payload: 'offline

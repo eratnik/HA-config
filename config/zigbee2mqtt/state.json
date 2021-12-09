@@ -1,19 +1,4 @@
 {
-    "0x00158d0006b2542f": {
-        "voltage": 3075,
-        "battery": 100,
-        "water_leak": false,
-        "tamper": false,
-        "battery_low": false
-    },
-    "0x00124b0022ffca0d": {
-        "pressure": 0,
-        "co2": 2926,
-        "temperature": 0,
-        "humidity": 0,
-        "led_feedback": "ON",
-        "enable_abc": "ON"
-    },
     "0x5c0272fffeedfbe1": {
         "state": "OFF"
     },
@@ -21,10 +6,23 @@
         "state": "OFF",
         "power": 0,
         "current": 0,
-        "voltage": 223,
+        "voltage": 369,
         "power_outage_memory": "restore"
+    },
+    "0x00124b0022ffca0d": {
+        "pressure": 0,
+        "co2": 500,
+        "temperature": 0,
+        "humidity": 0
     },
     "0xb4e3f9fffe22a8b6": {
         "state": "ON"
+    },
+    "0x0c4314fffe62ca51": {
+        "state": "OFF",
+        "power_on_behavior": "previous"
+    },
+    "0xb4e3f9fffe22b03b": {
+        "state": "OFF"
     }
 }

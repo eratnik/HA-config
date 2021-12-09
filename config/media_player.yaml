@@ -1,0 +1,22 @@
+- platform: lg_netcast
+  host: !secret IP_TV
+  access_token: !secret token_lg
+  name: "Телевизор"
+
+- platform: sox
+  name: Vacuum sox
+  host: !secret IP_vacuum
+  port: 7777 # Не обязательно
+  # turn_on_action:
+  #   service: switch.turn_on
+  #   target:
+  #     entity_id: switch.tv_switch
+# Настройка AndroidTV
+- platform: androidtv
+  name: Android TV
+  host: !secret IP_TVBOX_A1
+  adbkey: '/config/.storage/androidtv_adbkey'
+- platform: aimp
+  name: 'АИМП'
+  host: !secret aimp_ip
+  port: 3333

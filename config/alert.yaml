@@ -1,0 +1,44 @@
+#повторяющаяся каждые 5 минут тревога о протечке
+garage_door:
+  name: "Leaks"
+  done_message: "Протечка устранена"
+  entity_id: binary_sensor.0x158d0006b2542f_moisture
+  state: "on"
+  title: "Внимание, обнаружена протечка"
+  message: |
+    {% if is_state('binary_sensor.0x158d0006b233e6_moisture', 'on') %} 
+      Влажно на кухне!      
+    {% else %} 
+      На кухне сухо.
+    {% endif %}
+    {% if is_state('binary_sensor.0x158d0006b2542f_moisture', 'on') %} 
+      Влажно в ванной!      
+    {% else %} 
+      В ванной сухо.
+    {% endif %}
+    {% if is_state('binary_sensor.0x158d0006b25766_moisture', 'on') %} 
+      Влажно в туалете!      
+    {% else %} 
+      В туалете сухо.
+    {% endif %}
+    {% if is_state('binary_sensor.54ef44e637dc_water_leak', 'on') %} 
+      Влажно возле аквариума!      
+    {% else %} 
+      Возле аквариума сухо.
+    {% endif %}
+    
+    {% if is_state('binary_sensor.54ef44e63453_water_leak', 'on') %} 
+      Влажно под холодильником!      
+    {% else %} 
+      Под холодильником сухо.
+    {% endif %}
+    
+  data:
+    inline_keyboard: #кнопка для подтверждения устранения утечки (после нажатия уведомления прекратятся)
+      - 'Подтверждение:/Протечка_устранена'
+  repeat: 5
+  can_acknowledge: true
+  skip_first: false
+  notifiers:
+    - vitaly
+    - inna

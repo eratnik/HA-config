@@ -1,108 +1,318 @@
-clean_bedroom:
-  alias: "Спальня"
+sunrise:
+  alias: Sunrise Effect
   sequence:
-    - service: vacuum.send_command
-      data:
-        entity_id: vacuum.rockrobo_vacuum_v1
-        command: app_zoned_clean
-        params: [[24595,26661,27846,21132,1]]
-clean_kids_room:
-  alias: "Детская"
-  sequence:
-    - service: vacuum.send_command
-      data:
-        entity_id: vacuum.rockrobo_vacuum_v1
-        command: app_zoned_clean
-        params: [[24567,20861,27659,15184,1]]
-clean_kitchen_hall:
-  alias: "Кухня и коридор"
-  sequence:
-    - service: vacuum.send_command
-      data:
-        entity_id: vacuum.rockrobo_vacuum_v1
-        command: app_zoned_clean
-        params: [[21959,26296,24586,20103,1]]
-
-clean_all_room:
-  alias: "Убрать весь дом"
-  sequence:
-    - service: vacuum.send_command
-      data:
-        entity_id: vacuum.rockrobo_vacuum_v1
-        command: app_zoned_clean
-        params: [[24595,26661,27846,21132,1],[24567,20861,27659,15184,1],[21959,26296,24586,20103,1]]
-
-
-#Кнопки для андроид ТВ
-box_home:
-  sequence:
-    - service: androidtv.adb_command
-      data:
-        entity_id: media_player.android_tv # Это имя которое вы указали в настройках медиа плеера  
-        command: HOME
-box_power:
-  sequence:
-    - service: androidtv.adb_command
-      data:
-        entity_id: media_player.android_tv # Это имя которое вы указали в настройках медиа плеера 
-        command: POWER  
-box_sleep:
-  sequence:
-    - service: androidtv.adb_command
-      data:
-        entity_id: media_player.android_tv # Это имя которое вы указали в настройках медиа плеера 
-        command: SLEEP        
-box_up:
-  sequence:
-    - service: androidtv.adb_command
-      data:
-        entity_id: media_player.android_tv # Это имя которое вы указали в настройках медиа плеера 
-        command: UP        
-box_down:
-  sequence:
-    - service: androidtv.adb_command
-      data:
-        entity_id: media_player.android_tv # Это имя которое вы указали в настройках медиа плеера 
-        command: DOWN        
-box_left:
-  sequence:
-    - service: androidtv.adb_command
-      data:
-        entity_id: media_player.android_tv # Это имя которое вы указали в настройках медиа плеера 
-        command: LEFT        
-box_right:
-  sequence:
-    - service: androidtv.adb_command
-      data:
-        entity_id: media_player.android_tv # Это имя которое вы указали в настройках медиа плеера  
-        command: RIGHT        
-box_center:
-  sequence:
-    - service: androidtv.adb_command
-      data:
-        entity_id: media_player.android_tv # Это имя которое вы указали в настройках медиа плеера 
-        command: CENTER       
-box_back:
-  sequence:
-    - service: androidtv.adb_command
-      data:
-        entity_id: media_player.android_tv # Это имя которое вы указали в настройках медиа плеера  
-        command: BACK        
-box_menu:
-  sequence:
-    - service: androidtv.adb_command
-      data:
-        entity_id: media_player.android_tv # Это имя которое вы указали в настройках медиа плеера 
-        command: MENU               
-box_mute:
-  sequence:
-    - service: androidtv.adb_command
-      data:
-        entity_id: media_player.android_tv # Это имя которое вы указали в настройках медиа плеера 
-        command: MUTE               
-kinopoisk: 
-  sequence:
-  - service: androidtv.adb_command
-    entity_id: media_player.android_tv # Это имя которое вы указали в настройках медиа плеера 
+  - service: light.turn_on
     data:
-      command: am start -a android.intent.action.VIEW -d -n ru.kinopoisk.tv/ru.kinopoisk.tv.presentation.splash.SplashActivity
+      brightness: 3
+      kelvin: 1700
+    target:
+      entity_id: light.yeelight_ceiling1_0x3b65236_nightlight
+  - delay: 00:01:00
+  - service: light.turn_on
+    entity_id: light.yeelight_ceiling1_0x3b65236_nightlight
+    data:
+      brightness: 12
+      kelvin: 1800
+  - delay: 00:01:00
+  - service: light.turn_on
+    entity_id: light.yeelight_ceiling1_0x3b65236_nightlight
+    data:
+      brightness: 23
+      kelvin: 1800
+  - delay: 00:01:00
+  - service: light.turn_on
+    entity_id: light.yeelight_ceiling1_0x3b65236_nightlight
+    data:
+      brightness: 46
+      kelvin: 1900
+  - delay: 00:01:00
+  - service: light.turn_on
+    entity_id: light.yeelight_ceiling1_0x3b65236_nightlight
+    data:
+      brightness: 69
+      kelvin: 2000
+  - delay: 00:01:00
+  - service: light.turn_on
+    entity_id: light.yeelight_ceiling1_0x3b65236_nightlight
+    data:
+      brightness: 92
+      kelvin: 2100
+  - delay: 00:01:00
+  - service: light.turn_on
+    entity_id: light.yeelight_ceiling1_0x3b65236_nightlight
+    data:
+      brightness: 115
+      kelvin: 2200
+  - delay: 00:01:00
+  - service: light.turn_on
+    entity_id: light.yeelight_ceiling1_0x3b65236_nightlight
+    data:
+      brightness: 128
+      kelvin: 2300
+  - delay: 00:01:00
+  - service: light.turn_on
+    entity_id: light.yeelight_ceiling1_0x3b65236_nightlight
+    data:
+      brightness: 151
+      kelvin: 2400
+  - delay: 00:01:00
+  - service: light.turn_on
+    entity_id: light.yeelight_ceiling1_0x3b65236_nightlight
+    data:
+      brightness: 174
+      kelvin: 2500
+  - delay: 00:01:00
+  - service: light.turn_on
+    entity_id: light.yeelight_ceiling1_0x3b65236_nightlight
+    data:
+      brightness: 197
+      kelvin: 2600
+  - delay: 00:01:00
+  - service: light.turn_on
+    entity_id: light.yeelight_ceiling1_0x3b65236_nightlight
+    data:
+      brightness: 220
+      kelvin: 2700
+  - delay: 00:01:00
+  - service: light.turn_on
+    entity_id: light.yeelight_ceiling1_0x3b65236_nightlight
+    data:
+      brightness: 255
+      kelvin: 2700
+  - service: light.turn_on
+    entity_id: light.yeelight_ceiling1_0x3b65236
+    data:
+      brightness: 1
+      kelvin: 1700
+  - delay: 00:01:00
+  - service: light.turn_on
+    entity_id: light.yeelight_ceiling1_0x3b65236
+    data:
+      brightness: 23
+      kelvin: 1800
+  - delay: 00:01:00
+  - service: light.turn_on
+    entity_id: light.yeelight_ceiling1_0x3b65236
+    data:
+      brightness: 46
+      kelvin: 1900
+  - delay: 00:01:00
+  - service: light.turn_on
+    entity_id: light.yeelight_ceiling1_0x3b65236
+    data:
+      brightness: 69
+      kelvin: 2000
+  - delay: 00:01:00
+  - service: light.turn_on
+    entity_id: light.yeelight_ceiling1_0x3b65236
+    data:
+      brightness: 92
+      kelvin: 2100
+  - delay: 00:01:00
+  - service: light.turn_on
+    entity_id: light.yeelight_ceiling1_0x3b65236
+    data:
+      brightness: 115
+      kelvin: 2200
+  - delay: 00:01:00
+  - service: light.turn_on
+    entity_id: light.yeelight_ceiling1_0x3b65236
+    data:
+      brightness: 128
+      kelvin: 2300
+  - delay: 00:01:00
+  - service: light.turn_on
+    entity_id: light.yeelight_ceiling1_0x3b65236
+    data:
+      brightness: 151
+      kelvin: 2400
+  - delay: 00:01:00
+  - service: light.turn_on
+    entity_id: light.yeelight_ceiling1_0x3b65236
+    data:
+      brightness: 174
+      kelvin: 2500
+  - delay: 00:01:00
+  - service: light.turn_on
+    entity_id: light.yeelight_ceiling1_0x3b65236
+    data:
+      brightness: 197
+      kelvin: 2600
+  - delay: 00:01:00
+  - service: light.turn_on
+    entity_id: light.yeelight_ceiling1_0x3b65236
+    data:
+      brightness: 220
+      kelvin: 2700
+  - delay: 00:01:00
+  - service: light.turn_on
+    entity_id: light.yeelight_ceiling1_0x3b65236
+    data:
+      brightness: 255
+      kelvin: 2700
+  mode: single
+  icon: mdi:weather-sunset-up
+wled_random_effect:
+  alias: Эффект гирлянды в детской
+  sequence:
+  - repeat:
+      count: '100'
+      sequence:
+      - service: wled.effect
+        target:
+          entity_id: light.wled1
+        data:
+          effect: '{{ state_attr(''light.wled1'', ''effect_list'') | random }}'
+          palette: '{{ range(0,55) | random }}'
+          speed: '{{ (range(0, 255)|random) }}'
+          intensity: '{{ (range(0, 255)|random) }}'
+      - delay:
+          hours: 0
+          minutes: 3
+          seconds: 0
+          milliseconds: 0
+  mode: single
+  icon: phu:christmas-tree-v2
+update_shopping_list:
+  alias: Обновить список покупок
+  sequence:
+  - service: media_player.play_media
+    entity_id: media_player.yandex_station_xk0000000000000130270002a0593d4f
+    data:
+      media_content_id: update
+      media_content_type: shopping_list
+'1638028346743':
+  alias: Эффект гирлянды в спальне
+  sequence:
+  - repeat:
+      count: '300'
+      sequence:
+      - service: wled.effect
+        target:
+          entity_id: light.wled2_2
+        data:
+          effect: '{{ state_attr(''light.wled2_2'', ''effect_list'') | random }}'
+          palette: '{{ range(0,55) | random }}'
+          speed: '{{ (range(0, 255)|random) }}'
+          intensity: '{{ (range(0, 255)|random) }}'
+      - delay:
+          hours: 0
+          minutes: 3
+          seconds: 0
+          milliseconds: 0
+  mode: single
+  icon: phu:christmas-tree-v2
+yandex_volume_set:
+  alias: Меняем громкость Яндекс станцииций
+  sequence:
+  - service: media_player.volume_set
+    data:
+      volume_level: 0.21
+    target:
+      entity_id:
+      - media_player.yandex_station_xk0000000000000130270002a0593d4f
+  mode: single
+yandex_play_album:
+  alias: Включить альбом тест
+  sequence:
+  - service: media_player.play_media
+    data:
+      media_content_id: '12979729'
+      media_content_type: album
+    target:
+      entity_id: media_player.yandex_station_xk0000000000000130270002a0593d4f
+  mode: single
+yandex_tts2:
+  alias: Запуск колыбельной
+  sequence:
+  - service: media_player.play_media
+    data:
+      media_content_id: https://music.yandex.ru/users/v.kamarouski/playlists/1100
+      media_content_type: playlist
+    target:
+      entity_id: media_player.yandex_station_xk0000000000000130270002a0593d4f
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 3
+      milliseconds: 0
+  - service: media_player.volume_set
+    data:
+      volume_level: 0.16
+    target:
+      entity_id: media_player.yandex_station_xk0000000000000130270002a0593d4f
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: switch.light_bedroom
+        state: 'on'
+      sequence:
+      - service: switch.turn_off
+        target:
+          entity_id: switch.light_bedroom
+    default: []
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: media_player.televizor
+        state: playing
+      sequence:
+      - service: media_player.turn_off
+        target:
+          entity_id: media_player.televizor
+    default: []
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: light.wled2_2
+        state: 'on'
+      sequence:
+      - service: light.turn_off
+        target:
+          entity_id: light.wled2_2
+    default: []
+  mode: single
+  icon: mdi:baby-carriage
+'1638473298486':
+  alias: Новый скрипт
+  sequence:
+  - condition: state
+    entity_id: media_player.televizor
+    state: playing
+  - service: media_player.turn_off
+    target:
+      entity_id: media_player.televizor
+  mode: single
+'1638645965421':
+  sequence:
+  - service: media_player.play_media
+    target:
+      entity_id: media_player.yandex_station_xk0000000000000130270002a0593d4f
+    data:
+      media_content_type: dialog
+      media_content_id: погода на завтра
+  mode: single
+  alias: test
+'1638901280075':
+  alias: Смена эффекта гирлянды в детской вручную
+  sequence:
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: script.wled_random_effect
+        state: 'on'
+      sequence:
+      - service: script.turn_off
+        target:
+          entity_id: script.wled_random_effect
+    default:
+    - service: wled.effect
+      target:
+        entity_id: light.wled1
+      data:
+        effect: '{{ state_attr(''light.wled1'', ''effect_list'') | random }}'
+        palette: '{{ range(0,55) | random }}'
+        speed: '{{ (range(0, 255)|random) }}'
+        intensity: '{{ (range(0, 255)|random) }}'
+  mode: single
+  icon: mdi:hexagram-outline
