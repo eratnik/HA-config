@@ -1,10 +1,44 @@
-# use_include_order: true
-# include:
-#   domains:
-#     - sensor
-#     - light
-#     - binary_sensor
-#     - person
-# # exclude:
-# #   entities:  
-# #     - binary_sensor.door_window_sensor_158d00010f7b59
+use_include_order: true
+include:
+  domains:
+    - sensor
+    - switch
+    - shell_command
+    - binary_sensor
+    - input_text
+    - light
+    - script
+    - device_tracker
+    - media_player
+  entities:
+    - vacuum.rockrobo
+    - sensor.hass_db_size
+    - number.co2_airsensor_threshold2
+
+exclude:
+  entities:
+    - sensor.time
+    - device_tracker.14_4f_d7_41_75_48
+    - device_tracker.56_e4_5e_a1_6c_19
+    - device_tracker.5c_cf_7f_19_fe_54
+    - device_tracker.74_51_ba_67_99_d9
+    - device_tracker.lg_tv_lan
+    - device_tracker.libreelec
+    - device_tracker.liustra_alisy
+    - device_tracker.pc
+    - device_tracker.tv
+    - sensor.virtual_device_tracker_inna_poco
+    - sensor.virtual_device_tracker_mi_note_10_pro
+    - device_tracker.d_link
+    - sensor.rockrobo_map
+    - sensor.domofon_heap_size
+    - sensor.hacs
+    - sensor.portable_switch_voltage
+  entity_globs:
+      - sensor.*_ble
+      - sensor.*_zigbee
+      - sensor.transmission_*
+      - sensor.*_rssi
+      - sensor.*_linkquality
+      - sensor.*_uptime
+      - sensor.*_wifi_signal

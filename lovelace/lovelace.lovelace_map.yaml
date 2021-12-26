@@ -121,6 +121,8 @@ config:
       - sensor.portable_switch_linkquality
       - sensor.portable_switch_voltage
       type: entities
+    - area: spalnia
+      type: area
     path: default_view
     title: Home
   - badges: []

@@ -1,5 +1,5 @@
 #повторяющаяся каждые 5 минут тревога о протечке
-garage_door:
+water_leak:
   name: "Leaks"
   done_message: "Протечка устранена"
   entity_id: binary_sensor.0x158d0006b2542f_moisture
@@ -32,13 +32,28 @@ garage_door:
     {% else %} 
       Под холодильником сухо.
     {% endif %}
-    
   data:
     inline_keyboard: #кнопка для подтверждения устранения утечки (после нажатия уведомления прекратятся)
       - 'Подтверждение:/Протечка_устранена'
-  repeat: 5
+  repeat: 5 #время в минутах, через которое происходят повторы
   can_acknowledge: true
   skip_first: false
   notifiers:
     - vitaly
     - inna
+
+open_door:
+  name: "Door is open"
+  done_message: "Дверь закрыта"
+  entity_id: binary_sensor.0x158d0003c7a375_contact
+  state: "on"
+  title: "Внимание!"
+  message: "Дверь осталась открытой, закройте дверь"
+  data:
+    inline_keyboard: #кнопка для подтверждения закрытия двери (после нажатия уведомления прекратятся)
+      - 'Подтверждение:/Дверь_закрыта'
+  repeat: 5
+  can_acknowledge: true
+  skip_first: true
+  notifiers:
+    - vitaly

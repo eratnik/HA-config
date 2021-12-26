@@ -156,16 +156,29 @@ wled_random_effect:
   alias: Эффект гирлянды в детской
   sequence:
   - repeat:
-      count: '100'
+      count: '300'
       sequence:
-      - service: wled.effect
+      - service: light.turn_on
         target:
           entity_id: light.wled1
         data:
           effect: '{{ state_attr(''light.wled1'', ''effect_list'') | random }}'
-          palette: '{{ range(0,55) | random }}'
-          speed: '{{ (range(0, 255)|random) }}'
-          intensity: '{{ (range(0, 255)|random) }}'
+      - service: select.select_option
+        target:
+          entity_id: select.wled1_color_palette
+        data:
+          option: '{{ state_attr(''select.wled1_color_palette'', ''options'') | random
+            }}'
+      - service: number.set_value
+        target:
+          entity_id: number.wled1_speed
+        data:
+          value: '{{ (range(0, 255)|random) }}'
+      - service: number.set_value
+        target:
+          entity_id: number.wled1_intensity
+        data:
+          value: '{{ (range(0, 255)|random) }}'
       - delay:
           hours: 0
           minutes: 3
@@ -187,14 +200,27 @@ update_shopping_list:
   - repeat:
       count: '300'
       sequence:
-      - service: wled.effect
+      - service: light.turn_on
         target:
-          entity_id: light.wled2_2
+          entity_id: light.wled
         data:
-          effect: '{{ state_attr(''light.wled2_2'', ''effect_list'') | random }}'
-          palette: '{{ range(0,55) | random }}'
-          speed: '{{ (range(0, 255)|random) }}'
-          intensity: '{{ (range(0, 255)|random) }}'
+          effect: '{{ state_attr(''light.wled'', ''effect_list'') | random }}'
+      - service: select.select_option
+        target:
+          entity_id: select.wled_color_palette
+        data:
+          option: '{{ state_attr(''select.wled_color_palette'', ''options'') | random
+            }}'
+      - service: number.set_value
+        target:
+          entity_id: number.wled_speed
+        data:
+          value: '{{ (range(0, 255)|random) }}'
+      - service: number.set_value
+        target:
+          entity_id: number.wled_intensity
+        data:
+          value: '{{ (range(0, 255)|random) }}'
       - delay:
           hours: 0
           minutes: 3
@@ -226,15 +252,15 @@ yandex_tts2:
   alias: Запуск колыбельной
   sequence:
   - service: media_player.play_media
+    target:
+      entity_id: media_player.yandex_station_xk0000000000000130270002a0593d4f
     data:
       media_content_id: https://music.yandex.ru/users/v.kamarouski/playlists/1100
       media_content_type: playlist
-    target:
-      entity_id: media_player.yandex_station_xk0000000000000130270002a0593d4f
   - delay:
       hours: 0
       minutes: 0
-      seconds: 3
+      seconds: 2
       milliseconds: 0
   - service: media_player.volume_set
     data:
@@ -264,25 +290,55 @@ yandex_tts2:
   - choose:
     - conditions:
       - condition: state
-        entity_id: light.wled2_2
+        entity_id: light.wled
         state: 'on'
       sequence:
       - service: light.turn_off
         target:
-          entity_id: light.wled2_2
+          entity_id: light.wled
+    default: []
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: script.1638028346743
+        state: 'on'
+      sequence:
+      - service: script.turn_off
+        target:
+          entity_id: script.1638028346743
+    default: []
+  - choose:
+    - conditions:
+      - condition: state
+        state: 'off'
+        entity_id: switch.portable_switch
+      - condition: sun
+        after: sunset
+      sequence:
+      - service: switch.turn_on
+        target:
+          entity_id: switch.portable_switch
+    default: []
+  - delay:
+      hours: 1
+      minutes: 32
+      seconds: 0
+      milliseconds: 0
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: media_player.yandex_station_xk0000000000000130270002a0593d4f
+        state: playing
+      sequence:
+      - service: media_player.play_media
+        data:
+          media_content_id: https://music.yandex.ru/users/v.kamarouski/playlists/1100
+          media_content_type: playlist
+        target:
+          entity_id: media_player.yandex_station_xk0000000000000130270002a0593d4f
     default: []
   mode: single
   icon: mdi:baby-carriage
-'1638473298486':
-  alias: Новый скрипт
-  sequence:
-  - condition: state
-    entity_id: media_player.televizor
-    state: playing
-  - service: media_player.turn_off
-    target:
-      entity_id: media_player.televizor
-  mode: single
 '1638645965421':
   sequence:
   - service: media_player.play_media
@@ -306,13 +362,46 @@ yandex_tts2:
         target:
           entity_id: script.wled_random_effect
     default:
-    - service: wled.effect
+    - service: light.turn_on
       target:
         entity_id: light.wled1
       data:
         effect: '{{ state_attr(''light.wled1'', ''effect_list'') | random }}'
-        palette: '{{ range(0,55) | random }}'
-        speed: '{{ (range(0, 255)|random) }}'
-        intensity: '{{ (range(0, 255)|random) }}'
+    - service: select.select_option
+      target:
+        entity_id: select.wled1_color_palette
+      data:
+        option: '{{ state_attr(''select.wled1_color_palette'', ''options'') | random
+          }}'
+    - service: number.set_value
+      target:
+        entity_id: number.wled1_speed
+      data:
+        value: '{{ (range(0, 255)|random) }}'
+    - service: number.set_value
+      target:
+        entity_id: number.wled1_intensity
+      data:
+        value: '{{ (range(0, 255)|random) }}'
   mode: single
-  icon: mdi:hexagram-outline
+  icon: phu:christmas-lights
+'1639129755202':
+  alias: Звонок на станцию
+  sequence:
+  - service: media_player.volume_set
+    data:
+      volume_level: 0
+    entity_id: media_player.yandex_station_xk0000000000000130270002a0593d4f
+  - delay: 00:00:05
+  - service: media_player.play_media
+    data:
+      media_content_id: Сними трубку
+      media_content_type: command
+    entity_id: media_player.yandex_station_xk0000000000000130270002a0593d4f
+  - delay: 00:00:01
+  - service: media_player.volume_set
+    data:
+      volume_level: 0.5
+    entity_id: media_player.yandex_station_xk0000000000000130270002a0593d4f
+  mode: single
+  icon: mdi:phone-classic

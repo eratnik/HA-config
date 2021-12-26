@@ -56,6 +56,8 @@
       payload: 'true'
   - service: timer.start
     data:
+      duration: '0'
+    target:
       entity_id: timer.zigbee_permit_join
 - id: disable_zigbee_join
   alias: Disable Zigbee joining
@@ -151,61 +153,10 @@
   - condition: time
     after: '10:00'
   action:
-  - device_id: 9c1bd5af0ba1ceda52757af16002a792
+  - device_id: e266a31e24efe77298d2d10bc5eb2f5a
     domain: vacuum
-    entity_id: vacuum.rockrobo_vacuum_v1
+    entity_id: vacuum.rockrobo
     type: clean
-  mode: single
-- id: '1624959859597'
-  alias: 'Notify Vitali about leaks '
-  description: ''
-  trigger:
-  - type: moist
-    platform: device
-    device_id: a17e530d27fabb3a340cb238881da677
-    entity_id: binary_sensor.0x158d0006b233e6_moisture
-    domain: binary_sensor
-  - type: moist
-    platform: device
-    device_id: 596a682a13f88de21e41632cd588d081
-    entity_id: binary_sensor.0x158d0006b25766_moisture
-    domain: binary_sensor
-  - type: moist
-    platform: device
-    device_id: 8ec92819bb518bcd539f9623a4a6fe2c
-    entity_id: binary_sensor.0x158d0006b2542f_moisture
-    domain: binary_sensor
-  condition: []
-  action:
-  - service: notify.mobile_app_mi_note_10_pro
-    data:
-      message: TTS
-      title: 'Внимание, обнаружена протечка воды! Внимание, обнаружена протечка воды! '
-      data:
-        channel: alarm_stream
-        priority: high
-        ttl: 0
-  - service: notify.vitaly
-    data:
-      message: 'Внимание! Обнаружена утечка воды! Срочно проверь датчики:
-
-        Ванная {{ states(''binary_sensor.water_leak_bathroom_water_leak'') }}
-
-        {{ (as_timestamp(now()) - as_timestamp(states.sensor[''binary_sensor.water_leak_bathroom_water_leak''].last_changed))
-        | timestamp_custom(''%H:%M:%S'', False) }}
-
-        Кухня {{ states(''binary_sensor.0x158d0006b233e6_moisture'') }}
-
-        {{ (as_timestamp(now()) - as_timestamp(states.sensor[''sensor.0x158d0006b233e6_zigbee''].last_changed))
-        | timestamp_custom(''%H:%M:%S'', False) }}
-
-        Туалет {{ state(''binary_sensor.0x158d0006b25766_moisture'') }}
-
-        {{ (as_timestamp(now()) - as_timestamp(states.sensor[''sensor.0x158d0006b25766_zigbee''].last_changed))
-        | timestamp_custom(''%H:%M:%S'', False) }}
-
-        '
-      title: Внимание!
   mode: single
 - id: '1625651557485'
   alias: TTS-test-inna
@@ -298,8 +249,8 @@
       entity_id: switch.light_switch_coridor
   mode: single
 - id: '1630401972163'
-  alias: Portable button Alisa (single)
-  description: ''
+  alias: Кнопка 1 (single)
+  description: Переключить свет над столом в детской
   trigger:
   - platform: event
     event_type: xiaomi_aqara.click
@@ -307,10 +258,9 @@
       entity_id: sensor.0x158d0006b878d6_action
       click_type: single
   action:
-  - service: light.toggle
-    data: {}
+  - service: switch.toggle
     target:
-      entity_id: light.podsvetka_na_kukhne
+      entity_id: switch.0xa4c138e4b3264045_l2
   mode: single
 - id: '1631424396987'
   alias: Alisa' nightlight off 2
@@ -328,8 +278,8 @@
       entity_id: light.yeelight_ceiling1_0x3b65236_nightlight
   mode: single
 - id: '1632216586065'
-  alias: Portable button Alisa (double)
-  description: ''
+  alias: Кнопка 1 (double)
+  description: Переключение света над кроватью
   trigger:
   - platform: event
     event_type: xiaomi_aqara.click
@@ -338,15 +288,13 @@
       click_type: double
   condition: []
   action:
-  - service: light.toggle
-    data:
-      brightness_pct: 100
+  - service: switch.toggle
     target:
-      entity_id: light.yeelight_ceiling1_0x3b65236
+      entity_id: switch.0xa4c138e4b3264045_l1
   mode: single
 - id: '1632389824183'
-  alias: Portable button Alisa (press)
-  description: ''
+  alias: Кнопка 1 (press)
+  description: Переключение люстры в детской
   trigger:
   - platform: event
     event_type: xiaomi_aqara.click
@@ -355,9 +303,11 @@
       click_type: release
   condition: []
   action:
-  - service: switch.toggle
+  - service: light.toggle
+    data:
+      brightness_pct: 100
     target:
-      entity_id: switch.0xb4e3f9fffe22b03b
+      entity_id: light.yeelight_ceiling1_0x3b65236
   mode: single
 - id: '1633940250632'
   alias: Notify Vitali about leaks  (Дублировать)
@@ -421,22 +371,6 @@
   action:
   - service: script.sunrise
   mode: single
-- id: '1636908847355'
-  alias: Change wled effect
-  description: ''
-  trigger:
-  - platform: state
-    to: 'on'
-    entity_id: binary_sensor.582d346033de_motion
-  condition:
-  - condition: device
-    type: is_on
-    device_id: 669ea66e21027de8b223aa4c4400fc35
-    entity_id: light.wled1
-    domain: light
-  action:
-  - service: script.wled_random_effect
-  mode: single
 - id: '1637002056681'
   alias: Wled1 autooff
   description: ''
@@ -444,11 +378,9 @@
   - platform: time
     at: 00:00
   condition:
-  - condition: device
-    type: is_on
-    device_id: 669ea66e21027de8b223aa4c4400fc35
+  - condition: state
     entity_id: light.wled1
-    domain: light
+    state: 'on'
   action:
   - service: light.turn_off
     target:
@@ -479,47 +411,6 @@
       target: '{{ trigger.event.data.request_id }}'
       message: '{{ trigger.event.data.text }}'
   mode: single
-- id: '1637918710844'
-  alias: Проигрывание медиа по ссылкам запрос
-  description: ''
-  trigger:
-    platform: event
-    event_type: telegram_text
-  action:
-    service: media_player.play_media
-    entity_id: media_player.yandex_station_xk0000000000000130270002a0593d4f
-    data_template:
-      media_content_id: '{{ trigger.event.data.text }}'
-      media_content_type: question:{{ trigger.event.data.chat_id }}
-  mode: single
-- id: '1637918790837'
-  alias: Проигрывание медиа по ссылкам ответ
-  description: ''
-  trigger:
-    platform: event
-    event_type: yandex_station_response
-  action:
-    service: telegram_bot.send_message
-    data_template:
-      target: '{{ trigger.event.data.request_id }}'
-      message: '{{ trigger.event.data.text }}'
-  mode: single
-- id: '1638100085862'
-  alias: Change wled2 effect
-  description: ''
-  trigger:
-  - platform: state
-    to: 'on'
-    entity_id: binary_sensor.582d346033de_motion
-  condition:
-  - condition: device
-    type: is_on
-    device_id: 567ee15662c1824dc3c2da602599907c
-    entity_id: light.wled2_2
-    domain: light
-  action:
-  - service: script.1638028346743
-  mode: single
 - id: '1638114732979'
   alias: 'Кнопка 2 (double) '
   description: Сменить эффект wled1
@@ -538,7 +429,7 @@
   mode: single
 - id: '1638114794736'
   alias: Кнопка 2 (single)
-  description: ''
+  description: Включение подсветки на кухне
   trigger:
   - platform: event
     event_type: xiaomi_aqara.click
@@ -548,8 +439,9 @@
   condition: []
   action:
   - service: light.toggle
+    data: {}
     target:
-      device_id: 669ea66e21027de8b223aa4c4400fc35
+      entity_id: light.podsvetka_na_kukhne
   mode: single
 - id: '1638352084586'
   alias: Укладываем Дашу
@@ -752,7 +644,22 @@
     entity_id: group.family
     state: home
   action:
-  - service: light.turn_on
+  - service: script.turn_on
     target:
-      entity_id: light.wled2_2
+      entity_id: script.1638028346743
+  mode: single
+- id: '1640166940525'
+  alias: Кнопка 2 (press)
+  description: Переключение люстры в детской
+  trigger:
+  - platform: event
+    event_type: xiaomi_aqara.click
+    event_data:
+      entity_id: sensor.0x158d0006b8850d_action
+      click_type: release
+  condition: []
+  action:
+  - service: light.toggle
+    target:
+      entity_id: light.wled1
   mode: single

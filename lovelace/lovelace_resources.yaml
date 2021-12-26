@@ -7,13 +7,13 @@ items:
   url: /hacsfiles/lovelace-battery-entity-row/battery-entity-row.js
 - id: f02655c9511648de804be817065a2c86
   type: module
-  url: /hacsfiles/vacuum-card/vacuum-card.js?hacstag=261291295223
+  url: /hacsfiles/vacuum-card/vacuum-card.js?hacstag=261291295225
 - id: 8850e0a262a2461994159d8e887d1d42
   type: module
   url: /hacsfiles/mini-media-player/mini-media-player-bundle.js?hacstag=1485208381150
 - id: 4c7cb3bb1a3c4a5c98155a6b8dfb427e
   type: module
-  url: /hacsfiles/custom-brand-icons/custom-brand-icons.js?hacstag=3668620311044
+  url: /hacsfiles/custom-brand-icons/custom-brand-icons.js?hacstag=3668620311046
 - id: 4531a4e179704affbc4c32217724169a
   type: module
   url: /hacsfiles/lovelace-valetudo-map-card/valetudo-map-card.js?hacstag=20303610820211205
@@ -22,7 +22,7 @@ items:
   url: /hacsfiles/home-assistant-sun-card/home-assistant-sun-card.js
 - id: c3b052386ce54af6a5987be604b838ee
   type: module
-  url: /hacsfiles/hass-hue-icons/hass-hue-icons.js?hacstag=3844345221115
+  url: /hacsfiles/hass-hue-icons/hass-hue-icons.js?hacstag=3844345221117
 - id: 4e1590243b414e10ad566371414ee40b
   type: module
   url: /hacsfiles/flex-table-card/flex-table-card.js?hacstag=1562920589320251
@@ -31,7 +31,7 @@ items:
   url: /hacsfiles/lovelace-auto-entities/auto-entities.js?hacstag=167744584191
 - id: 7b2bb0de61034b47939ca583859ae1a8
   type: module
-  url: /hacsfiles/battery-state-card/battery-state-card.js?hacstag=256292682164
+  url: /hacsfiles/battery-state-card/battery-state-card.js?hacstag=256292682202
 - id: 357a450923fb4902a8dd8fc60874192b
   type: module
   url: /hacsfiles/button-card/button-card.js?hacstag=146194325342

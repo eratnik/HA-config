@@ -10,17 +10,23 @@ include:
     - light
     - script
     - device_tracker
-    - vacuum.rockrobo_vacuum_v1
+    - media_player
+  entities:
+    - vacuum.rockrobo
+    - sensor.hass_db_size
+    - number.co2_airsensor_threshold2
 exclude:
   entities:
     - sensor.time
   #   - binary_sensor.28d1272d14e8_motion
   #   - binary_sensor.582d346033de_motion
     - sensor.domofon_uptime
+    - sensor.rockrobo_map
   entity_globs:
-      - 'sensor.*_ble'
-      - 'sensor.*_zigbee'
-      - 'sensor.transmission_*'
+      - sensor.*_ble
+      - sensor.*_zigbee
+      - sensor.transmission_*
+      - sensor.*_rssi
   event_types:
     - service_removed
     - service_executed

@@ -233,23 +233,29 @@ config:
         name: "\u0412\u0435\u043D\u0442\u0438\u043B\u044F\u0446\u0438\u044F \u0432\
           \ \u0432\u0430\u043D\u043D\u043E\u0439"
         type: light
+      - entity: switch.0xa4c138e4b3264045_l2
+        icon: mdi:chair-school
+        name: "\u0421\u0432\u0435\u0442 \u043D\u0430\u0434 \u0441\u0442\u043E\u043B\
+          \u043E\u043C"
+        tap_action:
+          action: toggle
+        type: button
+      - entity: switch.0xa4c138e4b3264045_l1
+        icon: mdi:bed
+        tap_action:
+          action: toggle
+        type: button
       - entity: light.wled1
         icon: phu:light-string
-        name: WLED1
+        name: "\u0413\u0438\u0440\u043B\u044F\u043D\u0434\u0430 \u0432 \u0434\u0435\
+          \u0442\u0441\u043A\u043E\u0439"
         show_icon: true
         show_name: true
         show_state: false
         tap_action:
           action: toggle
         type: button
-      - entity: switch.0xb4e3f9fffe22b03b
-        icon: mdi:lightbulb-spot
-        name: "\u0422\u043E\u0447\u0435\u0447\u043D\u044B\u0435 \u0441\u0432\u0435\
-          \u0442\u0438\u043B\u044C\u043D\u0438\u043A\u0438"
-        tap_action:
-          action: toggle
-        type: button
-      - entity: light.wled2_2
+      - entity: light.wled
         icon: phu:christmas-tree
         tap_action:
           action: toggle
@@ -269,27 +275,29 @@ config:
       - entity: number.wled1_speed
         name: Speed
       - entity: light.wled1
-      - entity: sensor.wled1_wi_fi_rssi
-      - entity: sensor.wled1_uptime
       - entity: script.wled_random_effect
       - entity: switch.wled1_sync_receive
       - entity: switch.wled1_sync_send
-      title: WLED 1
+      state_color: true
+      title: "\u0413\u0438\u0440\u043B\u044F\u043D\u0434\u0430 \u0432 \u0434\u0435\
+        \u0442\u0441\u043A\u043E\u0439"
       type: entities
     - entities:
-      - entity: select.wled2_color_palette_2
+      - entity: select.wled_color_palette
         name: Color Palette
-      - entity: number.wled2_intensity_2
+      - entity: number.wled_intensity
         name: Intensity
-      - entity: switch.wled2_nightlight_2
+      - entity: switch.wled_nightlight
         name: Nightlight
-      - entity: number.wled2_speed_2
+      - entity: number.wled_speed
         name: Speed
-      - entity: light.wled2_2
+      - entity: light.wled
       - entity: script.1638028346743
-      - entity: switch.wled2_sync_receive_2
-      - entity: switch.wled2_sync_send_2
-      title: WLED 2
+      - entity: switch.wled_sync_receive
+      - entity: switch.wled_sync_send
+      state_color: true
+      title: "\u0413\u0438\u0440\u043B\u044F\u043D\u0434\u0430 \u0432 \u0441\u043F\
+        \u0430\u043B\u044C\u043D\u0435"
       type: entities
     icon: mdi:lamps
     title: "\u041E\u0441\u0432\u0435\u0449\u0435\u043D\u0438\u0435"
@@ -651,6 +659,9 @@ config:
           type: command
         columns: 6
       sound_mode: icon
+      tap_action:
+        action: url
+        url: ya-search-app-open://path?uri=messenger://call/create/private?device_id=XK0000000000000130270002a0593d4f
       tts:
         platform: yandex_station
       type: custom:mini-media-player
@@ -768,6 +779,14 @@ config:
           tap_action:
             action: toggle
           type: button
+        - icon: mdi:phone-classic
+          tap_action:
+            action: url
+            url_path: '[[[ hass.callService("script", "1639129755202"); return "ya-search-app-open://path?uri=messenger://call/create/private?device_id=XK0000000000000130270002a0593d4f"
+              ]]]
+
+              '
+          type: custom:button-card
         columns: 4
         square: true
         title: "\u0418\u043D\u0444\u043E\u0440\u043C\u0430\u0446\u0438\u044F \u043E\
