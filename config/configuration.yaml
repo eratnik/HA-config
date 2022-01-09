@@ -3,6 +3,11 @@
 default_config:
 homeassistant:
   packages: !include_dir_merge_named packages
+  customize: !include customize.yaml
+  time_zone: Europe/Minsk
+  latitude: !secret latitude_coord
+  longitude: !secret longitude_coord
+  unit_system: metric
   
 frontend:
   themes: !include_dir_merge_named themes
@@ -52,6 +57,16 @@ binary_sensor:
   channel: 5
   name: "Кнопка в ванной"
   type: remote 
+
+- platform: mqtt
+  name: "My Computer - Connected"
+  state_topic: "iotlink/workgroup/family_com/lwt"
+  value_template: "{{ value }}"
+  payload_on: "ON"
+  payload_off: "OFF"
+  device_class: "connectivity"
+  qos: 1
+
   
 # - platform: noolite
 #   channel: 3
@@ -92,12 +107,22 @@ light:
 
 # Обозначение комьютера и настройк его вкл/выкл
 switch:
-  - platform: wake_on_lan
-    mac: !secret MAC_PC
-    name: "Компьютер"
-    host: !secret IP_PC
-    turn_off:
-      service: rest_command.turn_off
+#   - platform: wake_on_lan
+#     mac: !secret MAC_PC
+#     name: "Компьютер"
+#     host: !secret IP_PC
+#     turn_off:
+#       service: rest_command.turn_off
+  - platform: template
+    switches:
+      my_computer:
+        friendly_name: "My Computer"
+        value_template: "{{ is_state('binary_sensor.my_computer_connected', 'on') }}"
+        turn_on:
+          service: script.my_computer_wake
+        turn_off:
+          service: script.my_computer_shutdown
+        icon_template: mdi:laptop
 
 yeelight:
   custom_effects:
@@ -126,9 +151,9 @@ notify:
     chat_id: !secret chatid_inna
 
 rest_command: # REST команды 
-  turn_off: #Выключение ПК
-    url: !secret command_PC_off
-    method: get
+#   turn_off: #Выключение ПК
+#     url: !secret command_PC_off
+#     method: get
 
 # Копирование snapshot в Google Drive
   google_backup:

@@ -243,8 +243,8 @@ yandex_play_album:
   sequence:
   - service: media_player.play_media
     data:
-      media_content_id: '12979729'
-      media_content_type: album
+      media_content_id: включи мой плейлист ночной на повторе
+      media_content_type: command
     target:
       entity_id: media_player.yandex_station_xk0000000000000130270002a0593d4f
   mode: single
@@ -255,8 +255,8 @@ yandex_tts2:
     target:
       entity_id: media_player.yandex_station_xk0000000000000130270002a0593d4f
     data:
-      media_content_id: https://music.yandex.ru/users/v.kamarouski/playlists/1100
-      media_content_type: playlist
+      media_content_id: включи мой плейлист ночной на повторе
+      media_content_type: command
   - delay:
       hours: 0
       minutes: 0
@@ -318,24 +318,6 @@ yandex_tts2:
       - service: switch.turn_on
         target:
           entity_id: switch.portable_switch
-    default: []
-  - delay:
-      hours: 1
-      minutes: 32
-      seconds: 0
-      milliseconds: 0
-  - choose:
-    - conditions:
-      - condition: state
-        entity_id: media_player.yandex_station_xk0000000000000130270002a0593d4f
-        state: playing
-      sequence:
-      - service: media_player.play_media
-        data:
-          media_content_id: https://music.yandex.ru/users/v.kamarouski/playlists/1100
-          media_content_type: playlist
-        target:
-          entity_id: media_player.yandex_station_xk0000000000000130270002a0593d4f
     default: []
   mode: single
   icon: mdi:baby-carriage
@@ -405,3 +387,123 @@ yandex_tts2:
     entity_id: media_player.yandex_station_xk0000000000000130270002a0593d4f
   mode: single
   icon: mdi:phone-classic
+'1641317997033':
+  alias: hibernate
+  sequence:
+  - service: mqtt.publish
+    data:
+      topic: iotlink/workgroup/family_com/commands/hibernate
+      payload: ''
+  mode: single
+
+my_computer_wake:
+  # To enable see https://www.home-assistant.io/components/wake_on_lan/
+  alias: "My Computer - Wake"
+  sequence:
+    - service: wake_on_lan.send_magic_packet
+      data:
+        mac: !secret MAC_PC
+
+my_computer_shutdown:
+  alias: "My Computer - Shutdown"
+  sequence:
+    - service: mqtt.publish
+      data:
+        topic: "iotlink/workgroup/family_com/commands/shutdown"
+        payload: ""
+
+my_computer_suspend:
+  alias: "My Computer - Suspend"
+  sequence:
+    - service: mqtt.publish
+      data:
+        topic: "iotlink/workgroup/family_com/commands/suspend"
+        payload: ""
+
+my_computer_hibernate:
+  alias: "My Computer - Hibernate"
+  sequence:
+    - service: mqtt.publish
+      data:
+        topic: "iotlink/workgroup/family_com/commands/hibernate"
+        payload: ""
+
+my_computer_reboot:
+  alias: "My Computer - Reboot"
+  sequence:
+    - service: mqtt.publish
+      data:
+        topic: "iotlink/workgroup/family_com/commands/reboot"
+        payload: ""
+
+my_computer_lock:
+  alias: "My Computer - Lock"
+  sequence:
+    - service: mqtt.publish
+      data:
+        topic: "iotlink/workgroup/family_com/commands/lock"
+        payload: ""
+
+my_computer_logoff:
+  alias: "My Computer - Logoff"
+  sequence:
+    - service: mqtt.publish
+      data:
+        topic: "iotlink/workgroup/family_com/commands/logoff"
+        payload: ""
+
+my_computer_vol_mute:
+  alias: "My Computer - Toggle Mute"
+  sequence:
+    - service: mqtt.publish
+      data:
+        topic: "iotlink/workgroup/family_com/commands/volume/mute"
+        payload: ""
+
+my_computer_vol_max:
+  alias: "My Computer - Vol Max"
+  sequence:
+    - service: mqtt.publish
+      data:
+        topic: "iotlink/workgroup/family_com/commands/volume/set"
+        payload: "100"
+
+my_computer_displays_on:
+  alias: "My Computer - Displays ON"
+  sequence:
+    - service: mqtt.publish
+      data:
+        topic: "iotlink/workgroup/family_com/commands/displays/on"
+        payload: ""
+
+my_computer_displays_off:
+  alias: "My Computer - Displays OFF"
+  sequence:
+    - service: mqtt.publish
+      data:
+        topic: "iotlink/workgroup/family_com/commands/displays/off"
+        payload: ""
+
+my_computer_refresh:
+  alias: "My Computer - Refresh"
+  sequence:
+    - service: mqtt.publish
+      data:
+        topic: "iotlink/workgroup/family_com/refresh"
+        payload: ""
+
+# my_computer_notify:
+#   alias: "My Computer - Notify"
+#   sequence:
+#     - service: mqtt.publish
+#       data:
+#         topic: "iotlink/workgroup/family_com/commands/notify"
+#         payload: '{ "title": "My Notification Title", "message": "This is an example of notification using IOT Link", "launchParams": "toast://open/https://iotlink.gitlab.io" }'
+
+# my_computer_run_chrome:
+#   alias: "My Computer - Run Chrome"
+#   sequence:
+#     - service: mqtt.publish
+#       data:
+#         topic: "iotlink/workgroup/family_com/commands/run"
+#         payload: '{ "command": "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe", "args": "https://iotlink.gitlab.io", "path": "C:\\Program Files (x86)\\Google\\Chrome\\Application", "user": "", "visible": true, "fallback": true }'

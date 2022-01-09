@@ -12,3 +12,12 @@
   channel: 5
   name: "bathroom remote"
   type: remote 
+  
+- platform: mqtt
+  name: "My Computer - Connected"
+  state_topic: "iotlink/workgroup/family_com/lwt"
+  value_template: "{{ value }}"
+  payload_on: "ON"
+  payload_off: "OFF"
+  device_class: "connectivity"
+  qos: 1

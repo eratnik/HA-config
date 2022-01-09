@@ -1,0 +1,6 @@
+# binary_sensor.0x158d0003456789_motion:
+#   occupancy_timeout : 180   # простой режим 
+# binary_sensor.0x158d0003456788_motion:
+#   occupancy_timeout : -120   # режим быстрого назад 
+# binary_sensor.582d346033de_motion:
+#   occupancy_timeout : [-120, 240, 300]   # прогрессивный таймер 

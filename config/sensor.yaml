@@ -82,3 +82,14 @@
       value_template: '{{ states.sensor.narodmon.attributes.sensors[2].value }}'
       friendly_name: 'Narodmon Radiation'
       unit_of_measurement: 'µR/h'
+
+- platform: mqtt
+  name: "My Computer - Network IPv4"
+  state_topic: "iotlink/workgroup/family_com/windows-monitor/stats/network/0/ipv4"
+  unit_of_measurement: ''
+  icon: mdi:lan
+  value_template: "{{ value }}"
+  availability_topic: "iotlink/workgroup/family_com/lwt"
+  payload_available: "ON"
+  payload_not_available: "OFF"
+  qos: 1

@@ -49,7 +49,7 @@ config:
         - arm_away
         type: alarm-panel
       - entities:
-        - entity: switch.pc
+        - entity: switch.my_computer
           icon: mdi:desktop-mac-dashboard
           name: "\u0414\u043E\u043C\u0430\u0448\u043D\u0438\u0439 \u041F\u041A"
         show_header_toggle: false

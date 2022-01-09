@@ -9,7 +9,6 @@ include:
     - light
     - script
     - device_tracker
-    - media_player
   entities:
     - vacuum.rockrobo
     - sensor.hass_db_size

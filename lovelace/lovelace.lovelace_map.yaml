@@ -123,6 +123,12 @@ config:
       type: entities
     - area: spalnia
       type: area
+    - camera_image: camera.family_com_screen_0
+      camera_view: live
+      entities:
+      - entity: switch.pc
+      title: PC
+      type: picture-glance
     path: default_view
     title: Home
   - badges: []
