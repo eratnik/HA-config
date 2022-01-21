@@ -34,7 +34,7 @@ config:
         - color: '#f51818'
           value: 2000
         entities:
-        - sensor.co2_airsensor_co2
+        - sensor.co2_sensor_co2
         extrema: true
         hour24: true
         show:
@@ -43,63 +43,10 @@ config:
           labels: true
           name_adaptive_color: true
         type: custom:mini-graph-card
-      - entity: alarm_control_panel.0x588e81fffef3f096_alarm
-        states:
-        - arm_home
-        - arm_away
-        type: alarm-panel
-      - entities:
-        - entity: switch.my_computer
-          icon: mdi:desktop-mac-dashboard
-          name: "\u0414\u043E\u043C\u0430\u0448\u043D\u0438\u0439 \u041F\u041A"
-        show_header_toggle: false
-        type: entities
-      - entity: climate.konditsioner
-        type: thermostat
-      - entities:
-        - entity: binary_sensor.54ef44e2a670_smoke
-          icon: mdi:smoking-pipe
-        - entity: sensor.54ef44e2a670_action
-        state_color: true
-        title: Smoke detector
-        type: entities
       name: "\u041E\u0431\u0449\u0430\u044F \u0438\u043D\u0444\u043E\u0440\u043C\u0430\
         \u0446\u0438\u044F"
       type: vertical-stack
     - cards:
-      - cards:
-        - entity: binary_sensor.0x158d0006b2542f_moisture
-          icon: mdi:shower
-          name: "\u0412\u0430\u043D\u043D\u0430\u044F"
-          type: entity
-        - entity: binary_sensor.0x158d0006b25766_moisture
-          icon: mdi:toilet
-          name: "\u0422\u0443\u0430\u043B\u0435\u0442"
-          type: entity
-        - entity: binary_sensor.0x158d0006b233e6_moisture
-          icon: mdi:food-fork-drink
-          name: "\u041A\u0443\u0445\u043D\u044F"
-          type: entity
-        columns: 3
-        square: true
-        title: "\u0414\u0430\u0442\u0447\u0438\u043A\u0438 \u043F\u0440\u043E\u0442\
-          \u0435\u0447\u043A\u0438"
-        type: grid
-      - entities:
-        - entity: binary_sensor.0x158d0003c7a375_contact
-          name: "\u0412\u0445\u043E\u0434\u043D\u0430\u044F \u0434\u0432\u0435\u0440\
-            \u044C"
-        type: entities
-      - entities:
-        - entity: binary_sensor.domofon_button
-        - entity: binary_sensor.domofon_incoming_call
-        - entity: sensor.domofon_uptime
-          name: "\u0412\u0440\u0435\u043C\u044F \u043D\u0435\u043F\u0440\u0438\u0440\
-            \u044B\u0432\u043D\u043E\u0439 \u0440\u0430\u0431\u043E\u0442\u044B"
-        title: "\u041F\u0430\u043D\u0435\u043B\u044C \u0443\u043F\u0440\u0430\u0432\
-          \u043B\u0435\u043D\u0438\u044F \u0434\u043E\u043C\u043E\u0444\u043E\u043D\
-          \u043E\u043C"
-        type: entities
       - cards:
         - entity: switch.domofon_automatically_open
           name: "\u0410\u0432\u0442\u043E\u043E\u043A\u0440\u044B\u0442\u0438\u0435\
@@ -139,12 +86,9 @@ config:
         columns: 3
         square: true
         type: grid
-      name: "\u041E\u0431\u0449\u0430\u044F \u0438\u043D\u0444\u043E\u0440\u043C\u0430\
-        \u0446\u0438\u044F 2"
       type: vertical-stack
-    - compact_view: false
-      entity: vacuum.rockrobo
-      map: camera.rockrobo_map
+    - entity: vacuum.valetudo_slipperyprestigiouskudu
+      map: camera.slipperyprestigiouskudu_rendered_map
       shortcuts:
       - icon: phu:charging-station
         name: "\u0412\u0435\u0440\u043D\u0443\u0442\u044C\u0441\u044F \u043D\u0430\
@@ -175,6 +119,81 @@ config:
           subtitle: Sensors
           unit: hours
       type: custom:vacuum-card
+    - entities:
+      - entity: sensor.valetudo_slipperyprestigiouskudu_current_statistics_area
+      - entity: sensor.valetudo_slipperyprestigiouskudu_current_statistics_time
+      - entity: sensor.valetudo_slipperyprestigiouskudu_main_brush
+      - entity: sensor.valetudo_slipperyprestigiouskudu_sensor_cleaning
+      - entity: sensor.valetudo_slipperyprestigiouskudu_main_filter
+      - entity: sensor.valetudo_slipperyprestigiouskudu_right_brush
+      - entity: sensor.valetudo_slipperyprestigiouskudu_error_description
+      title: "\u0421\u0442\u0430\u0442\u0438\u0441\u0442\u0438\u043A\u0430 \u043F\u044B\
+        \u043B\u0435\u0441\u043E\u0441\u0430"
+      type: entities
+    - cards:
+      - control:
+          fan:
+            HIGH:
+              icon: mdi:weather-windy
+              name: false
+            LOW:
+              icon: mdi:fan-chevron-down
+              name: false
+            LOW_MID:
+              icon: mdi:fan-speed-1
+              name: false
+            MID:
+              icon: mdi:fan-speed-2
+              name: false
+            MID_HIGH:
+              icon: mdi:fan-speed-3
+              name: false
+            NATURE:
+              icon: mdi:windsock
+              name: false
+          hvac: true
+          preset: false
+        entity: climate.konditsioner
+        header:
+          icon:
+            'off': phu:air-conditioner
+          name: "\u041A\u043E\u043D\u0434\u0438\u0446\u0438\u043E\u043D\u0435\u0440"
+          toggle:
+            entity: climate.konditsioner
+        hide:
+          temperature: true
+        layout:
+          mode:
+            headings: false
+            icons: true
+            names: false
+          step: column
+        sensors:
+        - entity: sensor.a4c1388ae7a0_temperature
+          icon: mdi:home-thermometer
+          name: "\u0442\u0435\u043C\u043F\u0435\u0440\u0430\u0442\u0443\u0440\u0430"
+        - entity: sensor.a4c1388ae7a0_humidity
+          icon: mdi:water-percent
+          name: "\u0432\u043B\u0430\u0436\u043D\u043E\u0441\u0442\u044C"
+        step_size: '1'
+        type: custom:simple-thermostat
+      - entities:
+        - input_select.conditioner_swing_mode
+        type: entities
+      columns: 1
+      square: false
+      type: grid
+    - background_color: transparent
+      custom_buttons:
+        icon: mdi:fan-speed-1
+        service_data:
+          fan_speed: low
+        text: low
+      map_scale: 2.5
+      rotate: 180
+      show_floor: false
+      type: custom:valetudo-map-card
+      vacuum: valetudo_slipperyprestigiouskudu
     icon: mdi:home-assistant
     title: Home
   - badges: []
@@ -242,6 +261,7 @@ config:
         type: button
       - entity: switch.0xa4c138e4b3264045_l1
         icon: mdi:bed
+        name: "\u041D\u0430\u0434 \u043A\u0440\u043E\u0432\u0430\u0442\u044C\u044E"
         tap_action:
           action: toggle
         type: button
@@ -266,16 +286,17 @@ config:
         \ \u0441\u0435\u0440\u0432\u0435\u0440\u0435"
       type: grid
     - entities:
+      - entity: light.wled1
+      - entity: script.wled_random_effect
+      - entity: sensor.effect_wled1
       - entity: select.wled1_color_palette
         name: Color Palette
       - entity: number.wled1_intensity
         name: Intensity
-      - entity: switch.wled1_nightlight
-        name: Nightlight
       - entity: number.wled1_speed
         name: Speed
-      - entity: light.wled1
-      - entity: script.wled_random_effect
+      - entity: switch.wled1_nightlight
+        name: Nightlight
       - entity: switch.wled1_sync_receive
       - entity: switch.wled1_sync_send
       state_color: true
@@ -283,16 +304,17 @@ config:
         \u0442\u0441\u043A\u043E\u0439"
       type: entities
     - entities:
+      - entity: light.wled
+      - entity: script.1638028346743
+      - entity: sensor.effect_wled2
       - entity: select.wled_color_palette
         name: Color Palette
       - entity: number.wled_intensity
         name: Intensity
-      - entity: switch.wled_nightlight
-        name: Nightlight
       - entity: number.wled_speed
         name: Speed
-      - entity: light.wled
-      - entity: script.1638028346743
+      - entity: switch.wled_nightlight
+        name: Nightlight
       - entity: switch.wled_sync_receive
       - entity: switch.wled_sync_send
       state_color: true
@@ -361,6 +383,113 @@ config:
           url: https://embed.windy.com/embed2.html?lat=52.385&lon=31.029&detailLat=52.423&detailLon=31.029&width=650&height=450&zoom=11&level=surface&overlay=radar&product=radar&menu=&message=true&marker=&calendar=now&pressure=&type=map&location=coordinates&detail=true&metricWind=default&metricTemp=default&radarRange=-1
         type: vertical-stack
       type: horizontal-stack
+    - apex_config:
+        chart:
+          height: auto
+        dataLabels:
+          enabled: false
+        fill:
+          gradient:
+            inverseColors: false
+            opacityFrom: 0.5
+            opacityTo: 0
+            shadeIntensity: 0.8
+            stops:
+            - - -30
+              - 50
+              - 100
+            type: vertical
+          type: gradient
+        grid:
+          show: false
+        legend:
+          show: false
+        stroke:
+          curve: smooth
+          width: 3
+        tooltip:
+          enabled: true
+        xaxis:
+          axisBorder:
+            show: false
+          labels:
+            style:
+              fontFamily: Raleway
+              fontSize: 14px
+        yaxis:
+        - decimalsInFloat: 0
+          forceNiceScale: true
+          labels:
+            style:
+              colors: '#c0392b'
+              fontFamily: Raleway
+              fontSize: 12px
+              fontWeight: bold
+          max: 40
+          min: -30
+          show: true
+        - decimalsInFloat: 0
+          forceNiceScale: true
+          labels:
+            style:
+              colors: '#5586fa'
+              fontFamily: Raleway
+              fontSize: 12px
+              fontWeight: bold
+          max: 99
+          min: 40
+          opposite: true
+          show: true
+        - decimalsInFloat: 0
+          forceNiceScale: true
+          labels:
+            style:
+              colors: '#45D559'
+              fontFamily: Raleway
+              fontSize: 12px
+              fontWeight: bold
+          max: 1050
+          min: 950
+          opposite: true
+          show: true
+      graph_span: 3d
+      header:
+        colorize_states: true
+        show: true
+        show_states: true
+        title: "\u0423\u043B\u0438\u0446\u0430"
+      series:
+      - color: '#c0392b'
+        entity: sensor.0x158d00068bb6c3_temperature
+        fill_raw: last
+        float_precision: 1
+        group_by:
+          duration: 60min
+          func: avg
+        name: "\u0422\u0435\u043C\u043F\u0435\u0440\u0430\u0442\u0443\u0440\u0430"
+        show:
+          extremas: true
+        type: area
+      - color: '#5586fa'
+        entity: sensor.0x158d00068bb6c3_humidity
+        fill_raw: last
+        float_precision: 1
+        group_by:
+          duration: 60min
+          func: avg
+        name: "\u0412\u043B\u0430\u0436\u043D\u043E\u0441\u0442\u044C"
+        type: area
+      - color: '#45D559'
+        entity: sensor.0x158d00068bb6c3_pressure
+        fill_raw: last
+        float_precision: 1
+        group_by:
+          duration: 60min
+          func: avg
+        name: "\u0414\u0430\u0432\u043B\u0435\u043D\u0438\u0435"
+        type: area
+      type: custom:apexcharts-card
+      update_interval: 10min
     - cards:
       - content: "**\u0422\u0435\u0440\u043C\u043E\u043C\u0435\u0442\u0440 \u0441\u043F\
           \u0430\u043B\u044C\u043D\u044F**\n"
@@ -665,6 +794,13 @@ config:
       tts:
         platform: yandex_station
       type: custom:mini-media-player
+    - camera_image: camera.family_com_screen_0
+      camera_view: live
+      entity: switch.my_computer
+      image: https://demo.home-assistant.io/stub_config/bedroom.png
+      tap_action:
+        action: toggle
+      type: picture-entity
     icon: mdi:movie-roll
     panel: false
     path: media
@@ -803,6 +939,42 @@ config:
       - entity: binary_sensor.updater
       title: Zigbee
       type: entities
+    - cards:
+      - entity: binary_sensor.0x158d0006b233e6_moisture
+        icon: mdi:silverware-fork-knife
+        name: "\u041A\u0443\u0445\u043D\u044F"
+        state_color: true
+        type: entity
+      - entity: binary_sensor.0x158d0006b25766_moisture
+        icon: mdi:toilet
+        name: "\u0422\u0443\u0430\u043B\u0435\u0442"
+        state_color: true
+        type: entity
+      - entity: binary_sensor.0x158d0006b2542f_moisture
+        icon: mdi:shower
+        name: "\u0412\u0430\u043D\u043D\u0430"
+        state_color: true
+        type: entity
+      - entity: binary_sensor.54ef44e63453_water_leak
+        icon: mdi:fridge-outline
+        name: "\u0425\u043E\u043B\u043E\u0434\u0438\u043B\u044C\u043D\u0438\u043A"
+        state_color: true
+        type: entity
+      - entity: binary_sensor.54ef44e637dc_water_leak
+        icon: mdi:fishbowl-outline
+        state_color: true
+        type: entity
+      type: grid
+    - cards:
+      - entities:
+        - entity: binary_sensor.0x158d0003c7a375_contact
+        - entity: binary_sensor.domofon_incoming_call
+        - entity: sensor.domofon_uptime
+        - entity: binary_sensor.domofon_button
+        title: "\u0414\u0432\u0435\u0440\u044C \u0438 \u0434\u043E\u043C\u043E\u0444\
+          \u043E\u043D"
+        type: entities
+      type: vertical-stack
     icon: mdi:cog-transfer-outline
     panel: false
     path: systems

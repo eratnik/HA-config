@@ -402,7 +402,7 @@ my_computer_wake:
   sequence:
     - service: wake_on_lan.send_magic_packet
       data:
-        mac: !secret MAC_PC
+        mac: 'f4:6d:04:21:19:ef'
 
 my_computer_shutdown:
   alias: "My Computer - Shutdown"

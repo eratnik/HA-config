@@ -7,8 +7,10 @@ homeassistant:
   time_zone: Europe/Minsk
   latitude: !secret latitude_coord
   longitude: !secret longitude_coord
-  unit_system: metric
-  
+
+wake_on_lan:
+python_script:
+
 frontend:
   themes: !include_dir_merge_named themes
 
@@ -42,7 +44,7 @@ media_player: !include media_player.yaml
 timer: !include timer.yaml
 
 noolite:
-  port: "/dev/ttyUSB0"
+  port: "/dev/ttyUSB1"
 
 binary_sensor: 
 - platform: noolite
@@ -67,7 +69,6 @@ binary_sensor:
   device_class: "connectivity"
   qos: 1
 
-  
 # - platform: noolite
 #   channel: 3
 #   name: "battary kitchen backlight remote up"
@@ -89,13 +90,7 @@ light:
     scan_interval: 60
     type: dimmer
     mode: noolite
-# fans:
-#   - platform: noolite
-#     name: "bathroom fan"
-#     channel: 1
-#     mode: noolite
-#     speed_enabled: true
-#     scan_interval: 60
+
   - platform: noolite
     channel: 1
     name: "Вентилятор в ванной"
@@ -116,7 +111,7 @@ switch:
   - platform: template
     switches:
       my_computer:
-        friendly_name: "My Computer"
+        friendly_name: "My computer"
         value_template: "{{ is_state('binary_sensor.my_computer_connected', 'on') }}"
         turn_on:
           service: script.my_computer_wake
@@ -162,44 +157,6 @@ rest_command: # REST команды
 
 # notify_events:
 #   token: !secret notify_events
-
-# type: map
-# title: История перемещений
-# entities:
-#   - entity: person.alisa
-#   - entity: person.hass
-#   - entity: person.inna
-# hours_to_show: 12
-# type: map
-# entities:
-#   - device_tracker.inna_mi9t
-#   - device_tracker.mi_note_10_pro
-#   - device_tracker.redmi_4x
-# hours_to_show: 24
-
-# person:
-#   - name: Alisa
-#     id: alisa
-#     user_id: c3c1781eb7af4906b4f8356b44aee333
-#     device_trackers:
-#       - device_tracker.redmi_4x
-#   - name: Vitaly
-#     id: vitaly
-#     user_id: 4ab590b7c1d240048c5e79c93e61cc77
-#     device_trackers:
-#       - device_tracker.mi_note_10_pro
-
-# camera:
-#   - platform: xiaomi_cloud_map_extractor
-#     host: !secret xiaomi_vacuum_host
-#     token: !secret token_vacuum
-#     username: !secret xiaomi_cloud_username
-#     password: !secret xiaomi_cloud_password
-#     draw: ['all']
-#     attributes:
-#       - calibration_points
-#     map_transformation:
-#       rotate: 270
 
 #--------------------------------------------------------Объекты
 

@@ -153,10 +153,9 @@
   - condition: time
     after: '10:00'
   action:
-  - device_id: e266a31e24efe77298d2d10bc5eb2f5a
-    domain: vacuum
-    entity_id: vacuum.rockrobo
-    type: clean
+  - service: vacuum.start
+    target:
+      entity_id: vacuum.valetudo_slipperyprestigiouskudu
   mode: single
 - id: '1625651557485'
   alias: TTS-test-inna
@@ -390,6 +389,16 @@
         target:
           entity_id: switch.my_computer
     default: []
+  - delay:
+      hours: 1
+      minutes: 0
+      seconds: 0
+      milliseconds: 0
+  - service: light.turn_on
+    target:
+      entity_id: light.yeelight_ceiling1_0x3b65236_nightlight
+    data:
+      brightness_pct: 15
   mode: single
 - id: '1637745009884'
   alias: Я.Алиса1
@@ -825,4 +834,188 @@
   - service: switch.toggle
     target:
       entity_id: switch.light_switch_coridor
+  mode: single
+- id: '1642688094854'
+  alias: Шторки кондера
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: climate.konditsioner
+  condition:
+  - condition: state
+    entity_id: climate.konditsioner
+    state: 'on'
+  action:
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: input_select.conditioner_swing_mode
+        state: VerticalOff
+      sequence:
+      - service: climate.set_swing_mode
+        target:
+          entity_id: climate.konditsioner
+        data:
+          swing_mode: VerticalOff
+    - conditions:
+      - condition: state
+        entity_id: input_select.conditioner_swing_mode
+        state: VerticalTop
+      sequence:
+      - service: climate.set_swing_mode
+        target:
+          entity_id: climate.konditsioner
+        data:
+          swing_mode: VerticalTop
+    - conditions:
+      - condition: state
+        entity_id: input_select.conditioner_swing_mode
+        state: VerticalMiddleTop1
+      sequence:
+      - service: climate.set_swing_mode
+        target:
+          entity_id: climate.konditsioner
+        data:
+          swing_mode: VerticalMiddleTop1
+    - conditions:
+      - condition: state
+        entity_id: input_select.conditioner_swing_mode
+        state: VerticalMiddleTop2
+      sequence:
+      - service: climate.set_swing_mode
+        target:
+          entity_id: climate.konditsioner
+        data:
+          swing_mode: VerticalMiddleTop2
+    - conditions:
+      - condition: state
+        entity_id: input_select.conditioner_swing_mode
+        state: VerticalMiddleBottom2
+      sequence:
+      - service: climate.set_swing_mode
+        target:
+          entity_id: climate.konditsioner
+        data:
+          swing_mode: VerticalMiddleBottom2
+    - conditions:
+      - condition: state
+        entity_id: input_select.conditioner_swing_mode
+        state: VerticalMiddleBottom1
+      sequence:
+      - service: climate.set_swing_mode
+        target:
+          entity_id: climate.konditsioner
+        data:
+          swing_mode: VerticalMiddleBottom1
+    - conditions:
+      - condition: state
+        entity_id: input_select.conditioner_swing_mode
+        state: VerticalBottom
+      sequence:
+      - service: climate.set_swing_mode
+        target:
+          entity_id: climate.konditsioner
+        data:
+          swing_mode: VerticalBottom
+    - conditions:
+      - condition: state
+        entity_id: input_select.conditioner_swing_mode
+        state: VerticalSwing
+      sequence:
+      - service: climate.set_swing_mode
+        target:
+          entity_id: climate.konditsioner
+        data:
+          swing_mode: VerticalSwing
+    - conditions:
+      - condition: state
+        entity_id: input_select.conditioner_swing_mode
+        state: HorizontalOff
+      sequence:
+      - service: climate.set_swing_mode
+        target:
+          entity_id: climate.konditsioner
+        data:
+          swing_mode: HorizontalOff
+    - conditions:
+      - condition: state
+        entity_id: input_select.conditioner_swing_mode
+        state: HorizontalLeft
+      sequence:
+      - service: climate.set_swing_mode
+        target:
+          entity_id: climate.konditsioner
+        data:
+          swing_mode: HorizontalLeft
+    - conditions:
+      - condition: state
+        entity_id: input_select.conditioner_swing_mode
+        state: HorizontalMiddleLeft
+      sequence:
+      - service: climate.set_swing_mode
+        target:
+          entity_id: climate.konditsioner
+        data:
+          swing_mode: HorizontalMiddleLeft
+    - conditions:
+      - condition: state
+        entity_id: input_select.conditioner_swing_mode
+        state: HorizontalCenter
+      sequence:
+      - service: climate.set_swing_mode
+        target:
+          entity_id: climate.konditsioner
+        data:
+          swing_mode: HorizontalCenter
+    - conditions:
+      - condition: state
+        entity_id: input_select.conditioner_swing_mode
+        state: HorizontalMiddleRight
+      sequence:
+      - service: climate.set_swing_mode
+        target:
+          entity_id: climate.konditsioner
+        data:
+          swing_mode: HorizontalMiddleRight
+    - conditions:
+      - condition: state
+        entity_id: input_select.conditioner_swing_mode
+        state: HorizontalRight
+      sequence:
+      - service: climate.set_swing_mode
+        target:
+          entity_id: climate.konditsioner
+        data:
+          swing_mode: HorizontalRight
+    - conditions:
+      - condition: state
+        entity_id: input_select.conditioner_swing_mode
+        state: HorizontalLeftHalf
+      sequence:
+      - service: climate.set_swing_mode
+        target:
+          entity_id: climate.konditsioner
+        data:
+          swing_mode: HorizontalLeftHalf
+    - conditions:
+      - condition: state
+        entity_id: input_select.conditioner_swing_mode
+        state: HorizontalRightHalf
+      sequence:
+      - service: climate.set_swing_mode
+        target:
+          entity_id: climate.konditsioner
+        data:
+          swing_mode: HorizontalRightHalf
+    - conditions:
+      - condition: state
+        entity_id: input_select.conditioner_swing_mode
+        state: HorizontalSwing
+      sequence:
+      - service: climate.set_swing_mode
+        target:
+          entity_id: climate.konditsioner
+        data:
+          swing_mode: HorizontalSwing
+    default: []
   mode: single

@@ -67,21 +67,29 @@
 - platform: template
   sensors:
     narodmon_temperature:
-      value_template: '{{ states.sensor.narodmon.attributes.sensors[0].value }}'
+      value_template: '{{ states.sensor.narodmon.attributes.sensors[2].value }}'
       device_class: temperature
       friendly_name: 'Narodmon Temperature'
       unit_of_measurement: '°C'
 
     narodmon_pressure:
-      value_template: '{{ states.sensor.narodmon.attributes.sensors[1].value }}'
+      value_template: '{{ states.sensor.narodmon.attributes.sensors[0].value }}'
       friendly_name: 'Narodmon Pressure'
       device_class: pressure
       unit_of_measurement: 'mmHg'
 
     narodmon_radiation:
-      value_template: '{{ states.sensor.narodmon.attributes.sensors[2].value }}'
+      value_template: '{{ states.sensor.narodmon.attributes.sensors[1].value }}'
       friendly_name: 'Narodmon Radiation'
       unit_of_measurement: 'µR/h'
+      
+    effect_wled1:
+      friendly_name: 'Эффект гирлянды в детской'
+      value_template: "{{ state_attr('light.wled1', 'effect') }}"
+    effect_wled2:
+      friendly_name: 'Эффект гирлянды в спальне'
+      value_template: "{{ state_attr('light.wled', 'effect') }}"
+      
 
 - platform: mqtt
   name: "My Computer - Network IPv4"

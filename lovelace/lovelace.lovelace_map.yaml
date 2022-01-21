@@ -3,36 +3,56 @@ config:
   views:
   - cards:
     - entities:
-      - sensor.0x158d00068bb6c3_temperature
-      - sensor.0x158d00068bb6c3_humidity
-      - sensor.0x158d00068bb6c3_pressure
-      - sensor.28d1272d14e8_idle_time
-      - binary_sensor.28d1272d14e8_motion
-      - binary_sensor.28d1272d14e8_light
-      - sensor.0x158d00068bb6c3_zigbee
-      - sensor.28d1272d14e8_ble
+      - entity: sensor.0x158d00068bb6c3_temperature
+      - entity: sensor.0x158d00068bb6c3_humidity
+      - entity: sensor.0x158d00068bb6c3_pressure
+      - entity: sensor.28d1272d14e8_idle_time
+      - entity: binary_sensor.28d1272d14e8_motion
+      - entity: sensor.0x158d00068bb6c3_zigbee
+      state_color: true
       title: "\u0411\u0430\u043B\u043A\u043E\u043D"
       type: entities
     - entities:
-      - sensor.a4c13800b195_ble
-      - sensor.a4c13800b195_humidity
-      - sensor.a4c13800b195_temperature
+      - entity: sensor.a4c13800b195_temperature
+      - entity: sensor.a4c13800b195_humidity
+      - entity: binary_sensor.0x158d0006b2542f_moisture
+      state_color: true
       title: "\u0412\u0430\u043D\u043D\u0430\u044F"
       type: entities
     - entities:
-      - entity: light.yeelight_ceiling1_0x3b65236_nightlight
-      - entity: light.yeelight_ceiling1_0x3b65236
-      - entity: switch.0xb4e3f9fffe22b03b
-      - entity: sensor.a4c138ebf2e9_humidity
+      - entity: person.alisa
       - entity: sensor.a4c138ebf2e9_temperature
-      - entity: sensor.a4c138ebf2e9_ble
-      - entity: binary_sensor.sonoff_basic_button
+      - entity: sensor.a4c138ebf2e9_humidity
+      - entity: switch.0xa4c138e4b3264045_l1
+        name: "\u0421\u0432\u0435\u0442 \u043D\u0430\u0434 \u043A\u0440\u043E\u0432\
+          \u0430\u0442\u044C\u044E"
+      - entity: switch.0xa4c138e4b3264045_l2
+        name: "\u0421\u0432\u0435\u0442 \u043D\u0430\u0434 \u0441\u0442\u043E\u043B\
+          \u043E\u043C"
+      - entity: light.yeelight_ceiling1_0x3b65236
+      - entity: light.yeelight_ceiling1_0x3b65236_nightlight
+      - entity: switch.my_computer
+        name: "\u041A\u043E\u043C\u043F\u044C\u044E\u0442\u0435\u0440"
+      - entity: switch.pc_switch
+        name: "\u0420\u043E\u0437\u0435\u0442\u043A\u0430 \u043A\u043E\u043C\u043F\
+          \u044C\u044E\u0442\u0435\u0440\u0430"
       - entity: switch.sonoff_basic_relay
+        name: "\u0421\u0432\u0435\u0442 \u0432 \u0430\u043A\u0432\u0430\u0440\u0438\
+          \u0443\u043C\u0430\u0445"
+      - entity: light.wled1
+      - entity: script.wled_random_effect
+      state_color: true
       title: "\u0414\u0435\u0442\u0441\u043A\u0430\u044F"
       type: entities
     - entities:
-      - binary_sensor.0x158d0006b233e6_moisture
-      - sensor.0x158d0006b233e6_zigbee
+      - entity: sensor.a4c13868564d_temperature
+      - entity: sensor.a4c13868564d_humidity
+      - entity: light.podsvetka_na_kukhne
+      - entity: binary_sensor.0x158d0006b233e6_moisture
+      - entity: binary_sensor.54ef44e2a670_smoke
+        icon: mdi:smoking-pipe
+      - entity: sensor.54ef44e2a670_action
+      state_color: true
       title: "\u041A\u0443\u0445\u043D\u044F"
       type: entities
     - entities:
@@ -129,6 +149,247 @@ config:
       - entity: switch.pc
       title: PC
       type: picture-glance
+    - all_series_config:
+        curve: smooth
+        extend_to_end: false
+        show:
+          extremas: true
+          legend_value: false
+        stroke_width: 3
+      apex_config:
+        chart:
+          height: auto
+        dataLabels:
+          enabled: false
+        fill:
+          gradient:
+            inverseColors: false
+            opacityFrom: 0.5
+            opacityTo: 0
+            shadeIntensity: 0.8
+            stops:
+            - - 0
+              - 50
+              - 100
+            type: vertical
+          type: gradient
+        grid:
+          show: false
+        legend:
+          show: false
+        tooltip:
+          enabled: true
+        xaxis:
+          axisBorder:
+            show: false
+          labels:
+            style:
+              fontFamily: Raleway
+              fontSize: 14px
+        yaxis:
+        - decimalsInFloat: 0
+          forceNiceScale: true
+          labels:
+            style:
+              fontFamily: Raleway
+              fontSize: 12px
+              fontWeight: bold
+          max: 35
+          min: 0
+          show: true
+      cache: true
+      experimental:
+        brush: true
+      graph_span: 1d
+      header:
+        colorize_states: true
+        show: true
+        show_states: true
+      now:
+        color: red
+        label: Now
+        show: true
+      series:
+      - entity: sensor.a4c1388ae7a0_temperature
+        fill_raw: last
+        float_precision: 1
+        group_by:
+          duration: 15min
+          func: avg
+        name: "\u0422\u0435\u043C\u043F\u0435\u0440\u0430\u0442\u0443\u0440\u0430\
+          \ \u0432 \u0441\u043F\u0430\u043B\u044C\u043D\u0435"
+        show:
+          in_brush: true
+          in_chart: true
+        type: area
+      - color: grey
+        entity: sensor.a4c1388ae7a0_temperature
+        fill_raw: last
+        float_precision: 1
+        group_by:
+          duration: 15min
+          func: avg
+        name: "\u0422\u0435\u043C\u043F\u0435\u0440\u0430\u0442\u0443\u0440\u0430\
+          \ \u0432 \u0441\u043F\u0430\u043B\u044C\u043D\u0435 \u0432\u0447\u0435\u0440\
+          \u0430"
+        offset: -1d
+        type: area
+      - entity: sensor.0x158d00068bb6c3_temperature
+        name: "\u0422\u0435\u043C\u043F\u0435\u0440\u0430\u0442\u0443\u0440\u0430\
+          \ \u043D\u0430 \u0443\u043B\u0438\u0446\u0435"
+        show:
+          in_brush: true
+          in_chart: true
+        type: area
+      span:
+        start: day
+      type: custom:apexcharts-card
+    - apex_config:
+        legend:
+          floating: true
+          fontSize: 16px
+          itemMargin:
+            vertical: 3
+          labels:
+            useSeriesColors: true
+          markers:
+            size: 0
+          offsetX: 0
+          offsetY: 25
+          position: left
+          show: true
+        plotOptions:
+          radialBar:
+            chart:
+              height: 100
+            dataLabels:
+              name:
+                show: false
+              value:
+                show: false
+            endAngle: 270
+            hollow:
+              background: transparent
+              margin: 5,
+              size: 30%
+            offsetY: 0
+            startAngle: 0
+      chart_type: radialBar
+      series:
+      - entity: sensor.memory_use_percent
+        name: Memory use
+      - entity: sensor.disk_use_percent
+        name: Disk use
+      - entity: sensor.processor_use_percent
+        name: CPU use
+      type: custom:apexcharts-card
+    - apex_config:
+        chart:
+          height: auto
+        dataLabels:
+          enabled: false
+        fill:
+          gradient:
+            inverseColors: false
+            opacityFrom: 0.5
+            opacityTo: 0
+            shadeIntensity: 0.8
+            stops:
+            - - -30
+              - 50
+              - 100
+            type: vertical
+          type: gradient
+        grid:
+          show: false
+        legend:
+          show: false
+        stroke:
+          curve: smooth
+          width: 3
+        tooltip:
+          enabled: true
+        xaxis:
+          axisBorder:
+            show: false
+          labels:
+            style:
+              fontFamily: Raleway
+              fontSize: 14px
+        yaxis:
+        - decimalsInFloat: 0
+          forceNiceScale: true
+          labels:
+            style:
+              colors: '#c0392b'
+              fontFamily: Raleway
+              fontSize: 12px
+              fontWeight: bold
+          max: 40
+          min: -30
+          show: true
+        - decimalsInFloat: 0
+          forceNiceScale: true
+          labels:
+            style:
+              colors: '#5586fa'
+              fontFamily: Raleway
+              fontSize: 12px
+              fontWeight: bold
+          max: 99
+          min: 40
+          opposite: true
+          show: true
+        - decimalsInFloat: 0
+          forceNiceScale: true
+          labels:
+            style:
+              colors: '#45D559'
+              fontFamily: Raleway
+              fontSize: 12px
+              fontWeight: bold
+          max: 1050
+          min: 950
+          opposite: true
+          show: true
+      graph_span: 3d
+      header:
+        colorize_states: true
+        show: true
+        show_states: true
+        title: "\u0423\u043B\u0438\u0446\u0430"
+      series:
+      - color: '#c0392b'
+        entity: sensor.0x158d00068bb6c3_temperature
+        fill_raw: last
+        float_precision: 1
+        group_by:
+          duration: 60min
+          func: avg
+        name: "\u0422\u0435\u043C\u043F\u0435\u0440\u0430\u0442\u0443\u0440\u0430"
+        show:
+          extremas: true
+        type: area
+      - color: '#5586fa'
+        entity: sensor.0x158d00068bb6c3_humidity
+        fill_raw: last
+        float_precision: 1
+        group_by:
+          duration: 60min
+          func: avg
+        name: "\u0412\u043B\u0430\u0436\u043D\u043E\u0441\u0442\u044C"
+        type: area
+      - color: '#45D559'
+        entity: sensor.0x158d00068bb6c3_pressure
+        fill_raw: last
+        float_precision: 1
+        group_by:
+          duration: 60min
+          func: avg
+        name: "\u0414\u0430\u0432\u043B\u0435\u043D\u0438\u0435"
+        type: area
+      type: custom:apexcharts-card
+      update_interval: 10min
     path: default_view
     title: Home
   - badges: []

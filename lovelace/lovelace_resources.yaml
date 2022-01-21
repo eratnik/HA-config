@@ -13,16 +13,16 @@ items:
   url: /hacsfiles/mini-media-player/mini-media-player-bundle.js?hacstag=1485208381150
 - id: 4c7cb3bb1a3c4a5c98155a6b8dfb427e
   type: module
-  url: /hacsfiles/custom-brand-icons/custom-brand-icons.js?hacstag=3668620311048
+  url: /hacsfiles/custom-brand-icons/custom-brand-icons.js?hacstag=3668620311049
 - id: 4531a4e179704affbc4c32217724169a
   type: module
-  url: /hacsfiles/lovelace-valetudo-map-card/valetudo-map-card.js?hacstag=20303610820211205
+  url: /hacsfiles/lovelace-valetudo-map-card/valetudo-map-card.js?hacstag=2030361082022012
 - id: a32acf1ac6e9497c9d0a2fb56f2fc9b0
   type: module
   url: /hacsfiles/home-assistant-sun-card/home-assistant-sun-card.js
 - id: c3b052386ce54af6a5987be604b838ee
   type: module
-  url: /hacsfiles/hass-hue-icons/hass-hue-icons.js?hacstag=384434522123
+  url: /hacsfiles/hass-hue-icons/hass-hue-icons.js?hacstag=384434522125
 - id: 4e1590243b414e10ad566371414ee40b
   type: module
   url: /hacsfiles/flex-table-card/flex-table-card.js?hacstag=1562920589320251
@@ -38,3 +38,12 @@ items:
 - id: 3b4540e3032042549c0fe602f71c8d2c
   type: module
   url: /hacsfiles/ha-yandex-icons/yandex-icons.js?hacstag=2378121362364
+- id: afaf5eb3d3034a1dba83584dc87b7210
+  type: module
+  url: /hacsfiles/simple-thermostat/simple-thermostat.js?hacstag=158654878243
+- id: f4e105157cd545bd95fc8376929dc7fc
+  type: module
+  url: /hacsfiles/apexcharts-card/apexcharts-card.js?hacstag=3317011521100
+- id: 62ba426bf9d2496bb2d136e3c06e4826
+  type: module
+  url: /hacsfiles/lovelace-multiple-entity-row/multiple-entity-row.js?hacstag=178921037441
