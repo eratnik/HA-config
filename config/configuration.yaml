@@ -1,18 +1,89 @@
-
 # Configure a default setup of Home Assistant (frontend, api, etc)
 default_config:
+wake_on_lan:
+python_script:
+noolite:
+  port: "/dev/ttyUSB2"
+
+utility_meter:
+  monthly_energy_children:
+    source: sensor.children_s_spotlight_energy
+    name: 'Месячный расход точечных светильников детской'
+    cycle: monthly
+    tariffs: []
+  monthly_energy_nightlight:
+    source: sensor.portable_switch_energy
+    name: 'Месячный расход Дашин ночник'
+    cycle: monthly
+    tariffs: []
+  monthly_energy_conditioner:
+    source: sensor.konditsioner_energy
+    name: 'Месячный расход кондиционер'
+    cycle: monthly
+    tariffs: []
+  daily_energy_children:
+    source: sensor.children_s_spotlight_energy
+    name: 'Дневной расход точечных светильников детской'
+    cycle: daily
+    tariffs: []
+  daily_energy_nightlight:
+    source: sensor.portable_switch_energy
+    name: 'Дневной расход Дашин ночник'
+    cycle: daily
+    tariffs: []
+  daily_energy_conditioner:
+    source: sensor.konditsioner_energy
+    name: 'Дневной расход кондиционер'
+    cycle: daily
+    tariffs: []
+
+
+#Внешний вид
+lovelace:
+  mode: storage
+frontend:
+  themes: !include_dir_merge_named themes
+# создание боковой панели с иконками Material disign
+# panel_iframe:
+#   mdi:
+#     title: "Material Design Icons"
+#     icon: mdi:material-design
+#     url: "https://mdi.bessarabov.com"
+panel_custom:
+  - name: panel-redirect
+    url_path: redirect-server-controls
+    sidebar_title: Server Controls
+    sidebar_icon: mdi:server
+    module_url: /local/panel-redirect.js
+    config:
+      target: /config/server_control
+  - name: panel-redirect
+    url_path: redirect-logs
+    sidebar_title: Logs
+    sidebar_icon: mdi:math-log
+    module_url: /local/panel-redirect.js
+    config:
+      target: /config/logs
+
 homeassistant:
   packages: !include_dir_merge_named packages
   customize: !include customize.yaml
   time_zone: Europe/Minsk
   latitude: !secret latitude_coord
   longitude: !secret longitude_coord
-
-wake_on_lan:
-python_script:
-
-frontend:
-  themes: !include_dir_merge_named themes
+#вынос во внешние файлы
+group: !include groups.yaml
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml
+sensor: !include sensor.yaml
+input_select: !include input_select.yaml
+timer: !include timer.yaml
+alert: !include alert.yaml
+media_player: !include media_player.yaml
+#Настройка базы данных Maria DB
+recorder: !include recorder.yaml
+history: !include history.yaml
 
 # Text to speech
 tts:
@@ -26,88 +97,19 @@ tts:
     rate: 50 # Не обязательно, 0..100
     voice: 'anna' # Не обязательно
     volume: 50 # Не обязательно, 0..100
-    
-lovelace:
-  mode: storage
-
-#вынос во внешние файлы
-group: !include groups.yaml
-automation: !include automations.yaml
-script: !include scripts.yaml
-scene: !include scenes.yaml
-sensor: !include sensor.yaml
-input_select: !include input_select.yaml
-#Настройка базы данных Maria DB
-recorder: !include recorder.yaml
-history: !include history.yaml
-media_player: !include media_player.yaml
-timer: !include timer.yaml
-
-noolite:
-  port: "/dev/ttyUSB1"
 
 binary_sensor: 
-- platform: noolite
-  channel: 3
-  name: "Кнопка noolite вверх на кухне"
-  type: remote 
-- platform: noolite
-  channel: 4
-  name: "Кнопка noolite вниз  на кухне"
-  type: remote 
-- platform: noolite
-  channel: 5
-  name: "Кнопка в ванной"
-  type: remote 
-
-- platform: mqtt
-  name: "My Computer - Connected"
-  state_topic: "iotlink/workgroup/family_com/lwt"
-  value_template: "{{ value }}"
-  payload_on: "ON"
-  payload_off: "OFF"
-  device_class: "connectivity"
-  qos: 1
-
-# - platform: noolite
-#   channel: 3
-#   name: "battary kitchen backlight remote up"
-#   type: battery 
-# - platform: noolite
-#   channel: 4
-#   name: "battary kitchen backlight remote down"
-#   type: battery 
-# - platform: noolite
-#   channel: 5
-#   name: "battary bathroom remote"
-#   type: battery
-  
-light:
-  - platform: noolite
-    channel: 0
-    name: "Подсветка на кухне"
-    icon: mdi:led-strip
-    scan_interval: 60
-    type: dimmer
-    mode: noolite
-
-  - platform: noolite
-    channel: 1
-    name: "Вентилятор в ванной"
-    icon: mdi:fan
-    scan_interval: 60
-    type: dimmer
-    mode: noolite
-    
+  - platform: mqtt
+    name: "My Computer - Connected"
+    state_topic: "iotlink/workgroup/family_com/lwt"
+    value_template: "{{ value }}"
+    payload_on: "ON"
+    payload_off: "OFF"
+    device_class: "connectivity"
+    qos: 1
 
 # Обозначение комьютера и настройк его вкл/выкл
 switch:
-#   - platform: wake_on_lan
-#     mac: !secret MAC_PC
-#     name: "Компьютер"
-#     host: !secret IP_PC
-#     turn_off:
-#       service: rest_command.turn_off
   - platform: template
     switches:
       my_computer:
@@ -117,7 +119,18 @@ switch:
           service: script.my_computer_wake
         turn_off:
           service: script.my_computer_shutdown
-        icon_template: mdi:laptop
+        icon_template: phu:desktop-computer
+
+  - platform: template
+    switches:
+      all_light_child:
+        friendly_name: "Весь свет в детской"
+        turn_on:
+          service: script.childrens_light
+        turn_off:
+          service: scene.turn_on
+          target:
+            entity_id: scene.svet_v_detskoi_vykliuchen
 
 yeelight:
   custom_effects:
@@ -145,18 +158,25 @@ notify:
     platform: telegram
     chat_id: !secret chatid_inna
 
-rest_command: # REST команды 
-#   turn_off: #Выключение ПК
-#     url: !secret command_PC_off
-#     method: get
+  - platform: html5
+    name: vitaly_html5
+    vapid_pub_key: !secret html5_PUBLIC_KEY
+    vapid_prv_key: !secret html5_PRIVATE_KEY
+    vapid_email: !secret email_e
 
+# notify_events:
+#   token: !secret notify_events
+
+
+rest_command: # REST команды 
 # Копирование snapshot в Google Drive
   google_backup:
     url: 'http://localhost:8055/gb/doBackup'
     timeout: '300'
 
-# notify_events:
-#   token: !secret notify_events
+#   turn_off: #Выключение ПК
+#     url: !secret command_PC_off
+#     method: get
 
 #--------------------------------------------------------Объекты
 
@@ -166,13 +186,7 @@ input_boolean:
     initial: off
     icon: mdi:cellphone-wireless
 
-# создание боковой панели с иконками Material disign
-# panel_iframe:
-#   mdi:
-#     title: "Material Design Icons"
-#     icon: mdi:material-design
-#     url: "https://mdi.bessarabov.com"
-
+# Яндекс станция и языковое общение 
 conversation: #возможность общаться с Яндекс станцией из интерфейса Lovelace
   intents:
     # менять нужно entity_id до двоеточия, после двоеточия ничего менять не надо!
@@ -181,6 +195,8 @@ conversation: #возможность общаться с Яндекс стан�
 yandex_station:
   recognition_lang: ru-RU
   tts_service_name: yandex_say
+  include:
+  - Телевизор
 
 yandex_smart_home:
   notifier:
@@ -188,38 +204,7 @@ yandex_smart_home:
       skill_id: !secret yandex_skill_id
       user_id: !secret yandex_user_id
 
-alert: !include alert.yaml #повторяющаяся каждые 5 минут тревога о протечке
-#   garage_door:
-#     name: "Leaks"
-#     done_message: "Протечка устранена"
-#     entity_id: binary_sensor.0x158d0006b2542f_moisture
-#     state: "on"
-#     title: "Внимание, обнаружена протечка"
-#     message: |
-#       {% if is_state('binary_sensor.0x158d0006b233e6_moisture', 'on') %} 
-#         Влажно на кухне!      
-#       {% else %} 
-#         На кухне сухо.
-#       {% endif %}
-#       {% if is_state('binary_sensor.0x158d0006b2542f_moisture', 'on') %} 
-#         Влажно в ванной!      
-#       {% else %} 
-#         В ванной сухо.
-#       {% endif %}
-#       {% if is_state('binary_sensor.0x158d0006b25766_moisture', 'on') %} 
-#         Влажно в туалете!      
-#       {% else %} 
-#         В туалете сухо.
-#       {% endif %}
-#     data:
-#       inline_keyboard:
-#         - 'Подтверждение:/Протечка_устранена'
-#     repeat: 5
-#     can_acknowledge: true
-#     skip_first: false
-#     notifiers:
-#       - vitaly
-
+#Трекинг устройств
 route:
   haddr: !secret outside_hass
   days: 5
@@ -229,3 +214,10 @@ route:
   devices:
     - device_tracker.inna_poco
     - device_tracker.mi_note_10_pro
+    - device_tracker.google_maps_kamarousky_gmail_com
+
+device_tracker:
+  - platform: google_maps
+    username: !secret email_k
+  - platform: google_maps
+    username: !secret email_e

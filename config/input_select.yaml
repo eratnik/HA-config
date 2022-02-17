@@ -1,22 +1,22 @@
-vacuum_room:
-  name: Выберите комнату для уборки
-  options:
-    - Выбрать
-    - Весь дом
-    - Спальня
-    - Детская
-    - Коридор и кухня
-  initial: Выбрать
-vacuum_speed:
-  name: "Выбор скорости пылесоса"
-  icon: mdi:car-speed-limiter
-  options: 
-    - Speed
-    - min
-    - low
-    - medium
-    - high
-    - max
+# vacuum_room:
+#   name: Выберите комнату для уборки
+#   options:
+#     - Выбрать
+#     - Весь дом
+#     - Спальня
+#     - Детская
+#     - Коридор и кухня
+#   initial: Выбрать
+# vacuum_speed:
+#   name: "Выбор скорости пылесоса"
+#   icon: mdi:car-speed-limiter
+#   options: 
+#     - Speed
+#     - min
+#     - low
+#     - medium
+#     - high
+#     - max
 conditioner_swing_mode:
   name: "Выбор режима шторок"
   icon: phu:vert-blind-open

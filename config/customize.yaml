@@ -4,3 +4,11 @@
 #   occupancy_timeout : -120   # режим быстрого назад 
 # binary_sensor.582d346033de_motion:
 #   occupancy_timeout : [-120, 240, 300]   # прогрессивный таймер 
+
+
+light.ventiliator_v_vannoi:
+  assumed_state: false
+  icon: mdi:fan
+light.podsvetka_na_kukhne:
+  assumed_state: false
+  icon: phu:rooms-kitchen

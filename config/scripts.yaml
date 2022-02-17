@@ -194,6 +194,8 @@ update_shopping_list:
     data:
       media_content_id: update
       media_content_type: shopping_list
+  mode: single
+  icon: fas:list-ol
 '1638028346743':
   alias: Эффект гирлянды в спальне
   sequence:
@@ -239,12 +241,12 @@ yandex_volume_set:
       - media_player.yandex_station_xk0000000000000130270002a0593d4f
   mode: single
 yandex_play_album:
-  alias: Включить альбом тест
+  alias: Яндекс станция тест
   sequence:
   - service: media_player.play_media
     data:
-      media_content_id: включи мой плейлист ночной на повторе
-      media_content_type: command
+      media_content_id: <speaker is_whisper="true">Хозяин, уже утро, пора вставать!
+      media_content_type: dialog
     target:
       entity_id: media_player.yandex_station_xk0000000000000130270002a0593d4f
   mode: single
@@ -255,12 +257,23 @@ yandex_tts2:
     target:
       entity_id: media_player.yandex_station_xk0000000000000130270002a0593d4f
     data:
+      media_content_id: сделай громче на 0
+      media_content_type: command
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 0
+      milliseconds: 10
+  - service: media_player.play_media
+    target:
+      entity_id: media_player.yandex_station_xk0000000000000130270002a0593d4f
+    data:
       media_content_id: включи мой плейлист ночной на повторе
       media_content_type: command
   - delay:
       hours: 0
       minutes: 0
-      seconds: 2
+      seconds: 1
       milliseconds: 0
   - service: media_player.volume_set
     data:
@@ -327,10 +340,10 @@ yandex_tts2:
     target:
       entity_id: media_player.yandex_station_xk0000000000000130270002a0593d4f
     data:
-      media_content_type: dialog
-      media_content_id: погода на завтра
+      media_content_type: command
+      media_content_id: включи телевизор
   mode: single
-  alias: test
+  alias: Включить телевизор
 '1638901280075':
   alias: Смена эффекта гирлянды в детской вручную
   sequence:
@@ -395,115 +408,233 @@ yandex_tts2:
       topic: iotlink/workgroup/family_com/commands/hibernate
       payload: ''
   mode: single
-
 my_computer_wake:
-  # To enable see https://www.home-assistant.io/components/wake_on_lan/
-  alias: "My Computer - Wake"
+  alias: My Computer - Wake
   sequence:
-    - service: wake_on_lan.send_magic_packet
-      data:
-        mac: 'f4:6d:04:21:19:ef'
-
+  - service: wake_on_lan.send_magic_packet
+    data:
+      mac: f4:6d:04:21:19:ef
 my_computer_shutdown:
-  alias: "My Computer - Shutdown"
+  alias: My Computer - Shutdown
   sequence:
-    - service: mqtt.publish
-      data:
-        topic: "iotlink/workgroup/family_com/commands/shutdown"
-        payload: ""
-
+  - service: mqtt.publish
+    data:
+      topic: iotlink/workgroup/family_com/commands/shutdown
+      payload: ''
 my_computer_suspend:
-  alias: "My Computer - Suspend"
+  alias: My Computer - Suspend
   sequence:
-    - service: mqtt.publish
-      data:
-        topic: "iotlink/workgroup/family_com/commands/suspend"
-        payload: ""
-
+  - service: mqtt.publish
+    data:
+      topic: iotlink/workgroup/family_com/commands/suspend
+      payload: ''
 my_computer_hibernate:
-  alias: "My Computer - Hibernate"
+  alias: My Computer - Hibernate
   sequence:
-    - service: mqtt.publish
-      data:
-        topic: "iotlink/workgroup/family_com/commands/hibernate"
-        payload: ""
-
+  - service: mqtt.publish
+    data:
+      topic: iotlink/workgroup/family_com/commands/hibernate
+      payload: ''
 my_computer_reboot:
-  alias: "My Computer - Reboot"
+  alias: My Computer - Reboot
   sequence:
-    - service: mqtt.publish
-      data:
-        topic: "iotlink/workgroup/family_com/commands/reboot"
-        payload: ""
-
+  - service: mqtt.publish
+    data:
+      topic: iotlink/workgroup/family_com/commands/reboot
+      payload: ''
 my_computer_lock:
-  alias: "My Computer - Lock"
+  alias: My Computer - Lock
   sequence:
-    - service: mqtt.publish
-      data:
-        topic: "iotlink/workgroup/family_com/commands/lock"
-        payload: ""
-
+  - service: mqtt.publish
+    data:
+      topic: iotlink/workgroup/family_com/commands/lock
+      payload: ''
 my_computer_logoff:
-  alias: "My Computer - Logoff"
+  alias: My Computer - Logoff
   sequence:
-    - service: mqtt.publish
-      data:
-        topic: "iotlink/workgroup/family_com/commands/logoff"
-        payload: ""
-
+  - service: mqtt.publish
+    data:
+      topic: iotlink/workgroup/family_com/commands/logoff
+      payload: ''
 my_computer_vol_mute:
-  alias: "My Computer - Toggle Mute"
+  alias: My Computer - Toggle Mute
   sequence:
-    - service: mqtt.publish
-      data:
-        topic: "iotlink/workgroup/family_com/commands/volume/mute"
-        payload: ""
-
+  - service: mqtt.publish
+    data:
+      topic: iotlink/workgroup/family_com/commands/volume/mute
+      payload: ''
 my_computer_vol_max:
-  alias: "My Computer - Vol Max"
+  alias: My Computer - Vol Max
   sequence:
-    - service: mqtt.publish
-      data:
-        topic: "iotlink/workgroup/family_com/commands/volume/set"
-        payload: "100"
-
+  - service: mqtt.publish
+    data:
+      topic: iotlink/workgroup/family_com/commands/volume/set
+      payload: '100'
 my_computer_displays_on:
-  alias: "My Computer - Displays ON"
+  alias: My Computer - Displays ON
   sequence:
-    - service: mqtt.publish
-      data:
-        topic: "iotlink/workgroup/family_com/commands/displays/on"
-        payload: ""
-
+  - service: mqtt.publish
+    data:
+      topic: iotlink/workgroup/family_com/commands/displays/on
+      payload: ''
 my_computer_displays_off:
-  alias: "My Computer - Displays OFF"
+  alias: My Computer - Displays OFF
   sequence:
-    - service: mqtt.publish
-      data:
-        topic: "iotlink/workgroup/family_com/commands/displays/off"
-        payload: ""
-
+  - service: mqtt.publish
+    data:
+      topic: iotlink/workgroup/family_com/commands/displays/off
+      payload: ''
 my_computer_refresh:
-  alias: "My Computer - Refresh"
+  alias: My Computer - Refresh
   sequence:
-    - service: mqtt.publish
-      data:
-        topic: "iotlink/workgroup/family_com/refresh"
-        payload: ""
-
-# my_computer_notify:
-#   alias: "My Computer - Notify"
-#   sequence:
-#     - service: mqtt.publish
-#       data:
-#         topic: "iotlink/workgroup/family_com/commands/notify"
-#         payload: '{ "title": "My Notification Title", "message": "This is an example of notification using IOT Link", "launchParams": "toast://open/https://iotlink.gitlab.io" }'
-
-# my_computer_run_chrome:
-#   alias: "My Computer - Run Chrome"
-#   sequence:
-#     - service: mqtt.publish
-#       data:
-#         topic: "iotlink/workgroup/family_com/commands/run"
-#         payload: '{ "command": "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe", "args": "https://iotlink.gitlab.io", "path": "C:\\Program Files (x86)\\Google\\Chrome\\Application", "user": "", "visible": true, "fallback": true }'
+  - service: mqtt.publish
+    data:
+      topic: iotlink/workgroup/family_com/refresh
+      payload: ''
+childrens_light:
+  sequence:
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: group.children_s_light
+        state: 'off'
+      sequence:
+      - service: scene.turn_on
+        target:
+          entity_id: scene.svet_v_detskoi_vkliuchen
+    - conditions:
+      - condition: state
+        entity_id: group.children_s_light
+        state: 'on'
+      sequence:
+      - condition: state
+        state: 'off'
+        entity_id: switch.children_s_spotlight_l1
+      - service: switch.turn_on
+        target:
+          entity_id: switch.children_s_spotlight_l1
+      - condition: state
+        entity_id: switch.children_s_spotlight_l2
+        state: 'off'
+      - service: switch.turn_on
+        target:
+          entity_id: switch.children_s_spotlight_l2
+      - condition: state
+        entity_id: light.yeelight_ceiling1_0x3b65236
+        state: 'off'
+      - service: light.turn_on
+        target:
+          entity_id: light.yeelight_ceiling1_0x3b65236
+        data:
+          brightness_pct: 100
+    default: []
+  mode: single
+  alias: Включить весь свет в детской
+  icon: mdi:lightbulb-group
+kodi:
+  sequence:
+  - service: wake_on_lan.send_magic_packet
+    data:
+      mac: b8:27:eb:66:a8:72
+  mode: single
+  alias: Коди включить
+  icon: mdi:kodi
+kodi_2:
+  alias: Коди выключить
+  sequence:
+  - service: kodi.call_method
+    target:
+      entity_id: media_player.libreelec
+    data:
+      method: System.Shutdown
+  mode: single
+  icon: hue:lightstrip-tv-off
+kodi_3:
+  alias: Коди обновить библиотеку
+  sequence:
+  - service: kodi.call_method
+    target:
+      entity_id: media_player.libreelec
+    data:
+      method: VideoLibrary.Scan
+  mode: single
+  icon: mdi:database-sync-outline
+kodi_4:
+  alias: Коди очистить библиотеку
+  sequence:
+  - service: kodi.call_method
+    target:
+      entity_id: media_player.libreelec
+    data:
+      method: VideoLibrary.Clean
+  mode: single
+  icon: mdi:database-minus-outline
+'1644400678872':
+  alias: 'Включение входа Яндекс '
+  sequence:
+  - service: media_player.select_source
+    data:
+      entity_id: media_player.televizor
+      source: HDMI3
+  mode: single
+'1644400833935':
+  alias: Включение входа Коди
+  sequence:
+  - service: media_player.select_source
+    target:
+      entity_id: media_player.televizor
+    data:
+      source: HDMI2
+  mode: single
+'1644486924270':
+  alias: Переключить на коди
+  sequence:
+  - service: media_player.play_media
+    target:
+      entity_id: media_player.yandex_station_xk0000000000000130270002a0593d4f
+    data:
+      media_content_id: сделай громче на 0
+      media_content_type: command
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: media_player.televizor
+        state: playing
+      - condition: template
+        value_template: '{% if is_state_attr("media_player.televizor", "source", "HDMI3")%}
+          True {% else %} False {% endif %}'
+      sequence:
+      - service: media_player.play_media
+        data:
+          media_content_type: command
+          media_content_id: включи источник 2
+        target:
+          entity_id: media_player.yandex_station_xk0000000000000130270002a0593d4f
+    - conditions:
+      - condition: state
+        entity_id: media_player.televizor
+        state: 'off'
+      sequence:
+      - service: script.1638645965421
+        data: {}
+      - delay:
+          hours: 0
+          minutes: 0
+          seconds: 30
+          milliseconds: 0
+    default: []
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{% if is_state_attr("media_player.televizor", "source", "HDMI3")%}
+          True {% else %} False {% endif %}'
+      sequence:
+      - service: media_player.play_media
+        data:
+          media_content_type: command
+          media_content_id: включи источник 2
+        target:
+          entity_id: media_player.yandex_station_xk0000000000000130270002a0593d4f
+    default: []
+  mode: single
+  icon: mdi:kodi

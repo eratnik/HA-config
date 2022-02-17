@@ -4,3 +4,10 @@ family:
   - device_tracker.9c_5a_81_f3_fb_50
   - device_tracker.vitali
   - device_tracker.teshcha
+children's_light:
+  entities:
+  - switch.children_s_spotlight_l1
+  - switch.children_s_spotlight_l2
+  - light.yeelight_ceiling1_0x3b65236_nightlight
+  - light.yeelight_ceiling1_0x3b65236
+  

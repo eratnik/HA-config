@@ -1,0 +1,32 @@
+noolite_pack:
+
+  sensor: 
+    - name: "PU313-1"
+      platform: noolite
+      channel: 3
+      type: rgb_remote
+    - name: "PU313-2"
+      platform: noolite
+      channel: 4
+      type: rgb_remote
+    - platform: noolite
+      channel: 5
+      name: "Кнопка в ванной"
+      type: rgb_remote
+
+  light:
+    - platform: noolite
+      channel: 0
+      name: "Подсветка на кухне"
+    #   icon: mdi:led-strip
+      scan_interval: 60
+      type: dimmer
+      mode: noolite
+
+    - platform: noolite
+      channel: 1
+      name: "Вентилятор в ванной"
+    #   icon: mdi:fan
+      scan_interval: 60
+      type: dimmer
+      mode: noolite

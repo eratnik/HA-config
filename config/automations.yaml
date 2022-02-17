@@ -176,13 +176,16 @@
         ttl: 0
   mode: single
 - id: '1627139676612'
-  alias: Авто выключение света в коридоре часть 2
+  alias: Авто выключение света в коридоре ч.2 (выключатель)
   description: ''
   trigger:
   - platform: state
     entity_id: switch.light_switch_coridor
     to: 'on'
-    for: 00:03:00
+    for:
+      hours: 0
+      minutes: 1
+      seconds: 0
   condition:
   - condition: state
     entity_id: binary_sensor.582d346033de_motion
@@ -238,20 +241,6 @@
     target:
       entity_id: switch.light_switch_coridor
   mode: single
-- id: '1630401972163'
-  alias: Кнопка 1 (single)
-  description: Переключить свет над столом в детской
-  trigger:
-  - platform: event
-    event_type: xiaomi_aqara.click
-    event_data:
-      entity_id: sensor.0x158d0006b878d6_action
-      click_type: single
-  action:
-  - service: switch.toggle
-    target:
-      entity_id: switch.0xa4c138e4b3264045_l2
-  mode: single
 - id: '1631424396987'
   alias: Alisa' nightlight off 2
   description: ''
@@ -267,37 +256,42 @@
     target:
       entity_id: light.yeelight_ceiling1_0x3b65236_nightlight
   mode: single
-- id: '1632216586065'
-  alias: Кнопка 1 (double)
-  description: Переключение света над кроватью
-  trigger:
-  - platform: event
-    event_type: xiaomi_aqara.click
-    event_data:
-      entity_id: sensor.0x158d0006b878d6_action
-      click_type: double
-  condition: []
-  action:
-  - service: switch.toggle
-    target:
-      entity_id: switch.0xa4c138e4b3264045_l1
-  mode: single
 - id: '1632389824183'
-  alias: Кнопка 1 (press)
+  alias: Кнопка 1 all
   description: Переключение люстры в детской
   trigger:
   - platform: event
     event_type: xiaomi_aqara.click
-    event_data:
-      entity_id: sensor.0x158d0006b878d6_action
-      click_type: release
   condition: []
   action:
-  - service: light.toggle
-    data:
-      brightness_pct: 100
-    target:
-      entity_id: light.yeelight_ceiling1_0x3b65236
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: sensor.0x158d0006b878d6_action
+        state: double
+      sequence:
+      - service: switch.toggle
+        target:
+          entity_id: switch.0xa4c138e4b3264045_l1
+    - conditions:
+      - condition: state
+        entity_id: sensor.0x158d0006b878d6_action
+        state: single
+      sequence:
+      - service: switch.toggle
+        target:
+          entity_id: switch.0xa4c138e4b3264045_l2
+    - conditions:
+      - condition: state
+        entity_id: sensor.0x158d0006b878d6_action
+        state: release
+      sequence:
+      - service: light.toggle
+        target:
+          entity_id: light.yeelight_ceiling1_0x3b65236
+        data:
+          brightness_pct: 100
+    default: []
   mode: single
 - id: '1633940250632'
   alias: Notify Vitali about leaks  (Дублировать)
@@ -351,15 +345,17 @@
     - wed
     - thu
     - fri
-  - condition: and
-    conditions:
-    - condition: sun
-      before: sunrise
+  - condition: sun
+    before: sunrise
   - condition: state
     entity_id: group.family
     state: home
+  - condition: state
+    entity_id: input_boolean.kanikuly_alisy
+    state: 'off'
   action:
   - service: script.sunrise
+    data: {}
   mode: single
 - id: '1637002056681'
   alias: Wled1 & comp autooff
@@ -372,22 +368,32 @@
   - choose:
     - conditions:
       - condition: state
-        entity_id: light.wled1
-        state: 'on'
-      sequence:
-      - service: light.turn_off
-        target:
-          entity_id: light.wled1
-    default: []
-  - choose:
-    - conditions:
-      - condition: state
         entity_id: switch.my_computer
         state: 'on'
       sequence:
       - service: switch.turn_off
         target:
           entity_id: switch.my_computer
+    default: []
+  - choose:
+    - conditions:
+      - condition: state
+        state: 'on'
+        entity_id: script.wled_random_effect
+      sequence:
+      - service: script.turn_off
+        target:
+          entity_id: script.wled_random_effect
+    default: []
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: light.wled1
+        state: 'on'
+      sequence:
+      - service: light.turn_off
+        target:
+          entity_id: light.wled1
     default: []
   - delay:
       hours: 1
@@ -398,7 +404,7 @@
     target:
       entity_id: light.yeelight_ceiling1_0x3b65236_nightlight
     data:
-      brightness_pct: 15
+      brightness_pct: 10
   mode: single
 - id: '1637745009884'
   alias: Я.Алиса1
@@ -409,7 +415,7 @@
   action:
   - service: media_player.play_media
     entity_id: media_player.yandex_station_xk0000000000000130270002a0593d4f
-    data_template:
+    data:
       media_content_id: '{{ trigger.event.data.text }}'
       media_content_type: question:{{ trigger.event.data.chat_id }}
   mode: single
@@ -417,45 +423,13 @@
   alias: Я.Алиса2
   description: ''
   trigger:
-    platform: event
+  - platform: event
     event_type: yandex_station_response
   action:
-    service: telegram_bot.send_message
-    data_template:
+  - service: telegram_bot.send_message
+    data:
       target: '{{ trigger.event.data.request_id }}'
       message: '{{ trigger.event.data.text }}'
-  mode: single
-- id: '1638114732979'
-  alias: 'Кнопка 2 (double) '
-  description: Сменить эффект wled1
-  trigger:
-  - platform: event
-    event_type: xiaomi_aqara.click
-    event_data:
-      entity_id: sensor.0x158d0006b8850d_action
-      click_type: double
-  condition:
-  - condition: state
-    entity_id: light.wled1
-    state: 'on'
-  action:
-  - service: script.1638901280075
-  mode: single
-- id: '1638114794736'
-  alias: Кнопка 2 (single)
-  description: Включение подсветки на кухне
-  trigger:
-  - platform: event
-    event_type: xiaomi_aqara.click
-    event_data:
-      entity_id: sensor.0x158d0006b8850d_action
-      click_type: single
-  condition: []
-  action:
-  - service: light.toggle
-    data: {}
-    target:
-      entity_id: light.podsvetka_na_kukhne
   mode: single
 - id: '1638352084586'
   alias: Укладываем Дашу
@@ -608,45 +582,6 @@
       message: "*Внимание!*\n{% if trigger.to_state.state == 'off' -%}\n  _Домофон_:\
         \ потеряно подключение к HA.\n{% elif trigger.to_state.state == 'on' -%}\n\
         \  _Домофон_: восстановлено подключение к HA\n{% endif %}\n"
-- id: '1638709845013'
-  alias: Домофон вход в зону "ДОМ"
-  trigger:
-  - platform: zone
-    entity_id: person.hass,person.inna,person.alisa
-    zone: zone.domofon
-    event: enter
-  action:
-  - service: switch.turn_on
-    data:
-      entity_id: switch.domofon_automatically_open_once
-  - service: switch.turn_on
-    data:
-      entity_id: switch.domofon_mute_sound_once
-  - service: notify.vitaly
-    data:
-      message: включен режим однократного авто-открытия.
-      title: 'Домофон: '
-  - wait_for_trigger:
-    - platform: state
-      entity_id: binary_sensor.0x158d00031c790f_contact
-      to: 'on'
-    timeout: 00:10:00
-  - choose:
-    - conditions:
-      - condition: template
-        value_template: '{{ is_state(''switch.domofon_automatically_open_once'', ''on'')
-          }}'
-      sequence:
-      - service: switch.turn_off
-        data:
-          entity_id: switch.domofon_automatically_open_once
-      - service: switch.turn_off
-        data:
-          entity_id: switch.domofon_mute_sound_once
-      - service: notify.vitaly
-        data:
-          message: отключен режим однократного авто-открытия.
-          title: 'Домофон: '
 - id: '1638870203347'
   alias: Включение гирлянды в спальне
   description: ''
@@ -662,29 +597,17 @@
     target:
       entity_id: script.1638028346743
   mode: single
-- id: '1640166940525'
-  alias: Кнопка 2 (press)
-  description: Переключение люстры в детской
-  trigger:
-  - platform: event
-    event_type: xiaomi_aqara.click
-    event_data:
-      entity_id: sensor.0x158d0006b8850d_action
-      click_type: release
-  condition: []
-  action:
-  - service: light.toggle
-    target:
-      entity_id: light.wled1
-  mode: single
 - id: '1640950814219'
-  alias: Авто выключение света в коридоре часть 1
+  alias: Авто выключение света в коридоре ч.1 (датчик)
   description: ''
   trigger:
   - platform: state
     entity_id: binary_sensor.582d346033de_motion
     to: 'off'
-    for: 00:03:00
+    for:
+      hours: 0
+      minutes: 1
+      seconds: 0
   condition:
   - condition: state
     entity_id: switch.light_switch_coridor
@@ -731,16 +654,24 @@
     to: 1_hold
   condition: []
   action:
-  - service: light.toggle
-    target:
-      entity_id:
-      - light.yeelight_ceiling1_0x3b65236_nightlight
-      - light.yeelight_ceiling1_0x3b65236
-  - service: switch.toggle
-    target:
-      entity_id:
-      - switch.0xa4c138e4b3264045_l1
-      - switch.0xa4c138e4b3264045_l2
+  - choose:
+    - conditions:
+      - condition: state
+        state: 'on'
+        entity_id: group.children_s_light
+      sequence:
+      - service: switch.turn_off
+        target:
+          entity_id: switch.all_light_child
+    - conditions:
+      - condition: state
+        entity_id: group.children_s_light
+        state: 'off'
+      sequence:
+      - service: switch.turn_on
+        target:
+          entity_id: switch.all_light_child
+    default: []
   mode: single
   max: 10
 - id: '1641325197672'
@@ -754,7 +685,7 @@
   action:
   - service: switch.toggle
     target:
-      entity_id: switch.0xa4c138e4b3264045_l2
+      entity_id: switch.children_s_spotlight_l2
   mode: single
   max: 10
 - id: '1641325237470'
@@ -768,7 +699,7 @@
   action:
   - service: switch.toggle
     target:
-      entity_id: switch.0xa4c138e4b3264045_l1
+      entity_id: switch.children_s_spotlight_l1
   mode: single
   max: 10
 - id: '1641325373745'
@@ -823,28 +754,15 @@
   - service: script.wled_random_effect
   mode: single
   max: 10
-- id: '1641756320092'
-  alias: Новая автоматизация
-  description: ''
-  trigger:
-  - platform: state
-    entity_id: binary_sensor.knopka_noolite_vverkh_na_kukhne
-  condition: []
-  action:
-  - service: switch.toggle
-    target:
-      entity_id: switch.light_switch_coridor
-  mode: single
 - id: '1642688094854'
-  alias: Шторки кондера
-  description: ''
+  alias: Кондиционер шторки 1
+  description: при переключении input_select смена режима
   trigger:
   - platform: state
-    entity_id: climate.konditsioner
+    entity_id: input_select.conditioner_swing_mode
   condition:
-  - condition: state
-    entity_id: climate.konditsioner
-    state: 'on'
+  - condition: template
+    value_template: '{{ states("climate.konditsioner") !="off"}} '
   action:
   - choose:
     - conditions:
@@ -1017,5 +935,455 @@
           entity_id: climate.konditsioner
         data:
           swing_mode: HorizontalSwing
+    default: []
+  mode: single
+- id: '1642861237211'
+  alias: 3action all
+  description: Переключение люстры в детской
+  trigger:
+  - platform: state
+    entity_id: sensor.3action_action
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: sensor.3action_action
+        state: 2_double
+        attribute: action
+      sequence:
+      - service: switch.toggle
+        target:
+          entity_id: switch.0xa4c138e4b3264045_l1
+    - conditions:
+      - condition: state
+        entity_id: sensor.3action_action
+        state: 2_single
+        attribute: action
+      sequence:
+      - service: switch.toggle
+        target:
+          entity_id: switch.0xa4c138e4b3264045_l2
+    - conditions:
+      - condition: state
+        entity_id: sensor.3action_action
+        state: 2_hold
+        attribute: action
+      sequence:
+      - service: script.toggle
+        target:
+          entity_id: script.wled_random_effect
+    - conditions:
+      - condition: state
+        entity_id: sensor.3action_action
+        state: 1_single
+        attribute: action
+      sequence:
+      - service: light.toggle
+        target:
+          entity_id: light.yeelight_ceiling1_0x3b65236
+    - conditions:
+      - condition: state
+        entity_id: sensor.3action_action
+        state: 1_double
+        attribute: action
+      sequence:
+      - service: light.toggle
+        target:
+          entity_id: light.yeelight_ceiling1_0x3b65236_nightlight
+    - conditions:
+      - condition: state
+        entity_id: sensor.3action_action
+        state: 1_hold
+        attribute: action
+      sequence:
+      - service: switch.toggle
+        target:
+          entity_id: switch.all_light_child
+    default: []
+  mode: restart
+  max: 10
+- id: '1643459820911'
+  alias: Свет на кухне
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: light.podsvetka_na_kukhne
+    to: 'on'
+  condition:
+  - condition: time
+    after: '16:00'
+    before: '17:00'
+  action:
+  - service: light.turn_on
+    target:
+      entity_id: light.podsvetka_na_kukhne
+    data:
+      brightness_pct: 4
+  mode: single
+- id: '1643462050030'
+  alias: Кнопка 2 all (Дублировать)
+  description: Переключение люстры в детской
+  trigger:
+  - platform: event
+    event_type: xiaomi_aqara.click
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: state
+        state: single
+        entity_id: sensor.0x158d0006b8850d_action
+      - condition: time
+        after: 06:00
+        before: 00:30
+      sequence:
+      - service: light.toggle
+        target:
+          entity_id: light.podsvetka_na_kukhne
+        data:
+          brightness_pct: 100
+    - conditions:
+      - condition: state
+        entity_id: sensor.0x158d0006b8850d_action
+        state: single
+      - condition: time
+        after: 00:30
+        before: 06:00
+      sequence:
+      - service: light.toggle
+        target:
+          entity_id: light.podsvetka_na_kukhne
+        data:
+          brightness_pct: 3
+    default: []
+  mode: single
+- id: '1644312755982'
+  alias: Домофон вход в зону "ДОМ" модернизированный
+  description: ''
+  trigger:
+  - platform: zone
+    entity_id: person.hass,person.inna,person.alisa
+    zone: zone.domofon
+    event: enter
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ is_state(''switch.domofon_automatically_open'', ''on'')
+          }}'
+      sequence:
+      - service: notify.vitaly
+        data:
+          message: уже включен режим постоянного авто-открытия.
+          title: 'Домофон: '
+    - conditions:
+      - condition: template
+        value_template: '{{ is_state(''switch.domofon_automatically_open'', ''off'')
+          }}'
+      sequence:
+      - service: switch.turn_on
+        data: {}
+        target:
+          entity_id:
+          - switch.domofon_automatically_open_once
+          - switch.domofon_mute_sound_once
+      - service: notify.vitaly
+        data:
+          message: включен режим однократного авто-открытия.
+          title: 'Домофон: '
+    default: []
+  - delay:
+      hours: 0
+      minutes: 10
+      seconds: 0
+      milliseconds: 0
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ is_state(''switch.domofon_automatically_open_once'', ''on'')
+          }}'
+      sequence:
+      - service: switch.turn_off
+        data: {}
+        target:
+          entity_id:
+          - switch.domofon_automatically_open_once
+          - switch.domofon_mute_sound_once
+      - service: notify.vitaly
+        data:
+          message: отключен режим однократного авто-открытия.
+          title: 'Домофон: '
+  mode: single
+- id: '1644487520730'
+  alias: Переключить на коди
+  description: ''
+  trigger:
+  - platform: event
+    event_type: yandex_speaker
+    event_data:
+      value: Сделай громче на 0,
+  condition: []
+  action:
+  - service: script.1644486924270
+    data: {}
+  mode: single
+- id: '1644938635038'
+  alias: Домофон автооткрытие постоянное
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: switch.domofon_automatically_open
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: switch.domofon_automatically_open
+        state: 'on'
+      sequence:
+      - service: switch.turn_on
+        data: {}
+        target:
+          entity_id: switch.domofon_mute_sound
+    - conditions:
+      - condition: state
+        entity_id: switch.domofon_automatically_open
+        state: 'off'
+      sequence:
+      - service: switch.turn_off
+        data: {}
+        target:
+          entity_id: switch.domofon_mute_sound
+    default: []
+  mode: single
+- id: '1644938733573'
+  alias: Домофон автооткрытие разовое
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: switch.domofon_automatically_open_once
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: switch.domofon_automatically_open_once
+        state: 'on'
+      sequence:
+      - service: switch.turn_on
+        data: {}
+        target:
+          entity_id: switch.domofon_mute_sound_once
+    - conditions:
+      - condition: state
+        entity_id: switch.domofon_automatically_open_once
+        state: 'off'
+      sequence:
+      - service: switch.turn_off
+        data: {}
+        target:
+          entity_id: switch.domofon_mute_sound_once
+    default: []
+  mode: single
+- id: '1645074023283'
+  alias: Кондиционер шторки 2
+  description: при переключении режима изменение input_select
+  trigger:
+  - platform: state
+    entity_id: climate.konditsioner
+  condition:
+  - condition: template
+    value_template: '{{ states("climate.konditsioner") !="off"}}'
+  action:
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: climate.konditsioner
+        state: '{{ state_attr("climate.konditsioner", "swing_modes") [0] }}'
+      sequence:
+      - service: input_select.select_option
+        data:
+          option: '{{ state_attr("input_select.conditioner_swing_mode", "options")
+            [0] }} '
+        target:
+          entity_id: input_select.conditioner_swing_mode
+    - conditions:
+      - condition: state
+        entity_id: climate.konditsioner
+        state: '{{ state_attr("climate.konditsioner", "swing_modes") [1] }}'
+      sequence:
+      - service: input_select.select_option
+        data:
+          option: '{{ state_attr("input_select.conditioner_swing_mode", "options")
+            [1] }} '
+        target:
+          entity_id: input_select.conditioner_swing_mode
+    - conditions:
+      - condition: state
+        entity_id: climate.konditsioner
+        state: '{{ state_attr("climate.konditsioner", "swing_modes") [2] }}'
+      sequence:
+      - service: input_select.select_option
+        data:
+          option: '{{ state_attr("input_select.conditioner_swing_mode", "options")
+            [2] }} '
+        target:
+          entity_id: input_select.conditioner_swing_mode
+    - conditions:
+      - condition: state
+        entity_id: climate.konditsioner
+        state: '{{ state_attr("climate.konditsioner", "swing_modes") [3] }}'
+      sequence:
+      - service: input_select.select_option
+        data:
+          option: '{{ state_attr("input_select.conditioner_swing_mode", "options")
+            [3] }} '
+        target:
+          entity_id: input_select.conditioner_swing_mode
+    - conditions:
+      - condition: state
+        entity_id: climate.konditsioner
+        state: '{{ state_attr("climate.konditsioner", "swing_modes") [4] }}'
+      sequence:
+      - service: input_select.select_option
+        data:
+          option: '{{ state_attr("input_select.conditioner_swing_mode", "options")
+            [4] }} '
+        target:
+          entity_id: input_select.conditioner_swing_mode
+    - conditions:
+      - condition: state
+        entity_id: climate.konditsioner
+        state: '{{ state_attr("climate.konditsioner", "swing_modes") [5] }}'
+      sequence:
+      - service: input_select.select_option
+        data:
+          option: '{{ state_attr("input_select.conditioner_swing_mode", "options")
+            [5] }} '
+        target:
+          entity_id: input_select.conditioner_swing_mode
+    - conditions:
+      - condition: state
+        entity_id: climate.konditsioner
+        state: '{{ state_attr("climate.konditsioner", "swing_modes") [6] }}'
+      sequence:
+      - service: input_select.select_option
+        data:
+          option: '{{ state_attr("input_select.conditioner_swing_mode", "options")
+            [6] }} '
+        target:
+          entity_id: input_select.conditioner_swing_mode
+    - conditions:
+      - condition: state
+        entity_id: climate.konditsioner
+        state: '{{ state_attr("climate.konditsioner", "swing_modes") [7] }}'
+      sequence:
+      - service: input_select.select_option
+        data:
+          option: '{{ state_attr("input_select.conditioner_swing_mode", "options")
+            [7] }} '
+        target:
+          entity_id: input_select.conditioner_swing_mode
+    - conditions:
+      - condition: state
+        entity_id: climate.konditsioner
+        state: '{{ state_attr("climate.konditsioner", "swing_modes") [8] }}'
+      sequence:
+      - service: input_select.select_option
+        data:
+          option: '{{ state_attr("input_select.conditioner_swing_mode", "options")
+            [8] }} '
+        target:
+          entity_id: input_select.conditioner_swing_mode
+    - conditions:
+      - condition: state
+        entity_id: climate.konditsioner
+        state: '{{ state_attr("climate.konditsioner", "swing_modes") [9] }}'
+      sequence:
+      - service: input_select.select_option
+        data:
+          option: '{{ state_attr("input_select.conditioner_swing_mode", "options")
+            [9] }} '
+        target:
+          entity_id: input_select.conditioner_swing_mode
+    - conditions:
+      - condition: state
+        entity_id: climate.konditsioner
+        state: '{{ state_attr("climate.konditsioner", "swing_modes") [10] }}'
+      sequence:
+      - service: input_select.select_option
+        data:
+          option: '{{ state_attr("input_select.conditioner_swing_mode", "options")
+            [10] }} '
+        target:
+          entity_id: input_select.conditioner_swing_mode
+    - conditions:
+      - condition: state
+        entity_id: climate.konditsioner
+        state: '{{ state_attr("climate.konditsioner", "swing_modes") [11] }}'
+      sequence:
+      - service: input_select.select_option
+        data:
+          option: '{{ state_attr("input_select.conditioner_swing_mode", "options")
+            [11] }} '
+        target:
+          entity_id: input_select.conditioner_swing_mode
+    - conditions:
+      - condition: state
+        entity_id: climate.konditsioner
+        state: '{{ state_attr("climate.konditsioner", "swing_modes") [12] }}'
+      sequence:
+      - service: input_select.select_option
+        data:
+          option: '{{ state_attr("input_select.conditioner_swing_mode", "options")
+            [12] }} '
+        target:
+          entity_id: input_select.conditioner_swing_mode
+    - conditions:
+      - condition: state
+        entity_id: climate.konditsioner
+        state: '{{ state_attr("climate.konditsioner", "swing_modes") [13] }}'
+      sequence:
+      - service: input_select.select_option
+        data:
+          option: '{{ state_attr("input_select.conditioner_swing_mode", "options")
+            [13] }} '
+        target:
+          entity_id: input_select.conditioner_swing_mode
+    - conditions:
+      - condition: state
+        entity_id: climate.konditsioner
+        state: '{{ state_attr("climate.konditsioner", "swing_modes") [14] }}'
+      sequence:
+      - service: input_select.select_option
+        data:
+          option: '{{ state_attr("input_select.conditioner_swing_mode", "options")
+            [14] }} '
+        target:
+          entity_id: input_select.conditioner_swing_mode
+    - conditions:
+      - condition: state
+        entity_id: climate.konditsioner
+        state: '{{ state_attr("climate.konditsioner", "swing_modes") [15] }}'
+      sequence:
+      - service: input_select.select_option
+        data:
+          option: '{{ state_attr("input_select.conditioner_swing_mode", "options")
+            [15] }} '
+        target:
+          entity_id: input_select.conditioner_swing_mode
+    - conditions:
+      - condition: state
+        entity_id: climate.konditsioner
+        state: '{{ state_attr("climate.konditsioner", "swing_modes") [16] }}'
+      sequence:
+      - service: input_select.select_option
+        data:
+          option: '{{ state_attr("input_select.conditioner_swing_mode", "options")
+            [16] }} '
+        target:
+          entity_id: input_select.conditioner_swing_mode
     default: []
   mode: single

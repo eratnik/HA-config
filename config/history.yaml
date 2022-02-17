@@ -10,9 +10,10 @@ include:
     - script
     - device_tracker
   entities:
-    - vacuum.rockrobo
+    - vacuum.valetudo_slipperyprestigiouskudu
     - sensor.hass_db_size
     - number.co2_airsensor_threshold2
+    - media_player.televizor
 
 exclude:
   entities:
@@ -36,7 +37,7 @@ exclude:
   entity_globs:
       - sensor.*_ble
       - sensor.*_zigbee
-      - sensor.transmission_*
+#      - sensor.transmission_*
       - sensor.*_rssi
       - sensor.*_linkquality
       - sensor.*_uptime

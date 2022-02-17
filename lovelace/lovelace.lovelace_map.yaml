@@ -23,10 +23,10 @@ config:
       - entity: person.alisa
       - entity: sensor.a4c138ebf2e9_temperature
       - entity: sensor.a4c138ebf2e9_humidity
-      - entity: switch.0xa4c138e4b3264045_l1
+      - entity: switch.children_s_spotlight_l1
         name: "\u0421\u0432\u0435\u0442 \u043D\u0430\u0434 \u043A\u0440\u043E\u0432\
           \u0430\u0442\u044C\u044E"
-      - entity: switch.0xa4c138e4b3264045_l2
+      - entity: switch.children_s_spotlight_l2
         name: "\u0421\u0432\u0435\u0442 \u043D\u0430\u0434 \u0441\u0442\u043E\u043B\
           \u043E\u043C"
       - entity: light.yeelight_ceiling1_0x3b65236
@@ -71,16 +71,17 @@ config:
       title: "\u041F\u0440\u0438\u0445\u043E\u0436\u0430\u044F"
       type: entities
     - entities:
-      - entity: vacuum.rockrobo
+      - entity: vacuum.valetudo_slipperyprestigiouskudu
       - entity: remote.0x588e81fffef3f096_pair
       - entity: switch.0x588e81fffef3f096_firmware_lock
       - entity: sensor.a4c1388ae7a0_humidity
       - entity: sensor.a4c1388ae7a0_temperature
       - entity: sensor.0x588e81fffef3f096_gateway
       - entity: sensor.a4c1388ae7a0_ble
+      state_color: true
       title: "\u0421\u043F\u0430\u043B\u044C\u043D\u044F"
       type: entities
-    - entity: media_player.alexelec
+    - entity: media_player.libreelec
       type: media-control
     - entities:
       - binary_sensor.0x158d0006b25766_moisture
@@ -103,20 +104,19 @@ config:
       title: "\u041B\u044E\u0434\u0438"
       type: entities
     - entities:
-      - sensor.date
-      - sensor.disk_free
-      - sensor.disk_use_percent
-      - sensor.disk_use
-      - sensor.hass_db_size
-      - sensor.last_boot
-      - sensor.memory_free
-      - sensor.memory_use
-      - sensor.memory_use_percent
-      - sensor.orange_pi_pc_temp
-      - sensor.processor_use_percent
-      - sensor.time
-      - sensor.0x158d0006b2542f_zigbee
-      - sensor.status_google_backup
+      - entity: sensor.date
+      - entity: sensor.disk_free
+      - entity: sensor.disk_use_percent
+      - entity: sensor.disk_use
+      - entity: sensor.hass_db_size
+      - entity: sensor.last_boot
+      - entity: sensor.memory_free
+      - entity: sensor.memory_use
+      - entity: sensor.memory_use_percent
+      - entity: sensor.orange_pi_pc_temp
+      - entity: sensor.processor_use_percent
+      - entity: sensor.time
+      - entity: sensor.0x158d0006b2542f_zigbee
       title: "\u0421\u0435\u043D\u0441\u043E\u0440"
       type: entities
     - dark_mode: false
@@ -127,11 +127,12 @@ config:
       hours_to_show: 8
       type: map
     - entities:
-      - sensor.konditsioner_energy_current
-      - sensor.konditsioner_room_temperature
+      - entity: climate.konditsioner
+      - entity: sensor.konditsioner_energy_current
+      - entity: sensor.konditsioner_energy
+      - entity: sensor.dnevnoi_raskhod_konditsioner
+      - entity: sensor.mesiachnyi_raskhod_konditsioner
       type: entities
-    - entity: climate.konditsioner
-      type: thermostat
     - entities:
       - switch.portable_switch
       - sensor.portable_switch_current
@@ -141,14 +142,6 @@ config:
       - sensor.portable_switch_linkquality
       - sensor.portable_switch_voltage
       type: entities
-    - area: spalnia
-      type: area
-    - camera_image: camera.family_com_screen_0
-      camera_view: live
-      entities:
-      - entity: switch.pc
-      title: PC
-      type: picture-glance
     - all_series_config:
         curve: smooth
         extend_to_end: false
@@ -390,6 +383,226 @@ config:
         type: area
       type: custom:apexcharts-card
       update_interval: 10min
+    - entity: vacuum.valetudo_slipperyprestigiouskudu
+      map: camera.slipperyprestigiouskudu_rendered_map
+      shortcuts:
+      - icon: phu:charging-station
+        name: "\u0412\u0435\u0440\u043D\u0443\u0442\u044C\u0441\u044F \u043D\u0430\
+          \ \u0441\u0442\u0430\u043D\u0446\u0438\u044E"
+        service: vacuum.return_to_base
+      show_name: false
+      show_status: true
+      show_toolbar: true
+      stats:
+        cleaning:
+        - attribute: cleanArea
+          subtitle: Cleaning area
+          unit: m2
+        - attribute: cleanTime
+          subtitle: Cleaning time
+          unit: minutes
+        default:
+        - attribute: filter
+          subtitle: Filter
+          unit: hours
+        - attribute: sideBrush
+          subtitle: Side brush
+          unit: hours
+        - attribute: mainBrush
+          subtitle: Main brush
+          unit: hours
+        - attribute: sensor
+          subtitle: Sensors
+          unit: hours
+      type: custom:vacuum-card
+    - cards:
+      - entities:
+        - entity: sensor.current_cleaned_area_custom
+        - entity: sensor.valetudo_slipperyprestigiouskudu_current_statistics_time
+        - entity: sensor.valetudo_slipperyprestigiouskudu_main_brush
+        - entity: sensor.valetudo_slipperyprestigiouskudu_sensor_cleaning
+        - entity: sensor.valetudo_slipperyprestigiouskudu_main_filter
+        - entity: sensor.valetudo_slipperyprestigiouskudu_right_brush
+        - entity: sensor.valetudo_slipperyprestigiouskudu_error_description
+        - entity: sensor.current_statistics_area_custom
+        title: "\u0421\u0442\u0430\u0442\u0438\u0441\u0442\u0438\u043A\u0430 \u043F\
+          \u044B\u043B\u0435\u0441\u043E\u0441\u0430"
+        type: entities
+      type: vertical-stack
+    - all_series_config:
+        curve: smooth
+        extend_to_end: false
+        show:
+          extremas: true
+          legend_value: false
+        stroke_width: 3
+      apex_config:
+        chart:
+          height: auto
+        dataLabels:
+          enabled: false
+        fill:
+          gradient:
+            inverseColors: false
+            opacityFrom: 0.5
+            opacityTo: 0
+            shadeIntensity: 0.8
+            stops:
+            - - 0
+              - 50
+              - 100
+            type: vertical
+          type: gradient
+        grid:
+          show: false
+        legend:
+          show: false
+        tooltip:
+          enabled: true
+        xaxis:
+          axisBorder:
+            show: false
+          labels:
+            style:
+              fontFamily: Raleway
+              fontSize: 14px
+        yaxis:
+        - decimalsInFloat: 0
+          forceNiceScale: true
+          labels:
+            style:
+              fontFamily: Raleway
+              fontSize: 12px
+              fontWeight: bold
+          max: 4000
+          min: 0
+          show: true
+      cache: true
+      experimental:
+        brush: true
+      graph_span: 1d
+      header:
+        colorize_states: true
+        show: true
+        show_states: true
+      now:
+        color: red
+        label: Now
+        show: true
+      series:
+      - entity: sensor.co2_sensor_co2
+        fill_raw: last
+        float_precision: 1
+        group_by:
+          duration: 15min
+          func: avg
+        name: "CO2 \u0432 \u0441\u043F\u0430\u043B\u044C\u043D\u0435"
+        show:
+          in_brush: true
+          in_chart: true
+        type: area
+      - color: grey
+        entity: sensor.co2_sensor_co2
+        fill_raw: last
+        float_precision: 1
+        group_by:
+          duration: 15min
+          func: avg
+        name: "CO2 \u0432 \u0441\u043F\u0430\u043B\u044C\u043D\u0435 \u0432\u0447\u0435\
+          \u0440\u0430"
+        offset: -1d
+        type: area
+      span:
+        start: day
+      type: custom:apexcharts-card
+    - all_series_config:
+        curve: smooth
+        extend_to_end: false
+        show:
+          extremas: true
+          legend_value: false
+        stroke_width: 3
+      apex_config:
+        chart:
+          height: auto
+        dataLabels:
+          enabled: false
+        fill:
+          gradient:
+            inverseColors: false
+            opacityFrom: 0.5
+            opacityTo: 0
+            shadeIntensity: 0.8
+            stops:
+            - - 0
+              - 50
+              - 100
+            type: vertical
+          type: gradient
+        grid:
+          show: false
+        legend:
+          show: false
+        tooltip:
+          enabled: true
+        xaxis:
+          axisBorder:
+            show: false
+          labels:
+            style:
+              fontFamily: Raleway
+              fontSize: 14px
+        yaxis:
+        - decimalsInFloat: 0
+          forceNiceScale: true
+          labels:
+            style:
+              fontFamily: Raleway
+              fontSize: 12px
+              fontWeight: bold
+          max: 4000
+          min: 0
+          show: true
+      cache: true
+      experimental:
+        brush: true
+      graph_span: 1d
+      header:
+        colorize_states: true
+        show: true
+        show_states: true
+      now:
+        color: red
+        label: Now
+        show: true
+      series:
+      - entity: sensor.582d346033de_illuminance
+        fill_raw: last
+        float_precision: 1
+        group_by:
+          duration: 15min
+          func: avg
+        name: "\u041E\u0441\u0432\u0435\u0449\u0435\u043D\u043D\u043E\u0441\u0442\u044C\
+          \ \u0432 \u043F\u0440\u0438\u0445\u043E\u0436\u0435\u0439"
+        show:
+          in_brush: true
+          in_chart: true
+        type: area
+      - color: grey
+        entity: sensor.582d346033de_illuminance
+        fill_raw: last
+        float_precision: 1
+        group_by:
+          duration: 15min
+          func: avg
+        name: "\u041E\u0441\u0432\u0435\u0449\u0435\u043D\u043D\u043E\u0441\u0442\u044C\
+          \ \u0432 \u043F\u0440\u0438\u0445\u043E\u0436\u0435\u0439 \u0432\u0447\u0435\
+          \u0440\u0430"
+        offset: -1d
+        type: area
+      span:
+        start: day
+      type: custom:apexcharts-card
     path: default_view
     title: Home
   - badges: []

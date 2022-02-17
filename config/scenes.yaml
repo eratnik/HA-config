@@ -1,0 +1,147 @@
+- id: '1642863643197'
+  name: Свет в детской включен
+  entities:
+    light.yeelight_ceiling1_0x3b65236:
+      min_mireds: 153
+      max_mireds: 370
+      effect_list:
+      - Slow Temp
+      - Stop
+      - Мерцание огня
+      supported_color_modes:
+      - color_temp
+      color_mode: color_temp
+      brightness: 255
+      color_temp: 263
+      hs_color:
+      - 26.923
+      - 38.579
+      rgb_color:
+      - 255
+      - 200
+      - 156
+      xy_color:
+      - 0.433
+      - 0.368
+      flowing: false
+      music_mode: false
+      night_light: false
+      icon: hue:ceiling-being
+      friendly_name: Люстра в детской
+      supported_features: 44
+      state: 'on'
+    light.yeelight_ceiling1_0x3b65236_nightlight:
+      supported_color_modes:
+      - brightness
+      flowing: false
+      music_mode: false
+      night_light: false
+      icon: mdi:weather-night
+      friendly_name: Ночник в детской
+      supported_features: 0
+      state: 'off'
+    switch.children_s_spotlight_l1:
+      consumption: 0.01
+      energy: 0.01
+      interlock: false
+      linkquality: 72
+      power: 39.12
+      state_l1: 'ON'
+      state_l2: 'ON'
+      temperature: 38
+      voltage: 228.3
+      icon: mdi:bed
+      friendly_name: Children-s spotlight l1
+      state: 'on'
+    switch.children_s_spotlight_l2:
+      consumption: 0.01
+      energy: 0.01
+      interlock: false
+      linkquality: 72
+      power: 39.12
+      state_l1: 'ON'
+      state_l2: 'ON'
+      temperature: 38
+      voltage: 228.3
+      icon: mdi:chair-school
+      friendly_name: Children-s spotlight l2
+      state: 'on'
+    switch.children_s_spotlight_interlock:
+      consumption: 0.01
+      energy: 0.01
+      interlock: false
+      linkquality: 72
+      power: 39.12
+      state_l1: 'ON'
+      state_l2: 'ON'
+      temperature: 38
+      voltage: 228.3
+      friendly_name: Children-s spotlight interlock
+      state: 'off'
+- id: '1642865001924'
+  name: Свет в детской выключен
+  entities:
+    light.yeelight_ceiling1_0x3b65236:
+      min_mireds: 153
+      max_mireds: 370
+      effect_list:
+      - Slow Temp
+      - Stop
+      - Мерцание огня
+      supported_color_modes:
+      - color_temp
+      flowing: false
+      music_mode: false
+      night_light: false
+      icon: hue:ceiling-being
+      friendly_name: Люстра в детской
+      supported_features: 44
+      state: 'off'
+    light.yeelight_ceiling1_0x3b65236_nightlight:
+      supported_color_modes:
+      - brightness
+      flowing: false
+      music_mode: false
+      night_light: false
+      icon: mdi:weather-night
+      friendly_name: Ночник в детской
+      supported_features: 0
+      state: 'off'
+    switch.children_s_spotlight_l1:
+      consumption: 0.01
+      energy: 0.01
+      interlock: false
+      linkquality: 69
+      power: 0
+      state_l1: 'OFF'
+      state_l2: 'OFF'
+      temperature: 38
+      voltage: 228.3
+      icon: mdi:bed
+      friendly_name: Children-s spotlight l1
+      state: 'off'
+    switch.children_s_spotlight_l2:
+      consumption: 0.01
+      energy: 0.01
+      interlock: false
+      linkquality: 69
+      power: 0
+      state_l1: 'OFF'
+      state_l2: 'OFF'
+      temperature: 38
+      voltage: 228.3
+      icon: mdi:chair-school
+      friendly_name: Children-s spotlight l2
+      state: 'off'
+    switch.children_s_spotlight_interlock:
+      consumption: 0.01
+      energy: 0.01
+      interlock: false
+      linkquality: 69
+      power: 0
+      state_l1: 'OFF'
+      state_l2: 'OFF'
+      temperature: 38
+      voltage: 228.3
+      friendly_name: Children-s spotlight interlock
+      state: 'off'

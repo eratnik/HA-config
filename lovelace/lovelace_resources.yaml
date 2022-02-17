@@ -1,7 +1,7 @@
 items:
 - id: 8861d4d9927d4889bd61bde13a1adf46
   type: module
-  url: /hacsfiles/mini-graph-card/mini-graph-card-bundle.js
+  url: /hacsfiles/mini-graph-card/mini-graph-card-bundle.js?hacstag=1512800620110
 - id: d6442c45e46c441f9eda66ceb1065014
   type: module
   url: /hacsfiles/lovelace-battery-entity-row/battery-entity-row.js
@@ -13,7 +13,7 @@ items:
   url: /hacsfiles/mini-media-player/mini-media-player-bundle.js?hacstag=1485208381150
 - id: 4c7cb3bb1a3c4a5c98155a6b8dfb427e
   type: module
-  url: /hacsfiles/custom-brand-icons/custom-brand-icons.js?hacstag=3668620311049
+  url: /hacsfiles/custom-brand-icons/custom-brand-icons.js?hacstag=3668620311052
 - id: 4531a4e179704affbc4c32217724169a
   type: module
   url: /hacsfiles/lovelace-valetudo-map-card/valetudo-map-card.js?hacstag=2030361082022012
@@ -22,16 +22,16 @@ items:
   url: /hacsfiles/home-assistant-sun-card/home-assistant-sun-card.js
 - id: c3b052386ce54af6a5987be604b838ee
   type: module
-  url: /hacsfiles/hass-hue-icons/hass-hue-icons.js?hacstag=384434522125
+  url: /hacsfiles/hass-hue-icons/hass-hue-icons.js?hacstag=384434522128
 - id: 4e1590243b414e10ad566371414ee40b
   type: module
-  url: /hacsfiles/flex-table-card/flex-table-card.js?hacstag=1562920589320251
+  url: /hacsfiles/flex-table-card/flex-table-card.js?hacstag=1562920586821
 - id: 8035ab1fd5194d38809853654e24a772
   type: module
   url: /hacsfiles/lovelace-auto-entities/auto-entities.js?hacstag=167744584191
 - id: 7b2bb0de61034b47939ca583859ae1a8
   type: module
-  url: /hacsfiles/battery-state-card/battery-state-card.js?hacstag=256292682210
+  url: /hacsfiles/battery-state-card/battery-state-card.js?hacstag=256292682211
 - id: 357a450923fb4902a8dd8fc60874192b
   type: module
   url: /hacsfiles/button-card/button-card.js?hacstag=146194325342
@@ -47,3 +47,12 @@ items:
 - id: 62ba426bf9d2496bb2d136e3c06e4826
   type: module
   url: /hacsfiles/lovelace-multiple-entity-row/multiple-entity-row.js?hacstag=178921037441
+- id: 791629690c7e49448def1a099f68a29c
+  type: module
+  url: /hacsfiles/lovelace-slider-entity-row/slider-entity-row.js?hacstag=1448997001721
+- id: adb78c3d45574b22bddea00029984469
+  type: module
+  url: /hacsfiles/history-explorer-card/history-explorer-card.js?hacstag=4403747941016
+- id: 1724559a91cd45cfa02a7f7100849b5e
+  type: module
+  url: /hacsfiles/thermal_comfort_icons/thermal_comfort_icons.js?hacstag=449218690130

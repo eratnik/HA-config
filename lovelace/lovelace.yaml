@@ -5,25 +5,104 @@ config:
     - cards:
       - cards:
         - entity: person.hass
-          image: /local/images/vitaly.jpg
-          name: ' '
-          type: picture-entity
+          show_entity_picture: true
+          show_name: false
+          show_state: true
+          size: 100%
+          styles:
+            card:
+            - box-shadow: 0px 0px 9px 3px rgb(220,220,220)
+            - border-radius: 10px
+            - min-height: 100%
+            - padding-top: 0px
+            entity_picture:
+            - border-radius: 100px
+            - padding: 2px 0px
+            grid:
+            - grid-template-rows: min-content 1fr min-content
+            - grid-template-columns: auto
+            - grid-template-areas: '"i" s" "l"'
+            state:
+            - color: rgb(220,220,220)
+            - font-weight: bolder
+          type: custom:button-card
         - entity: person.inna
-          image: /local/images/inna.jpg
-          name: ' '
-          type: picture-entity
+          show_entity_picture: true
+          show_name: false
+          show_state: true
+          size: 100%
+          styles:
+            card:
+            - box-shadow: 0px 0px 9px 3px rgb(220,220,220)
+            - border-radius: 10px
+            - min-height: 100%
+            - padding-top: 0px
+            entity_picture:
+            - border-radius: 100px
+            - padding: 2px 0px
+            grid:
+            - grid-template-rows: min-content 1fr min-content
+            - grid-template-columns: auto
+            - grid-template-areas: '"i" s" "l"'
+            state:
+            - color: rgb(220,220,220)
+            - font-weight: bolder
+          type: custom:button-card
         - entity: person.alisa
-          image: /local/images/alisa.jpg
-          name: ' '
-          type: picture-entity
+          hold_action:
+            action: call-service
+            service: input_boolean.toggle
+            service_data:
+              entity_id: input_boolean.kanikuly_alisy
+          label: "[[[\n  if (states['input_boolean.kanikuly_alisy'].state == 'on')\n\
+            \    return \"\u043D\u0435 \u0443\u0447\u0443\u0441\u044C\";\n  return\
+            \ \"\u0443\u0447\u0443\u0441\u044C\";\n]]]  \n"
+          show_entity_picture: true
+          show_label: true
+          show_name: false
+          show_state: true
+          size: 100%
+          styles:
+            card:
+            - box-shadow: 0px 0px 9px 3px rgb(174, 214, 241)
+            - border-radius: 10px
+            entity_picture:
+            - border-radius: 100px
+            - padding: 2px 0px
+            grid:
+            - grid-template-rows: min-content 1fr min-content
+            - grid-template-columns: auto
+            - grid-template-areas: '"i" s" "l"'
+            label:
+            - font-size: 12px
+            - color: rgb(220,220,220)
+            state:
+            - color: rgb(220,220,220)
+            - font-weight: bolder
+          type: custom:button-card
         - entity: person.mama_natasha
-          image: /local/images/mama_natasha.jpg
-          name: ' '
-          type: picture-entity
-        columns: 4
-        square: true
-        title: "\u041B\u044E\u0434\u0438"
-        type: grid
+          show_entity_picture: true
+          show_name: false
+          show_state: true
+          size: 100%
+          styles:
+            card:
+            - box-shadow: 0px 0px 9px 3px rgb(220,220,220)
+            - border-radius: 10px
+            - min-height: 100%
+            - padding-top: 0px
+            entity_picture:
+            - border-radius: 100px
+            - padding: 2px 0px
+            grid:
+            - grid-template-rows: min-content 1fr min-content
+            - grid-template-columns: auto
+            - grid-template-areas: '"i" s" "l"'
+            state:
+            - color: rgb(220,220,220)
+            - font-weight: bolder
+          type: custom:button-card
+        type: horizontal-stack
       - color_thresholds:
         - color: '#27d0e3'
           value: 400
@@ -43,93 +122,60 @@ config:
           labels: true
           name_adaptive_color: true
         type: custom:mini-graph-card
+      - cards:
+        - color: rgb(81, 223, 99)
+          color_type: icon
+          entity: switch.domofon_automatically_open
+          label: "\u043F\u043E\u0441\u0442\u043E\u044F\u043D\u043D\u043E"
+          name: "\u0410\u0432\u0442\u043E\u043E\u043A\u0440\u044B\u0442\u0438\u0435"
+          show_label: true
+          size: 40%
+          state:
+          - styles:
+              card:
+              - box-shadow: 0px 0px 9px 3px rgb(81, 223, 99)
+              label:
+              - color: rgb(81, 223, 99)
+              name:
+              - color: rgb(81, 223, 99)
+            value: 'on'
+          type: custom:button-card
+        - color: rgb(81, 223, 99)
+          color_type: icon
+          entity: switch.domofon_automatically_open_once
+          label: "\u0440\u0430\u0437\u043E\u0432\u043E"
+          name: "\u0410\u0432\u0442\u043E\u043E\u043A\u0440\u044B\u0442\u0438\u0435"
+          show_label: true
+          size: 40%
+          state:
+          - styles:
+              card:
+              - box-shadow: 0px 0px 9px 3px rgb(81, 223, 99)
+              label:
+              - color: rgb(81, 223, 99)
+              name:
+              - color: rgb(81, 223, 99)
+            value: 'on'
+          type: custom:button-card
+        - color: rgb(240, 5, 5)
+          color_type: icon
+          entity: switch.domofon_automatically_reject
+          name: "\u0410\u0432\u0442\u043E\u0441\u0431\u0440\u043E\u0441"
+          size: 53%
+          state:
+          - styles:
+              card:
+              - box-shadow: 0px 0px 9px 3px rgb(240, 5, 5)
+              name:
+              - color: rgb(240, 5, 5)
+            value: 'on'
+          type: custom:button-card
+        columns: 3
+        square: false
+        type: grid
       name: "\u041E\u0431\u0449\u0430\u044F \u0438\u043D\u0444\u043E\u0440\u043C\u0430\
         \u0446\u0438\u044F"
       type: vertical-stack
-    - cards:
-      - cards:
-        - entity: switch.domofon_automatically_open
-          name: "\u0410\u0432\u0442\u043E\u043E\u043A\u0440\u044B\u0442\u0438\u0435\
-            \ \u043F\u043E\u0441\u0442\u043E\u044F\u043D\u043D\u043E"
-          tap_action:
-            action: toggle
-          type: button
-        - entity: switch.domofon_automatically_open_once
-          name: "\u0410\u0432\u0442\u043E\u043E\u043A\u0440\u044B\u0442\u0438\u0435\
-            \ \u0440\u0430\u0437\u043E\u0432\u043E"
-          tap_action:
-            action: toggle
-          type: button
-        - entity: switch.domofon_automatically_reject
-          name: "\u0410\u0432\u0442\u043E\u0441\u0431\u0440\u043E\u0441"
-          tap_action:
-            action: toggle
-          type: button
-        - entity: switch.domofon_mute_sound
-          name: "\u0411\u0435\u0437\u0437\u0432\u0443\u0447\u043D\u044B\u0439 \u043F\
-            \u043E\u0441\u0442\u043E\u044F\u043D\u043D\u043E"
-          tap_action:
-            action: toggle
-          type: button
-        - entity: switch.domofon_mute_sound_once
-          name: "\u0411\u0435\u0437\u0437\u0432\u0443\u0447\u043D\u044B\u0439 \u0440\
-            \u0430\u0437\u043E\u0432\u043E"
-          tap_action:
-            action: toggle
-          type: button
-        - entity: switch.domofon_restart
-          name: "\u041F\u0435\u0440\u0435\u0437\u0430\u0433\u0440\u0443\u0437\u043A\
-            \u0430"
-          tap_action:
-            action: toggle
-          type: button
-        columns: 3
-        square: true
-        type: grid
-      type: vertical-stack
-    - entity: vacuum.valetudo_slipperyprestigiouskudu
-      map: camera.slipperyprestigiouskudu_rendered_map
-      shortcuts:
-      - icon: phu:charging-station
-        name: "\u0412\u0435\u0440\u043D\u0443\u0442\u044C\u0441\u044F \u043D\u0430\
-          \ \u0441\u0442\u0430\u043D\u0446\u0438\u044E"
-        service: vacuum.return_to_base
-      show_name: false
-      show_status: true
-      show_toolbar: true
-      stats:
-        cleaning:
-        - attribute: cleanArea
-          subtitle: Cleaning area
-          unit: m2
-        - attribute: cleanTime
-          subtitle: Cleaning time
-          unit: minutes
-        default:
-        - attribute: filter
-          subtitle: Filter
-          unit: hours
-        - attribute: sideBrush
-          subtitle: Side brush
-          unit: hours
-        - attribute: mainBrush
-          subtitle: Main brush
-          unit: hours
-        - attribute: sensor
-          subtitle: Sensors
-          unit: hours
-      type: custom:vacuum-card
-    - entities:
-      - entity: sensor.valetudo_slipperyprestigiouskudu_current_statistics_area
-      - entity: sensor.valetudo_slipperyprestigiouskudu_current_statistics_time
-      - entity: sensor.valetudo_slipperyprestigiouskudu_main_brush
-      - entity: sensor.valetudo_slipperyprestigiouskudu_sensor_cleaning
-      - entity: sensor.valetudo_slipperyprestigiouskudu_main_filter
-      - entity: sensor.valetudo_slipperyprestigiouskudu_right_brush
-      - entity: sensor.valetudo_slipperyprestigiouskudu_error_description
-      title: "\u0421\u0442\u0430\u0442\u0438\u0441\u0442\u0438\u043A\u0430 \u043F\u044B\
-        \u043B\u0435\u0441\u043E\u0441\u0430"
-      type: entities
     - cards:
       - control:
           fan:
@@ -183,107 +229,309 @@ config:
       columns: 1
       square: false
       type: grid
-    - background_color: transparent
-      custom_buttons:
-        icon: mdi:fan-speed-1
-        service_data:
-          fan_speed: low
-        text: low
-      map_scale: 2.5
-      rotate: 180
-      show_floor: false
-      type: custom:valetudo-map-card
-      vacuum: valetudo_slipperyprestigiouskudu
+    - cards:
+      - background_color: transparent
+        custom_buttons:
+          icon: mdi:fan-speed-1
+          service_data:
+            fan_speed: low
+          text: low
+        map_scale: 2.5
+        rotate: 180
+        show_floor: false
+        type: custom:valetudo-map-card
+        vacuum: valetudo_slipperyprestigiouskudu
+      - entities:
+        - entity: sensor.current_cleaned_area_custom
+        - entity: sensor.current_statistics_area_custom
+        - entity: sensor.valetudo_slipperyprestigiouskudu_error_description
+        title: "\u0421\u0442\u0430\u0442\u0438\u0441\u0442\u0438\u043A\u0430 \u043F\
+          \u044B\u043B\u0435\u0441\u043E\u0441\u0430"
+        type: entities
+      type: vertical-stack
     icon: mdi:home-assistant
     title: Home
   - badges: []
     cards:
     - cards:
-      - entity: light.yeelight_ceiling1_0x3b65236
-        name: "\u0410\u043B\u0438\u0441\u0438\u043D \u0441\u0432\u0435\u0442\u0438\
-          \u043B\u044C\u043D\u0438\u043A"
-        type: light
-      - entity: light.yeelight_ceiling1_0x3b65236_nightlight
-        name: "\u0410\u043B\u0438\u0441\u0438\u043D \u043D\u043E\u0447\u043D\u0438\
-          \u043A"
-        type: light
+      - custom_fields:
+          slider:
+            card:
+              entity: light.podsvetka_na_kukhne
+              full_row: true
+              hide_state: true
+              type: custom:slider-entity-row
+            color: rgb(182, 251, 252)
+            filter: opacity(80%)
+            overflow: unset
+        entity: light.podsvetka_na_kukhne
+        name: "\u041F\u043E\u0434\u0441\u0432\u0435\u0442\u043A\u0430 \u043A\u0443\
+          \u0445\u043D\u0438"
+        size: 30%
+        state:
+        - styles:
+            card:
+            - box-shadow: 0px 0px 9px 3px rgb(182, 251, 252)
+            icon:
+            - color: rgb(182, 251, 252)
+            name:
+            - color: rgb(182, 251, 252)
+          value: 'on'
+        styles:
+          card: null
+          grid:
+          - grid-template-areas: '"n" "i" "slider"'
+          - grid-template-columns: 1fr
+          - grid-template-rows: min-content fr min-content
+        type: custom:button-card
       - entity: switch.sonoff_basic_relay
         icon: mdi:fishbowl-outline
         name: "\u0421\u0432\u0435\u0442 \u0432 \u0430\u043A\u0432\u0430\u0440\u0438\
           \u0443\u043C\u0435"
         show_state: false
-        tap_action:
-          action: toggle
-        type: button
+        state:
+        - styles:
+            card:
+            - box-shadow: 0px 0px 9px 3px rgb(121, 194, 245)
+            icon:
+            - color: rgb(121, 194, 245)
+            name:
+            - color: rgb(121, 194, 245)
+          value: 'on'
+        type: custom:button-card
       - entity: switch.light_switch_coridor
         icon: hass:track-light
         name: "\u0421\u0432\u0435\u0442 \u0432 \u043A\u043E\u0440\u0438\u0434\u043E\
           \u0440\u0435"
         show_state: false
+        state:
+        - styles:
+            card:
+            - box-shadow: 0px 0px 9px 3px var(--button-card-light-color)
+            name:
+            - color: var(--button-card-light-color)
+          value: 'on'
         tap_action:
           action: toggle
-        type: button
-      - entity: light.podsvetka_na_kukhne
-        icon: phu:rooms-kitchen
-        name: "\u041F\u043E\u0434\u0441\u0432\u0435\u0442\u043A\u0430 \u043D\u0430\
-          \ \u043A\u0443\u0445\u043D\u0435"
-        type: light
+        type: custom:button-card
+      - custom_fields:
+          slider:
+            card:
+              entity: light.yeelight_ceiling1_0x3b65236
+              full_row: true
+              hide_state: true
+              type: custom:slider-entity-row
+            color: var(--button-card-light-color)
+            filter: opacity(80%)
+            overflow: unset
+        entity: light.yeelight_ceiling1_0x3b65236
+        name: "\u0414\u0435\u0442\u0441\u043A\u0430\u044F"
+        size: 30%
+        state:
+        - styles:
+            card:
+            - box-shadow: 0px 0px 9px 3px var(--button-card-light-color)
+            icon:
+            - color: var(--button-card-light-color)
+            name:
+            - color: var(--button-card-light-color)
+          value: 'on'
+        styles:
+          card: null
+          grid:
+          - grid-template-areas: '"n" "i" "slider"'
+          - grid-template-columns: 1fr
+          - grid-template-rows: min-content fr min-content min-content
+        type: custom:button-card
       - entity: switch.portable_switch
         icon: phu:rooms-kids-bedroom
-        name: "\u0414\u0435\u0442\u0441\u043A\u0438\u0439 \u043D\u043E\u0447\u043D\
-          \u0438\u043A"
-        type: button
+        name: "\u0414\u0430\u0448\u0438\u043D \u043D\u043E\u0447\u043D\u0438\u043A"
+        state:
+        - styles:
+            card:
+            - box-shadow: 0px 0px 9px 3px var(--button-card-light-color)
+            name:
+            - color: var(--button-card-light-color)
+          value: 'on'
+        type: custom:button-card
+      - entity: switch.light_bedroom
+        icon: phu:ceiling-lamp-plafond
+        name: "\u0421\u043F\u0430\u043B\u044C\u043D\u044F"
+        state:
+        - styles:
+            card:
+            - box-shadow: 0px 0px 9px 3px rgb(133, 193, 233)
+            name:
+            - color: rgb(133, 193, 233)
+          value: 'on'
+        tap_action:
+          action: toggle
+        type: custom:button-card
+      - color_type: icon
+        entity: switch.children_s_spotlight_l2
+        icon: mdi:chair-school
+        name: "\u0421\u0432\u0435\u0442 \u043D\u0430\u0434 \u0441\u0442\u043E\u043B\
+          \u043E\u043C"
+        state:
+        - styles:
+            card:
+            - box-shadow: 0px 0px 9px 3px rgb(133, 193, 233)
+            name:
+            - color: rgb(133, 193, 233)
+          value: 'on'
+        type: custom:button-card
+      - color: rgb(214, 234, 248)
+        color_type: icon
+        entity: switch.children_s_spotlight_l1
+        icon: mdi:bed
+        name: "\u041D\u0430\u0434 \u043A\u0440\u043E\u0432\u0430\u0442\u044C\u044E"
+        state:
+        - styles:
+            card:
+            - box-shadow: 0px 0px 9px 3px rgb(133, 193, 233)
+            name:
+            - color: rgb(133, 193, 233)
+          value: 'on'
+        type: custom:button-card
+      - custom_fields:
+          slider:
+            card:
+              entity: light.ventiliator_v_vannoi
+              full_row: true
+              hide_state: true
+              type: custom:slider-entity-row
+            color: rgb(133, 193, 233)
+            filter: opacity(80%)
+            overflow: unset
+        entity: light.ventiliator_v_vannoi
+        name: "\u0412\u0435\u043D\u0442. \u0432 \u0432\u0430\u043D\u043D\u043E\u0439"
+        size: 30%
+        state:
+        - styles:
+            card:
+            - box-shadow: 0px 0px 9px 3px rgb(133, 193, 233)
+            icon:
+            - color: rgb(133, 193, 233)
+            name:
+            - color: rgb(133, 193, 233)
+          value: 'on'
+        styles:
+          card: null
+          grid:
+          - grid-template-areas: '"n" "i" "slider"'
+          - grid-template-columns: 1fr
+          - grid-template-rows: min-content fr min-content min-content
+        type: custom:button-card
+      - custom_fields:
+          slider:
+            card:
+              entity: light.yeelight_ceiling1_0x3b65236_nightlight
+              full_row: true
+              hide_state: true
+              type: custom:slider-entity-row
+            color: var(--button-card-light-color)
+            filter: opacity(80%)
+            overflow: unset
+        entity: light.yeelight_ceiling1_0x3b65236_nightlight
+        name: "\u041D\u043E\u0447\u043D\u0438\u043A \u0432 \u0434\u0435\u0442\u0441\
+          \u043A\u043E\u0439"
+        size: 30%
+        state:
+        - styles:
+            card:
+            - box-shadow: 0px 0px 9px 3px var(--button-card-light-color)
+            icon:
+            - color: var(--button-card-light-color)
+            name:
+            - color: var(--button-card-light-color)
+          value: 'on'
+        styles:
+          card: null
+          grid:
+          - grid-template-areas: '"n" "i" "slider"'
+          - grid-template-columns: 1fr
+          - grid-template-rows: min-content fr min-content min-content
+        type: custom:button-card
       - entity: switch.pc_switch
         icon: mdi:desktop-classic
         name: "\u0420\u043E\u0437\u0435\u0442\u043A\u0430 \u043A\u043E\u043C\u043F\
           \u044C\u044E\u0442\u0435\u0440\u0430"
-        type: button
-      - entity: switch.light_bedroom
-        icon: phu:ceiling-lamp-plafond
-        name: "\u0421\u043F\u0430\u043B\u044C\u043D\u044F"
-        tap_action:
-          action: toggle
-        type: button
-      - entity: light.ventiliator_v_vannoi
+        state:
+        - styles:
+            card:
+            - box-shadow: 0px 0px 9px 3px var(--button-card-light-color)
+            name:
+            - color: var(--button-card-light-color)
+          value: 'on'
+        type: custom:button-card
+      - double_tap_action:
+          action: call-service
+          service: script.1638901280075
+        entity: light.wled1
         hold_action:
-          action: navigate
-          navigation_path: ''
-        icon: mdi:fan
-        name: "\u0412\u0435\u043D\u0442\u0438\u043B\u044F\u0446\u0438\u044F \u0432\
-          \ \u0432\u0430\u043D\u043D\u043E\u0439"
-        type: light
-      - entity: switch.0xa4c138e4b3264045_l2
-        icon: mdi:chair-school
-        name: "\u0421\u0432\u0435\u0442 \u043D\u0430\u0434 \u0441\u0442\u043E\u043B\
-          \u043E\u043C"
-        tap_action:
-          action: toggle
-        type: button
-      - entity: switch.0xa4c138e4b3264045_l1
-        icon: mdi:bed
-        name: "\u041D\u0430\u0434 \u043A\u0440\u043E\u0432\u0430\u0442\u044C\u044E"
-        tap_action:
-          action: toggle
-        type: button
-      - entity: light.wled1
-        icon: phu:light-string
-        name: "\u0413\u0438\u0440\u043B\u044F\u043D\u0434\u0430 \u0432 \u0434\u0435\
-          \u0442\u0441\u043A\u043E\u0439"
-        show_icon: true
-        show_name: true
-        show_state: false
-        tap_action:
-          action: toggle
-        type: button
-      - entity: light.wled
-        icon: phu:christmas-tree
-        tap_action:
-          action: toggle
-        type: button
+          action: call-service
+          service: script.wled_random_effect
+        label: '[[[ return states[''sensor.effect_wled1''].state; ]]]
+
+          '
+        name: "\u0413\u0438\u0440\u043B\u044F\u043D\u0434\u0430 \u0434\u0435\u0442\
+          \u0441\u043A\u0430\u044F"
+        show_label: true
+        state:
+        - styles:
+            card:
+            - box-shadow: '[[[ return ''0px 0px 9px 3px '' + states[''sensor.color_wled1''].state;
+                ]]]
+
+                '
+            icon:
+            - color: '[[[ return states[''sensor.color_wled1''].state; ]]]
+
+                '
+            label:
+            - color: '[[[ return states[''sensor.color_wled1''].state; ]]]
+
+                '
+            name:
+            - color: '[[[ return states[''sensor.color_wled1''].state; ]]]
+
+                '
+          value: 'on'
+        type: custom:button-card
+      - double_tap_action:
+          action: call-service
+          service: script.1638028346743
+        entity: light.wled
+        label: '[[[ return states[''sensor.effect_wled2''].state; ]]]
+
+          '
+        name: "\u0413\u0438\u0440\u043B\u044F\u043D\u0434\u0430 \u0441\u043F\u0430\
+          \u043B\u044C\u043D\u044F"
+        show_label: true
+        state:
+        - styles:
+            card:
+            - box-shadow: '[[[ return ''0px 0px 9px 3px '' + states[''sensor.color_wled2''].state;
+                ]]]
+
+                '
+            icon:
+            - color: '[[[ return states[''sensor.color_wled2''].state; ]]]
+
+                '
+            label:
+            - color: '[[[ return states[''sensor.color_wled2''].state; ]]]
+
+                '
+            name:
+            - color: '[[[ return states[''sensor.color_wled2''].state; ]]]
+
+                '
+          value: 'on'
+        type: custom:button-card
       columns: 3
-      square: true
-      title: "\u0418\u043D\u0444\u043E\u0440\u043C\u0430\u0446\u0438\u044F \u043E\
-        \ \u0441\u0435\u0440\u0432\u0435\u0440\u0435"
+      square: false
+      title: "\u0421\u0432\u0435\u0442"
       type: grid
     - entities:
       - entity: light.wled1
@@ -366,7 +614,14 @@ config:
               extrema: true
               labels: true
             type: custom:mini-graph-card
-          - entities:
+          - color_thresholds:
+            - color: '#11f27a'
+              value: 20
+            - color: '#eb2409'
+              value: 50
+            - color: '#F7FF00'
+              value: 21
+            entities:
             - sensor.narodmon_radiation
             font_size: 75
             icon: mdi:radioactive
@@ -713,14 +968,50 @@ config:
     cards:
     - cards:
       - artwork: full-cover
-        entity: media_player.alexelec
+        entity: media_player.libreelec
+        group: false
         icon: mdi:kodi
         info: short
         name: Kodi
         sound_mode: full
         source: full
+        toggle_power: true
         type: custom:mini-media-player
         volume_stateless: true
+      - cards:
+        - color: rgb(137, 247, 136)
+          color_type: icon
+          entity: script.kodi_3
+          name: "\u043E\u0431\u043D\u043E\u0432\u0438\u0442\u044C"
+          show_name: true
+          tap_action:
+            action: call-service
+            data: {}
+            service: script.kodi_3
+          type: custom:button-card
+        - color: rgb(137, 247, 136)
+          color_type: icon
+          entity: script.kodi_4
+          name: "\u043E\u0447\u0438\u0441\u0442\u0438\u0442\u044C"
+          show_name: true
+          tap_action:
+            action: call-service
+            data: {}
+            service: script.kodi_4
+          type: custom:button-card
+        - color: rgb(137, 247, 136)
+          color_type: icon
+          entity: script.kodi_2
+          name: "\u0432\u044B\u043A\u043B\u044E\u0447\u0438\u0442\u044C"
+          show_name: true
+          tap_action:
+            action: call-service
+            data: {}
+            service: script.kodi_2
+          type: custom:button-card
+        columns: 5
+        square: false
+        type: grid
       - artwork: full-cover
         entity: media_player.televizor
         icon: mdi:television-box
@@ -730,21 +1021,7 @@ config:
         source: full
         type: custom:mini-media-player
         volume_stateless: true
-      - artwork: full-cover
-        entity: media_player.android_tv
-        icon: mdi:android
-        info: scroll
-        name: "TV \u043F\u0440\u0438\u0441\u0442\u0430\u0432\u043A\u0430 A1"
-        sound_mode: full
-        source: full
-        type: custom:mini-media-player
-        volume_stateless: true
       type: vertical-stack
-    - entity: media_player.televizor
-      show_state: false
-      tap_action:
-        action: toggle
-      type: button
     - entity: media_player.vacuum_sox
       type: media-control
     - artwork: full-cover
@@ -792,12 +1069,13 @@ config:
         action: url
         url: ya-search-app-open://path?uri=messenger://call/create/private?device_id=XK0000000000000130270002a0593d4f
       tts:
-        platform: yandex_station
+        platform: yandex
       type: custom:mini-media-player
     - camera_image: camera.family_com_screen_0
-      camera_view: live
       entity: switch.my_computer
-      image: https://demo.home-assistant.io/stub_config/bedroom.png
+      image: config/www/images/off.jpg
+      name: "\u041A\u043E\u043C\u043F\u044C\u044E\u0442\u0435\u0440"
+      show_name: true
       tap_action:
         action: toggle
       type: picture-entity
@@ -848,7 +1126,7 @@ config:
       - cards:
         - entity: sensor.processor_use_percent
           icon: mdi:cpu-32-bit
-          name: "\u0417\u0430\u0433\u0440\u0443\u0437\u043A\u0430 CPU"
+          name: CPU
           severity:
             green: 0
             red: 85
@@ -857,17 +1135,7 @@ config:
           unit: '%'
         - entity: sensor.memory_use_percent
           icon: mdi:ruler
-          name: "\u0417\u0430\u0433\u0440\u0443\u0437\u043A\u0430 \u041E\u0417\u0423"
-          severity:
-            green: 0
-            red: 85
-            yellow: 60
-          type: gauge
-          unit: '%'
-        - entity: sensor.disk_use_percent
-          icon: mdi:harddisk
-          name: "\u0414\u0438\u0441\u043A \u0437\u0430\u043F\u043E\u043B\u043D\u0435\
-            \u043D"
+          name: "\u041E\u0417\u0423"
           severity:
             green: 0
             red: 85
@@ -876,8 +1144,7 @@ config:
           unit: '%'
         - entity: sensor.disk_free
           icon: mdi:harddisk-plus
-          name: "\u0421\u0432\u043E\u0431\u043E\u0434\u043D\u043E\u0435 \u043C\u0435\
-            \u0441\u0442\u043E"
+          name: Free space
           severity:
             green: 8
             red: 2
@@ -886,8 +1153,7 @@ config:
           unit: "\u0413\u0431"
         - entity: sensor.orange_pi_pc_temp
           icon: mdi:harddisk-plus
-          name: "\u0422\u0435\u043C\u043F\u0435\u0440\u0430\u0442\u0443\u0440\u0430\
-            \ \u0441\u0435\u0440\u0432\u0435\u0440\u0430"
+          name: CPU temp
           severity:
             green: 0
             red: 80
@@ -900,10 +1166,10 @@ config:
           name: Keenetic
           show_icon: true
           show_name: true
-          show_state: true
+          show_state: false
           tap_action:
             action: more-info
-          type: button
+          type: custom:button-card
         - entity: script.update_shopping_list
           icon: mdi:clipboard-list
           icon_height: 40px
@@ -914,7 +1180,7 @@ config:
           show_state: false
           tap_action:
             action: toggle
-          type: button
+          type: custom:button-card
         - icon: mdi:phone-classic
           tap_action:
             action: url
@@ -923,8 +1189,16 @@ config:
 
               '
           type: custom:button-card
+        - color: rgb(137, 247, 136)
+          color_type: icon
+          entity: switch.transmission_turtle_mode
+          icon: mdi:turtle
+          show_name: false
+          tap_action:
+            action: toggle
+          type: custom:button-card
         columns: 4
-        square: true
+        square: false
         title: "\u0418\u043D\u0444\u043E\u0440\u043C\u0430\u0446\u0438\u044F \u043E\
           \ \u0441\u0435\u0440\u0432\u0435\u0440\u0435"
         type: grid
@@ -962,19 +1236,107 @@ config:
         type: entity
       - entity: binary_sensor.54ef44e637dc_water_leak
         icon: mdi:fishbowl-outline
+        name: "\u0410\u043A\u0432\u0430\u0440\u0438\u0443\u043C"
         state_color: true
         type: entity
+      columns: 3
+      square: false
       type: grid
     - cards:
       - entities:
         - entity: binary_sensor.0x158d0003c7a375_contact
         - entity: binary_sensor.domofon_incoming_call
         - entity: sensor.domofon_uptime
+        - entity: switch.domofon_restart
         - entity: binary_sensor.domofon_button
         title: "\u0414\u0432\u0435\u0440\u044C \u0438 \u0434\u043E\u043C\u043E\u0444\
           \u043E\u043D"
         type: entities
       type: vertical-stack
+    - apex_config:
+        chart:
+          height: auto
+        dataLabels:
+          enabled: false
+        fill:
+          gradient:
+            inverseColors: false
+            opacityFrom: 0.5
+            opacityTo: 0
+            shadeIntensity: 0.8
+            type: vertical
+          type: gradient
+        grid:
+          show: false
+        legend:
+          show: false
+        stroke:
+          curve: smooth
+          width: 3
+        tooltip:
+          enabled: true
+        xaxis:
+          axisBorder:
+            show: false
+          labels:
+            style:
+              fontFamily: Raleway
+              fontSize: 14px
+        yaxis:
+        - decimalsInFloat: 0
+          forceNiceScale: true
+          labels:
+            style:
+              colors: '#c0392b'
+              fontFamily: Raleway
+              fontSize: 12px
+              fontWeight: bold
+          max: 20
+          min: 0
+          show: true
+        - decimalsInFloat: 0
+          forceNiceScale: true
+          labels:
+            style:
+              colors: '#5586fa'
+              fontFamily: Raleway
+              fontSize: 12px
+              fontWeight: bold
+          max: 20
+          min: 0
+          opposite: true
+          show: true
+      graph_span: 3d
+      header:
+        colorize_states: true
+        show: true
+        show_states: true
+        title: "\u0423\u043B\u0438\u0446\u0430"
+      series:
+      - color: '#c0392b'
+        entity: sensor.transmission_down_speed
+        fill_raw: last
+        float_precision: 1
+        group_by:
+          duration: 60min
+          func: avg
+        name: "\u0421\u043A\u043E\u0440\u043E\u0441\u0442\u044C \u0441\u043A\u0430\
+          \u0447\u0438\u0432\u0430\u043D\u0438\u044F"
+        show:
+          extremas: true
+        type: area
+      - color: '#5586fa'
+        entity: sensor.transmission_up_speed
+        fill_raw: last
+        float_precision: 1
+        group_by:
+          duration: 60min
+          func: avg
+        name: "\u0421\u043A\u043E\u0440\u043E\u0441\u0442\u044C \u043E\u0442\u0434\
+          \u0430\u0447\u0438"
+        type: area
+      type: custom:apexcharts-card
+      update_interval: 10min
     icon: mdi:cog-transfer-outline
     panel: false
     path: systems

@@ -2,6 +2,9 @@
   host: !secret IP_TV
   access_token: !secret token_lg
   name: "Телевизор"
+  turn_on_action:
+    service: script.1638645965421
+  
 
 - platform: sox
   name: Vacuum sox
@@ -12,11 +15,11 @@
   #   target:
   #     entity_id: switch.tv_switch
 # Настройка AndroidTV
-- platform: androidtv
-  name: Android TV
-  host: !secret IP_TVBOX_A1
-  adbkey: '/config/.storage/androidtv_adbkey'
-- platform: aimp
-  name: 'АИМП'
-  host: !secret aimp_ip
-  port: 3333
+# - platform: androidtv
+#   name: Android TV
+#   host: !secret IP_TVBOX_A1
+#   adbkey: '/config/.storage/androidtv_adbkey'
+# - platform: aimp
+#   name: 'АИМП'
+#   host: !secret aimp_ip
+#   port: 3333

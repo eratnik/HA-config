@@ -17,12 +17,12 @@
     - date
     - time
 
-- platform: mqtt
-  state_topic: "valetudo/rockrobo/state"
-  json_attributes_topic: "valetudo/rockrobo/map_data_parsed"
-  name: rockrobo_map
-  value_template: 'OK'
-  scan_interval: 5
+# - platform: mqtt
+#   state_topic: "valetudo/rockrobo/state"
+#   json_attributes_topic: "valetudo/rockrobo/map_data_parsed"
+#   name: rockrobo_map
+#   value_template: 'OK'
+#   scan_interval: 5
 
 #Температура Orange Pi PC 
 - platform: command_line
@@ -41,10 +41,10 @@
     unit_of_measurement: MB
 
 # Google Drive Backup статус
-- platform: mqtt
-  name: "Статус Google Backup"
-  state_topic: "googlebackup/result"
-  json_attributes_topic: "googlebackup/result"
+# - platform: mqtt
+#   name: "Статус Google Backup"
+#   state_topic: "googlebackup/result"
+#   json_attributes_topic: "googlebackup/result"
 
 #-----------------------------------------------------Датчики
 
@@ -82,13 +82,19 @@
       value_template: '{{ states.sensor.narodmon.attributes.sensors[1].value }}'
       friendly_name: 'Narodmon Radiation'
       unit_of_measurement: 'µR/h'
-      
+
     effect_wled1:
       friendly_name: 'Эффект гирлянды в детской'
       value_template: "{{ state_attr('light.wled1', 'effect') }}"
+    color_wled1:
+      friendly_name: 'Цвет гирлянды в детской'
+      value_template: rgb{{ state_attr('light.wled1', 'rgb_color') }}
     effect_wled2:
       friendly_name: 'Эффект гирлянды в спальне'
       value_template: "{{ state_attr('light.wled', 'effect') }}"
+    color_wled2:
+      friendly_name: 'Цвет гирлянды в спальне'
+      value_template: rgb{{ state_attr('light.wled', 'rgb_color') }}
       
 
 - platform: mqtt
@@ -101,3 +107,32 @@
   payload_available: "ON"
   payload_not_available: "OFF"
   qos: 1
+  
+- platform: template
+  sensors:
+    current_cleaned_area_custom:
+      friendly_name: 'Последняя убранная область'
+      unit_of_measurement: 'm2'
+      value_template: "{{ (states('sensor.valetudo_slipperyprestigiouskudu_current_statistics_time') | float(0) / 60) | round(2) }}"
+
+- platform: template
+  sensors:
+    current_statistics_area_custom:
+      friendly_name: 'Время последней уборки'
+      unit_of_measurement: 'мин'
+      value_template: "{{ (states('sensor.valetudo_slipperyprestigiouskudu_current_statistics_area') | float(0) / 10000) | round(2) }}"
+
+- platform: template
+  sensors:
+    current_statistics_date_custom:
+      friendly_name: 'Последий автозапуск пылесоса'
+      value_template:  "{{ as_timestamp(state_attr('automation.vacuum_start_when_all_outside', 'last_triggered'), 0) | timestamp_custom('%a %-d %b %H:%M')}}"
+
+- platform: integration
+  source: sensor.konditsioner_energy_current
+  name: konditsioner_energy
+  unit_prefix: k
+  unit_time: h
+  round: 2
+  method: left
+  
